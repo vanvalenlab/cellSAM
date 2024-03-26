@@ -8,7 +8,7 @@ This repository provides inference code for CellSAM. CellSAM is described in mor
 
 ## Getting started
 The easiest way to get started with CellSAM is with pip
-`pip install cellSAM`
+`pip install git+https://github.com/vanvalenlab/cellSAM.git`
 
 CellSAM requires `python>=3.10`, but otherwise uses pure PyTorch. A sample image is included in this repository. Segmentation can be performed as follows
 
