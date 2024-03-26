@@ -1,0 +1,14 @@
+enc_layers: 6
+dec_layers: 6
+dim_feedforward: 1024
+hidden_dim: 256
+dropout: 0.0
+nheads: 8
+num_query_position: 3500
+num_query_pattern: 1
+spatial_prior: learned
+attention_type: RCDA
+num_feature_levels: 1
+device: cuda
+seed: 42
+num_classes: 2
