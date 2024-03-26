@@ -15,7 +15,7 @@ CellSAM requires `python>=3.10`, but otherwise uses pure PyTorch. A sample image
 ```
 import numpy as np
 from cellSAM import segment_cellular_image
-img = np.load("sample_img/yeaz.npy")
+img = np.load("sample_imgs/yeaz.npy")
 mask, _, _ = segment_cellular_image(img, device='cuda')
 ```
 
