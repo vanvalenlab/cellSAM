@@ -63,7 +63,9 @@ def get_model(model: nn.Module = None) -> nn.Module:
             cellsam_assets_dir.mkdir(parents=True, exist_ok=True)
         if not model_path.exists():
             fetch_data("models/cellsam_base.tar.gz", cache_subdir="models")
-            extract_archive(model_path, cellsam_assets_dir)
+            extract_archive(
+                cellsam_assets_dir / "cellsam_base.tar.gz", cellsam_assets_dir
+            )
             assert model_path.exists()
         model = CellSAM(config)
         model.load_state_dict(torch.load(model_path, map_location="cpu"), strict=False)
