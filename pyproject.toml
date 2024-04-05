@@ -26,6 +26,7 @@ packages = [
     'cellSAM',
     'cellSAM.AnchorDETR',
     'cellSAM.AnchorDETR.models',
+    'cellSAM.AnchorDETR.util',
 ]
 
 [tool.setuptools.package-data]
