@@ -1,4 +1,4 @@
-torchvision==0.15.1
+torchvision
 pyyaml
 scipy
 git+https://github.com/facebookresearch/segment-anything.git
