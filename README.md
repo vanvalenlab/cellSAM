@@ -30,6 +30,7 @@ Please cite us if you use CellSAM.
   title={A Foundation Model for Cell Segmentation},
   author={Israel, Uriah and Marks, Markus and Dilip, Rohit and Li, Qilin and Schwartz, Morgan and Pradhan, Elora and Pao, Edward and Li, Shenyi and Pearson-Goulart, Alexander and Perona, Pietro and others},
   journal={bioRxiv},
-  publisher={Cold Spring Harbor Laboratory Preprints}
+  publisher={Cold Spring Harbor Laboratory Preprints},
+  doi = {10.1101/2023.11.17.567630},
 }
 ```
