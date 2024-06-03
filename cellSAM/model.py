@@ -2,6 +2,7 @@ import torch
 import torch.nn as nn
 import numpy as np
 from tqdm import tqdm
+from warnings import warn
 
 import os
 import yaml
@@ -72,15 +73,31 @@ def segment_cellular_image(
     normalize: bool = False,
     postprocess: bool = False,
     remove_boundaries: bool = False,
+    bounding_boxes: list[list[float]],
     bbox_threshold: float = 0.4,
     device: str = 'cpu',
 ):
     """
-    img  (np.array): Image to be segmented with shape (H, W) or (H, W, C)
-    model (nn.Module): Loaded CellSAM model. If None, will download weights.
+    Args:
+        img  (np.array): Image to be segmented with shape (H, W) or (H, W, C)
+        model (nn.Module): Loaded CellSAM model. If None, will download weights.
+        normalize (bool): If True, normalizes the image using percentile thresholding and CLAHE.
+        postprocess (bool): If True, performs custom postprocessing on the segmentation mask. Recommended for noisy images.
+        remove_boundaries (bool): If True, removes a one pixel boundary around the segmented cells.
+        bounding_boxes (list[list[float]]): List of bounding boxes to be used for segmentation in format
+            (x1, y1, x2, y2). If None, will use the model's predictions.
+        bbox_threshold (float): Threshold for bounding box confidence.
+        device: 'cpu' or 'cuda'. If 'cuda' is selected, will use GPU if available.
+    Returns:
+        mask (np.array): Integer array with shape (H, W) 
+        x (np.array | None): Image embedding
+        bounding_boxes (np.array | None): list of bounding boxes
     """
     if 'cuda' in device:
         assert torch.cuda.is_available(), "cuda is not available. Please use 'cpu' as device."
+    if bounding_boxes is not None:
+        bounding_boxes = torch.tensor(bounding_boxes).unsqueeze(0)
+        assert len(bounding_boxes.shape) == 2, "Bounding boxes should be of shape (number of boxes, 4)"
 
     model = get_model(model).eval()
     model.bbox_threshold = bbox_threshold
@@ -94,10 +111,10 @@ def segment_cellular_image(
     if 'cuda' in device:
         model, img = model.to(device), img.to(device)
 
-    preds = model.predict(img, x=None, boxes_per_heatmap=None, device=device)
+    preds = model.predict(img, x=None, boxes_per_heatmap=bounding_boxes, device=device)
     if preds is None:
-        print("No cells detected.")
-        return None
+        warnings.warn("No cells detected in the image.")
+        return np.zeros(img.shape[1:], dtype=np.int32), None, None
 
     segmentation_predictions, _, x, bounding_boxes = preds
 
