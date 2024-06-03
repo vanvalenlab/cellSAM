@@ -1,5 +1,4 @@
 import numpy as np
-from scipy import ndimage
 from scipy.ndimage import binary_fill_holes, find_objects
 from skimage.exposure import equalize_adapthist, rescale_intensity
 
@@ -39,8 +38,8 @@ def format_image_shape(img):
 
 
 def normalize_image(image):
-    initial_shape = image.shape
     image = format_image_shape(image)
+    initial_shape = image.shape
     image = _histogram_normalization(_percentile_threshold(image))
     return image.reshape(initial_shape)
 
@@ -51,7 +50,7 @@ def _histogram_normalization(image, kernel_size=128):
     If one of the inputs is a constant-value array, it will
     be normalized as an array of all zeros of the same shape.
     Args:
-        image (numpy.array): numpy array of phase image data.
+        image (numpy.array): Numpy array with shape (H, W, C).
         kernel_size (integer): Size of kernel for CLAHE,
             defaults to 1/8 of image size.
     Returns:
