@@ -63,7 +63,7 @@ def get_model(model: nn.Module = None) -> nn.Module:
                 model_path,
             )
         model = CellSAM(config)
-    model.load_state_dict(torch.load(model_path))
+        model.load_state_dict(torch.load(model_path, map_location='cpu'))
     return model
 
 def segment_cellular_image(
