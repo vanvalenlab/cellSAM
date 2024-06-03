@@ -73,7 +73,7 @@ def segment_cellular_image(
     normalize: bool = False,
     postprocess: bool = False,
     remove_boundaries: bool = False,
-    bounding_boxes: list[list[float]],
+    bounding_boxes: list[list[float]] = None,
     bbox_threshold: float = 0.4,
     device: str = 'cpu',
 ):
@@ -97,7 +97,7 @@ def segment_cellular_image(
         assert torch.cuda.is_available(), "cuda is not available. Please use 'cpu' as device."
     if bounding_boxes is not None:
         bounding_boxes = torch.tensor(bounding_boxes).unsqueeze(0)
-        assert len(bounding_boxes.shape) == 2, "Bounding boxes should be of shape (number of boxes, 4)"
+        assert len(bounding_boxes.shape) == 3, "Bounding boxes should be of shape (number of boxes, 4)"
 
     model = get_model(model).eval()
     model.bbox_threshold = bbox_threshold
@@ -125,7 +125,7 @@ def segment_cellular_image(
     if remove_boundaries:
         mask = subtract_boundaries(mask)
 
-    return mask, x.cpu().numpy(), bounding_boxes.cpu().numpy()
+    return mask, x.cpu().numpy(), bounding_boxes
 
 
 def postprocess_predictions(mask: np.ndarray):
