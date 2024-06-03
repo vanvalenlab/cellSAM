@@ -234,7 +234,7 @@ class CellSAM(nn.Module):
         if boxes_per_heatmap is None:
             boxes_per_heatmap = self.generate_bounding_boxes(images, device=device)
         else:
-            boxes_per_heatmap = np.array(boxes_per_heatmap) * scaling_factor
+            boxes_per_heatmap = np.array(boxes_per_heatmap) * 1024 / max(images[0].shape) 
 
         for idx in range(len(x)):
             rng = 0
