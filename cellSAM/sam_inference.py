@@ -1,4 +1,3 @@
-from copy import deepcopy
 from typing import Tuple
 
 import numpy as np
@@ -29,6 +28,7 @@ def keep_largest_object(img: np.ndarray) -> np.ndarray:
     cleaned_array = np.where(label_image == largest_object_label, img_array.max(), 0)
 
     return cleaned_array
+
 
 # from sam repo
 class ResizeLongestSide:
@@ -67,7 +67,7 @@ class ResizeLongestSide:
 class Namespace:
     def __init__(self, **kwargs):
         self.__dict__.update(kwargs)
-    
+
 
 class CellfinderAnchorDetr(nn.Module):
     def __init__(self, args):
@@ -81,7 +81,7 @@ class CellfinderAnchorDetr(nn.Module):
         args.only_neck = False
         args.freeze_backbone = False
         args.sam_vit = "vit_b"
-        
+
         if not hasattr(self, "decode_head"):
             self.decode_head, self.postprocessors = build_inference_model(args)
 
@@ -100,11 +100,12 @@ class CellfinderAnchorDetr(nn.Module):
         res = self.postprocessors["bbox"](outputs, orig_target_sizes)
         return res
 
+
 class CellSAM(nn.Module):
     def __init__(self, config):
         super().__init__()
 
-        self.model = sam_model_registry['vit_b']()
+        self.model = sam_model_registry["vit_b"]()
         self.mask_threshold = 0.4
         self.iou_threshold = 0.5
         self.bbox_threshold = 0.2
@@ -118,7 +119,7 @@ class CellSAM(nn.Module):
         imgs = torch.stack(imgs, dim=0)
 
         return imgs
-    
+
     def sam_preprocess(self, x: torch.Tensor, return_paddings=False):
         """Normalize pixel values and pad to a square input."""
         x = (x - self.model.pixel_mean) / self.model.pixel_std
@@ -137,20 +138,14 @@ class CellSAM(nn.Module):
         x = [np.array(img) for img in x]
         x = [self.sam_transform.apply_image(img) for img in x]
         x = [
-            torch.from_numpy(img).permute(2, 0, 1).contiguous().to(device)
-            for img in x
+            torch.from_numpy(img).permute(2, 0, 1).contiguous().to(device) for img in x
         ]
         x = [self.sam_preprocess(img, return_paddings=True) for img in x]
         x, paddings = zip(*x)
         preprocessed_img = torch.stack(x, dim=0)
         return preprocessed_img, paddings
-    
-    def forward(
-        self,
-        x,
-        return_preprocessed=False,
-        device=None
-    ):
+
+    def forward(self, x, return_preprocessed=False, device=None):
         preprocessed_img, paddings = self.sam_bbox_preprocessing(x, device=device)
         x = self.model.image_encoder(preprocessed_img)
 
@@ -166,7 +161,7 @@ class CellSAM(nn.Module):
         """
         processed_imgs, _ = self.sam_bbox_preprocessing(images, device=device)
         results = self.cellfinder.forward_inference(processed_imgs)
-        
+
         boxes_per_heatmap = [x["boxes"] for x in results]
         pred_scores = [x["scores"] for x in results]
 
@@ -179,16 +174,18 @@ class CellSAM(nn.Module):
         return boxes_per_heatmap
 
     @torch.no_grad()
-    def generate_embeddings(self, images, existing_embeddings=None, transform=True, device=None):
+    def generate_embeddings(
+        self, images, existing_embeddings=None, transform=True, device=None
+    ):
         """
         Generates embeddings for the given images or uses existing embeddings if provided.
         """
         if existing_embeddings is None:
-            transformed_images = self.predict_transforms(images) if transform else images
+            transformed_images = (
+                self.predict_transforms(images) if transform else images
+            )
             embeddings, _, paddings = self(
-                transformed_images, 
-                return_preprocessed=True,
-                device=device
+                transformed_images, return_preprocessed=True, device=device
             )
         else:
             embeddings = existing_embeddings
@@ -200,18 +197,12 @@ class CellSAM(nn.Module):
                 scale = int(1024 / max(h, w))
                 h, w = h * scale, w * scale
                 paddings.append((IMG_SIZE - h, IMG_SIZE - w))
-        
-        return embeddings, paddings
 
+        return embeddings, paddings
 
     @torch.no_grad()
     def predict(
-        self,
-        images,
-        boxes_per_heatmap=None,
-        transform=True,
-        x=None,
-        device=None
+        self, images, boxes_per_heatmap=None, transform=True, x=None, device=None
     ):
         assert self.mask_threshold > 0  # otherwise all pred. will be true-> no blobs
         if isinstance(images, np.ndarray):
@@ -220,7 +211,9 @@ class CellSAM(nn.Module):
         scaling_factor = 1
 
         if x is None:
-            x, paddings = self.generate_embeddings(images, transform=transform, device=device)
+            x, paddings = self.generate_embeddings(
+                images, transform=transform, device=device
+            )
         else:
             paddings = []
             IMG_SIZE = self.model.image_encoder.img_size
@@ -234,7 +227,9 @@ class CellSAM(nn.Module):
         if boxes_per_heatmap is None:
             boxes_per_heatmap = self.generate_bounding_boxes(images, device=device)
         else:
-            boxes_per_heatmap = np.array(boxes_per_heatmap) * 1024 / max(images[0].shape) 
+            boxes_per_heatmap = (
+                np.array(boxes_per_heatmap) * 1024 / max(images[0].shape)
+            )
 
         for idx in range(len(x)):
             rng = 0
@@ -303,7 +298,6 @@ class CellSAM(nn.Module):
         low_masks = np.stack(low_masks)
         thresholded_masks = np.stack(low_masks_thresholded)
         scores = np.stack(scores)
-
 
         for mask_idx, msk in enumerate(thresholded_masks):
             msk = keep_largest_object(msk)
