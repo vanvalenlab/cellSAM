@@ -216,12 +216,11 @@ class CellSAM(nn.Module):
             )
         else:
             paddings = []
-            IMG_SIZE = self.model.image_encoder.img_size
             for img in images:
                 h, w = img.shape[-2:]
-                scale = int(1024 / max(h, w))
-                h, w = h * scale, w * scale
-                paddings.append((IMG_SIZE - h, IMG_SIZE - w))
+                paddings.append(
+                    (int(1024 * (1 - h / max(h, w))), int(1024 * (1 - w / max(h, w))))
+                )
 
         # TODO: update to use existing features
         if boxes_per_heatmap is None:
