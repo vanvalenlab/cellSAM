@@ -18,6 +18,16 @@ dependencies = [
     'tqdm',
 ]
 
+[project.optional-dependencies]
+napari = [
+    'napari[all]',
+    'magicgui',
+    'qtpy'
+]
+
+[project.scripts]
+cellsam = "cellSAM.cli:main"
+
 [tool.setuptools]
 zip-safe = false
 include-package-data = false
@@ -27,6 +37,7 @@ packages = [
     'cellSAM.AnchorDETR',
     'cellSAM.AnchorDETR.models',
     'cellSAM.AnchorDETR.util',
+    'cellSAM.napari_plugin',
 ]
 
 [tool.setuptools.package-data]
