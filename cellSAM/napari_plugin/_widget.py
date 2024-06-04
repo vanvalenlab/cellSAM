@@ -138,13 +138,13 @@ class CellSAMWidget(Container):
 
         self._mask_layer = self._viewer.add_labels(
             data=np.zeros((256, 256), dtype=int),
-            name="SAM mask",
+            name="Drawn masks",
             color=dict(zip(range(1, 3501), ["red"] * 3500)),
         )
         self._mask_layer.contour = 2
 
         self._boxes_layer = self._viewer.add_shapes(
-            name="Bounding box",
+            name="Bounding boxes",
             face_color="transparent",
             edge_color="green",
             edge_width=2,
@@ -227,7 +227,7 @@ class CellSAMWidget(Container):
             warn("No cells detected!")
             return
 
-        mask = fill_holes_and_remove_small_masks(preds, min_size=25)[None]
+        mask = fill_holes_and_remove_small_masks(preds, min_size=25)
 
         # Update the segmentation layer
         self._segmentation_layer.data = mask
@@ -349,13 +349,11 @@ class CellSAMWidget(Container):
             .to(self._device),
             device="cpu",
         )
-        # mask, _, _ = segment_cellular_image(self._norm_image, bounding_boxes=formatted_boxes, model=self._cellsam_model, device='cpu', normalize=False)
         if preds is None:
             warn("No cells detected!")
         else:
             preds = fill_holes_and_remove_small_masks(preds, min_size=25)
-            mask = preds[None]
-            self._mask_layer.data = mask[0]
+            self._mask_layer.data = preds
             self._confirm_mask_btn.enabled = True
             self._cancel_annot_btn.enabled = True
             self._clear_seg_btn.enabled = True
@@ -375,7 +373,14 @@ class CellSAMWidget(Container):
             return
 
         labels = self._segmentation_layer.data
+
+        # # This should be fixed at some point and has to do with the
+        # # output type of CellSAM
+        # if labels.ndim == 3:
+        #     labels = labels[0]
+
         mask = self._mask_layer.data
+
         labels[np.nonzero(mask)] = labels.max() + 1
         self._segmentation_layer.data = labels
         self._segmentation_layer.color = get_rotating_color_map()  # Apply the color map
