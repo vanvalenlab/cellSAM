@@ -5,6 +5,7 @@ from tqdm import tqdm
 
 from warnings import warn
 
+import requests
 import os
 import yaml
 from pkg_resources import resource_filename
@@ -26,7 +27,6 @@ from .utils import (
     fill_holes_and_remove_small_masks,
     subtract_boundaries,
 )
-import requests
 
 
 def download_file_with_progress(url, destination):
