@@ -10,6 +10,7 @@ import numpy as np
 from magicgui.widgets import ComboBox, Container, PushButton, create_widget
 from napari.layers import Image, Shapes
 from napari.layers.shapes._shapes_constants import Mode
+
 from skimage import color, util
 import torch
 from qtpy.QtWidgets import QApplication
@@ -34,15 +35,7 @@ def get_rotating_color_map():
         "#bcbd22",  # curry yellow-green
         "#17becf",  # blue-teal
     ]
-
-    # max 3500 cell colors
-    color_cycle = colors * 350  # Adjust the repetition based on needs
-
-    # Convert color list to a colormap dictionary
-    colormap = {i + 1: color_cycle[i] for i in range(len(color_cycle))}
-
-    return colormap
-
+    return napari.utils.CyclicLabelColormap(colors=colors, background_value=0)
 
 class CellSAMWidget(Container):
     def __init__(self, viewer: napari.Viewer):
@@ -231,7 +224,7 @@ class CellSAMWidget(Container):
 
         # Update the segmentation layer
         self._segmentation_layer.data = mask
-        self._segmentation_layer.color = get_rotating_color_map()  # Apply the color map
+        self._segmentation_layer.colormap = get_rotating_color_map()  # Apply the color map
         self._segmentation_layer.visible = True
         self._clear_seg_btn.enabled = True
 
@@ -373,17 +366,11 @@ class CellSAMWidget(Container):
             return
 
         labels = self._segmentation_layer.data
-
-        # # This should be fixed at some point and has to do with the
-        # # output type of CellSAM
-        # if labels.ndim == 3:
-        #     labels = labels[0]
-
         mask = self._mask_layer.data
 
         labels[np.nonzero(mask)] = labels.max() + 1
         self._segmentation_layer.data = labels
-        self._segmentation_layer.color = get_rotating_color_map()  # Apply the color map
+        self._segmentation_layer.colormap = get_rotating_color_map()  # Apply the color map
         self._segmentation_layer.visible = True
 
         self._clear_seg_btn.enabled = True
