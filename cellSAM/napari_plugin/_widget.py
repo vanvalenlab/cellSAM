@@ -121,11 +121,20 @@ class CellSAMWidget(Container):
         self.append(self._cancel_annot_btn)
 
         self._clear_seg_btn = PushButton(
-            text="Clear mask.",
+            text="Clear mask",
             enabled=False,
         )
         self._clear_seg_btn.changed.connect(self._clear_segmentation)
         self.append(self._clear_seg_btn)
+
+        self._reset_btn = PushButton(
+            text="Reset",
+            enabled=True,
+            tooltip="Run this before loading a new image!",
+        )
+        self._reset_btn.changed.connect(self._reset)
+        self.append(self._reset_btn)
+
 
         self._mask_layer = self._viewer.add_labels(
             data=np.zeros((256, 256), dtype=int),
@@ -388,3 +397,23 @@ class CellSAMWidget(Container):
         self._confirm_mask_btn.enabled = False
         self._cancel_annot_btn.enabled = False
         self._clear_seg_btn.enabled = False
+    
+
+    def _reset(self, _: Optional[Any] = None) -> None:
+        self._segmentation_layer.data = np.zeros_like(self._segmentation_layer.data)
+        self._boxes_layer.data = []
+        self._mask_layer.data = np.zeros_like(self._mask_layer.data)
+        self._embedding = None
+        self._image = None
+        self._norm_image = None
+
+        for layer in list(self._viewer.layers):  # Use list to avoid modifying the iterable during iteration
+            if isinstance(layer, napari.layers.Image):
+                self._viewer.layers.remove(layer)
+
+
+        self._confirm_mask_btn.enabled = False
+        self._cancel_annot_btn.enabled = False
+        self._clear_seg_btn.enabled = False
+        self._reset_btn.enabled = True
+    
