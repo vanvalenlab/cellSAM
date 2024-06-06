@@ -78,6 +78,7 @@ def segment_cellular_image(
     remove_boundaries: bool = False,
     bounding_boxes: list[list[float]] = None,
     bbox_threshold: float = 0.4,
+    fast: bool = False,
     device: str = "cpu",
 ):
     """
@@ -90,6 +91,8 @@ def segment_cellular_image(
         bounding_boxes (list[list[float]]): List of bounding boxes to be used for segmentation in format
             (x1, y1, x2, y2). If None, will use the model's predictions.
         bbox_threshold (float): Threshold for bounding box confidence.
+        fast (bool): Whether or not to use batched inference. Batched inference can be several times faster than standard
+            inference, but is an alpha feature and may lead to slightly different results.
         device: 'cpu' or 'cuda'. If 'cuda' is selected, will use GPU if available.
     Returns:
         mask (np.array): Integer array with shape (H, W)
@@ -118,7 +121,7 @@ def segment_cellular_image(
     if "cuda" in device:
         model, img = model.to(device), img.to(device)
 
-    preds = model.predict(img, x=None, boxes_per_heatmap=bounding_boxes, device=device)
+    preds = model.predict(img, x=None, boxes_per_heatmap=bounding_boxes, device=device, fast=fast)
     if preds is None:
         warn("No cells detected in the image.")
         return np.zeros(img.shape[1:], dtype=np.int32), None, None

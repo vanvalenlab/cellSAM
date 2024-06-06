@@ -202,13 +202,11 @@ class CellSAM(nn.Module):
 
     @torch.no_grad()
     def predict(
-        self, images, boxes_per_heatmap=None, transform=True, x=None, device=None
+        self, images, boxes_per_heatmap=None, transform=True, x=None, device=None, fast=False
     ):
         assert self.mask_threshold > 0  # otherwise all pred. will be true-> no blobs
         if isinstance(images, np.ndarray):
             images = torch.from_numpy(images)
-        # scaling_factor = 1024 / max(images[0].shape)
-        scaling_factor = 1
 
         if x is None:
             x, paddings = self.generate_embeddings(
@@ -222,6 +220,10 @@ class CellSAM(nn.Module):
                 paddings.append(
                     (1024 - int(h * scaling), 1024 - int(w * scaling))
                 )
+
+        # In principle, we can batch images, but I suspect it will cause problems
+        # with simultaneously batching the bounding boxes, which is more useful for inference.
+        assert x.size(0) == 1
                 
 
         # TODO: update to use existing features
@@ -231,78 +233,93 @@ class CellSAM(nn.Module):
             boxes_per_heatmap = (
                 np.array(boxes_per_heatmap) * 1024 / max(images[0].shape)
             )
+        
+        # B, N, 4
+        if not fast:
+            boxes_per_heatmap = boxes_per_heatmap[0]
 
-        for idx in range(len(x)):
-            rng = 0
-            boxes_per_heatmap = boxes_per_heatmap[idx]
-            rng = len(boxes_per_heatmap)
 
-            low_masks = []
-            low_masks_thresholded = []
-            scores = []
+        low_masks = []
+        low_masks_thresholded = []
+        scores = []
 
-            for coord_idx, coord in enumerate(range(rng)):
-                bbox = boxes_per_heatmap[coord_idx]
-                bbox = [cen * scaling_factor for cen in bbox]
 
-                input_box = torch.as_tensor(bbox).unsqueeze(0).unsqueeze(0)
-                sparse_embeddings, dense_embeddings = self.model.prompt_encoder(
-                    points=None,
-                    boxes=input_box.to(device),
-                    masks=None,
-                )
+        for input_bbox in boxes_per_heatmap:
+            # if fast , passes N, 4
+            # else, passes 4
+            while len(input_bbox.shape) < 2:
+                input_bbox = input_bbox.unsqueeze(0)
+            input_bbox = input_bbox.to(device)
 
-                low_res_masks, iou_predictions = self.model.mask_decoder(
-                    image_embeddings=x[idx].unsqueeze(0).to(device),
-                    image_pe=self.model.prompt_encoder.get_dense_pe(),
-                    sparse_prompt_embeddings=sparse_embeddings,
-                    dense_prompt_embeddings=dense_embeddings,
-                    multimask_output=False,
-                )
+            sparse_embeddings, dense_embeddings = self.model.prompt_encoder(
+                points=None,
+                boxes=input_bbox,
+                masks=None,
+            )
 
-                low_res_masks = low_res_masks.detach().cpu()
+            low_res_masks, iou_predictions = self.model.mask_decoder(
+                image_embeddings=x.to(device),
+                image_pe=self.model.prompt_encoder.get_dense_pe(),
+                sparse_prompt_embeddings=sparse_embeddings,
+                dense_prompt_embeddings=dense_embeddings,
+                multimask_output=False,
+            )
 
-                # threshold based on iou predictions
-                if iou_predictions[0][0] < self.iou_threshold:
-                    warnings.warn("Low IOU threshold, ignoring mask.")
-                    continue
+            low_res_masks = low_res_masks.detach().cpu()
 
-                low_res_masks = self.model.postprocess_masks(
-                    low_res_masks,
-                    input_size=torch.tensor(
-                        [1024 - paddings[idx][0], 1024 - paddings[idx][1]]
-                    ).to(device),
-                    original_size=images[idx].shape[-2:],
-                )
+            # threshold based on iou predictions
+            if iou_predictions[0][0] < self.iou_threshold:
+                warnings.warn("Low IOU threshold, ignoring mask.")
+                continue
 
-                low_res_masks_thresholded = (
-                    nn.Sigmoid()(low_res_masks[0, 0]) > self.mask_threshold
-                )
+            low_res_masks = self.model.postprocess_masks(
+                low_res_masks,
+                input_size=torch.tensor(
+                    [1024 - paddings[0][0], 1024 - paddings[0][1]]
+                ).to(device),
+                original_size=images.shape[-2:],
+            )
 
-                low_res_masks_thresholded = low_res_masks_thresholded.numpy().astype(
-                    np.uint8
-                )
+            low_res_masks_thresholded = (
+                nn.Sigmoid()(low_res_masks[:, 0]) > self.mask_threshold
+            )
 
-                res = low_res_masks[0, 0].detach().cpu().numpy()
+            low_res_masks_thresholded = low_res_masks_thresholded.numpy().astype(
+                np.uint8
+            )
 
-                assert res.shape == images[idx].shape[1:]
-                low_masks.append(res)
-                low_res_masks_thresholded = low_res_masks_thresholded[
-                    : images[idx].shape[1], : images[idx].shape[2]
-                ]
-                low_masks_thresholded.append(low_res_masks_thresholded)
-                scores.append(float(iou_predictions[0][0].detach().cpu().numpy()))
+            res = low_res_masks[:, 0].detach().cpu().numpy()
+
+            assert res.shape[-2:] == images[0].shape[1:]
+            low_masks.append(res)
+            low_res_masks_thresholded = low_res_masks_thresholded[ :,
+                : images[0].shape[1], : images[0].shape[2]
+            ]
+            low_masks_thresholded.append(low_res_masks_thresholded)
+            scores.append(iou_predictions[:, 0].detach().cpu().numpy())
+
 
         if low_masks == []:
             return None
+        
 
-        low_masks = np.stack(low_masks)
-        thresholded_masks = np.stack(low_masks_thresholded)
-        scores = np.stack(scores)
+        if fast:
+            low_masks = low_masks[0]
+            thresholded_masks = low_masks_thresholded[0]
+            scores = np.array(scores)
+        else:
+            low_masks = np.stack(low_masks)
+            thresholded_masks = np.stack(low_masks_thresholded)
+            scores = np.stack(scores)
+
+        low_masks, thresholded_masks, scores = map(
+            np.squeeze,
+            (low_masks, thresholded_masks, scores)
+        )
+        
 
         for mask_idx, msk in enumerate(thresholded_masks):
-            msk = keep_largest_object(msk)
-            thresholded_masks[mask_idx] = msk
+            thresholded_masks[mask_idx] = keep_largest_object(msk)
 
         # multiply each mask by its index
         thresholded_masks_summed = (
