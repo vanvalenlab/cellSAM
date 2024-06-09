@@ -1,6 +1,9 @@
 import numpy as np
 from scipy.ndimage import binary_fill_holes, find_objects
 from skimage.exposure import equalize_adapthist, rescale_intensity
+from skimage.measure import regionprops
+from skimage.segmentation import relabel_sequential
+from scipy.stats import hmean
 
 
 def subtract_boundaries(mask):
@@ -15,6 +18,51 @@ def _mask_outline(mask):
     outline[:-1, :][mask[:-1, :] != mask[1:, :]] = 1
     return outline
 
+def _remap_array(mask, k, v):
+    # k, v = np.array(list(mapper.keys())), np.array(list(mapper.values()))
+    mapping_ar = np.zeros(k.max()+1,dtype=v.dtype) #k,v from approach #1
+    
+    mapping_ar[k] = v
+    return mapping_ar[mask]
+
+def f1_score(pred, target):
+    """ adapted from deepcell """
+
+    pred_sum = np.count_nonzero(pred)
+    target_sum = np.count_nonzero(target)
+
+    # Calculations for IOU
+    intersection = np.count_nonzero(np.logical_and(pred, target))
+    # union = np.count_nonzero(np.logical_or(pred, target))
+    recall = intersection / target_sum 
+    precision = intersection /pred_sum 
+    return hmean([recall, precision])
+
+
+def relabel_mask(mask):
+    """ Relabels the masks so indices are ordered by their position from the (0,0) point.
+    mask (np.array): Input mask with two dimensions
+    """
+    assert mask.ndim == 2
+    mask = relabel_sequential(np.array(mask))[0] # make sure it isn't a dask array
+    n_cells = len(np.unique(mask)) - 1
+    
+    props = regionprops(mask)
+    distances = []
+    # remember one indexed
+    
+    for prop in props:
+        r, c = prop.centroid
+        distances.append(r**2 + c**2)
+        
+    remap = np.concatenate([[0], 1 + np.argsort(distances)])
+    original_idxs = np.arange(n_cells + 1)
+    
+    assert n_cells + 1 == len(remap) == len(original_idxs)
+    
+    new_mask = _remap_array(mask, remap, original_idxs)
+    assert f1_score(mask, new_mask) == 1.
+    return new_mask
 
 def format_image_shape(img):
     if len(img.shape) == 2:
