@@ -21,6 +21,12 @@ mask, _, _ = segment_cellular_image(img, device='cuda')
 
 For more details, see `cellsam_introduction.ipynb`.
 
+### Napari package
+CellSAM includes a basic napari package for annotation functionality. To install the additional napari dependencies, use pip
+`pip install git+https://github.com/vanvalenlab/cellSAM.git#egg=cellsam[napari]`
+
+To launch the napari app, run `cellsam napari`. 
+
 ## Citation
 
 Please cite us if you use CellSAM.
