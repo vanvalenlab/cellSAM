@@ -8,7 +8,7 @@ from warnings import warn
 import requests
 import os
 import yaml
-from pkg_resources import resource_filename
+import pkgutil
 
 from skimage.morphology import (
     disk,
@@ -52,9 +52,17 @@ def get_model(model: nn.Module = None) -> nn.Module:
     """
     cellsam_assets_dir = os.path.join(os.path.expanduser("~"), ".cellsam_assets")
     model_path = os.path.join(cellsam_assets_dir, "cellsam_base.pt")
-    config_path = resource_filename(__name__, "modelconfig.yaml")
-    with open(config_path, "r") as config_file:
-        config = yaml.safe_load(config_file)
+
+    # path = pkg_resources.resource_filename('my.package', 'resource.dat')
+
+    # config_path = resource_filename(__name__, "modelconfig.yaml")
+
+    # with open(config_path, "r") as config_file:
+
+    config = yaml.safe_load(
+        pkgutil.get_data(__name__, "modelconfig.yaml")
+    )
+
 
     if model is None:
         if not os.path.exists(cellsam_assets_dir):
