@@ -10,6 +10,7 @@ import numpy as np
 from magicgui.widgets import ComboBox, Container, PushButton, create_widget
 from napari.layers import Image, Shapes
 from napari.layers.shapes._shapes_constants import Mode
+from napari.utils import DirectLabelColormap
 
 from skimage import color, util
 import torch
@@ -128,12 +129,14 @@ class CellSAMWidget(Container):
         self._reset_btn.changed.connect(self._reset)
         self.append(self._reset_btn)
 
+        cmap = DirectLabelColormap(color_dict=dict(zip(range(1, 3501), [[255,0,0]] * 3500)))
 
         self._mask_layer = self._viewer.add_labels(
             data=np.zeros((256, 256), dtype=int),
             name="Drawn masks",
-            color=dict(zip(range(1, 3501), ["red"] * 3500)),
+            colormap=cmap
         )
+
         self._mask_layer.contour = 2
 
         self._boxes_layer = self._viewer.add_shapes(

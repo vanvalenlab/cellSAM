@@ -231,7 +231,7 @@ class CellSAM(nn.Module):
             boxes_per_heatmap = self.generate_bounding_boxes(images, device=device)
         else:
             boxes_per_heatmap = (
-                np.array(boxes_per_heatmap) * 1024 / max(images[0].shape)
+                torch.from_numpy(np.array(boxes_per_heatmap) * 1024 / max(images[0].shape))
             )
         
         # B, N, 4
@@ -300,7 +300,7 @@ class CellSAM(nn.Module):
 
 
         if low_masks == []:
-            return None
+            return None, None, None, None
         
 
         if fast:
