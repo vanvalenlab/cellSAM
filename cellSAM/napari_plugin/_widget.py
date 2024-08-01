@@ -180,6 +180,7 @@ class CellSAMWidget(Container):
             raise ValueError("Unsupported image dimensionality")
 
     def _on_segment_all(self):
+
         if self._norm_image is None:
             return
         # Segment using all bounding boxes
@@ -379,15 +380,12 @@ class CellSAMWidget(Container):
         self._clear_seg_btn.enabled = True
 
     def _cancel_annot(self, _: Optional[Any] = None) -> None:
-        # NOTE: setting _boxes_layer = [] in this way has caused some issues with
-        # napari in the past. 
-        if self._boxes_layer.data:
-            self._boxes_layer.data = []
+        # NOTE: this should be self._boxes_layer.data = [], but napari is somewhat fragile and
+        # handles this poorly on the backend. This is a hack but seems to work fine. 
+        if len(self._boxes_layer.data):
+            self._boxes_layer.data = [np.zeros_like(box) for box in self._boxes_layer.data]
         if self._mask_layer.data.any():
             self._mask_layer.data = np.zeros_like(self._mask_layer.data)
-        # Additional checks to avoid triggering unnecessary events
-        if len(self._boxes_layer.data) > 0:
-            self._update_dims()
 
     def _clear_segmentation(self, _: Optional[Any] = None) -> None:
         self._segmentation_layer.data = np.zeros_like(self._segmentation_layer.data)
