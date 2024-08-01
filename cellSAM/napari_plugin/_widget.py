@@ -398,7 +398,8 @@ class CellSAMWidget(Container):
 
     def _reset(self, _: Optional[Any] = None) -> None:
         self._segmentation_layer.data = np.zeros_like(self._segmentation_layer.data)
-        self._boxes_layer.data = []
+
+        self._boxes_layer.data = [np.zeros_like(box) for box in self._boxes_layer.data]
         self._mask_layer.data = np.zeros_like(self._mask_layer.data)
         self._embedding = None
         self._image = None
