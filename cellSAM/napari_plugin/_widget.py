@@ -379,6 +379,8 @@ class CellSAMWidget(Container):
 
         self._clear_seg_btn.enabled = True
 
+        self._cancel_annot()
+
     def _cancel_annot(self, _: Optional[Any] = None) -> None:
         # NOTE: this should be self._boxes_layer.data = [], but napari is somewhat fragile and
         # handles this poorly on the backend. This is a hack but seems to work fine. 
