@@ -378,14 +378,16 @@ class CellSAMWidget(Container):
 
         self._clear_seg_btn.enabled = True
 
-        self._cancel_annot()
-
     def _cancel_annot(self, _: Optional[Any] = None) -> None:
-        self._boxes_layer.data = []
-        self._mask_layer.data = np.zeros_like(self._mask_layer.data)
-        # self._segmentation_layer.data = np.zeros_like(self._segmentation_layer.data)
-        self._confirm_mask_btn.enabled = False
-        self._cancel_annot_btn.enabled = False
+        # NOTE: setting _boxes_layer = [] in this way has caused some issues with
+        # napari in the past. 
+        if self._boxes_layer.data:
+            self._boxes_layer.data = []
+        if self._mask_layer.data.any():
+            self._mask_layer.data = np.zeros_like(self._mask_layer.data)
+        # Additional checks to avoid triggering unnecessary events
+        if len(self._boxes_layer.data) > 0:
+            self._update_dims()
 
     def _clear_segmentation(self, _: Optional[Any] = None) -> None:
         self._segmentation_layer.data = np.zeros_like(self._segmentation_layer.data)
