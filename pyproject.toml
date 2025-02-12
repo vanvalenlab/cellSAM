@@ -16,7 +16,8 @@ dependencies = [
     'torch',
     'torchvision==0.15.1',
     'tqdm',
-    'pytest'
+    'pytest',
+    'setuptools',
 ]
 
 [project.optional-dependencies]
