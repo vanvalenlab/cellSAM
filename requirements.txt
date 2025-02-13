@@ -9,7 +9,7 @@ git+https://github.com/facebookresearch/segment-anything.git
 scikit-image
 scikit-learn
 torch
-numpy<2
+numpy
 tqdm
 pytest
 # Docs
