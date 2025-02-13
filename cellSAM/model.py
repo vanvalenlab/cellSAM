@@ -56,9 +56,8 @@ def get_local_model(model_path: str) -> nn.Module:
         config = yaml.safe_load(config_file)
 
     model = CellSAM(config)
-    model.load_state_dict(torch.load(model_path), strict=False)
+    model.load_state_dict(torch.load(model_path, map_location='cpu'), strict=False)
     return model
-
 
 
 def get_model(model: nn.Module = None) -> nn.Module:
@@ -66,7 +65,7 @@ def get_model(model: nn.Module = None) -> nn.Module:
     Returns a loaded CellSAM model. If model is None, downloads weights and loads the model with a progress bar.
     """
     cellsam_assets_dir = os.path.join(os.path.expanduser("~"), ".cellsam_assets")
-    model_path = os.path.join(cellsam_assets_dir, "cellsam_base.pt")
+    model_path = os.path.join(cellsam_assets_dir, "cellsam_base_v1.1.pt")
 
     # path = pkg_resources.resource_filename('my.package', 'resource.dat')
 
@@ -89,7 +88,7 @@ def get_model(model: nn.Module = None) -> nn.Module:
                 model_path,
             )
         model = CellSAM(config)
-        model.load_state_dict(torch.load(model_path, map_location="cpu"))
+        model.load_state_dict(torch.load(model_path, map_location="cpu"), strict=False)
     return model
 
 
@@ -100,7 +99,7 @@ def segment_cellular_image(
     postprocess: bool = False,
     remove_boundaries: bool = False,
     bounding_boxes: list[list[float]] = None,
-    bbox_threshold: float = 0.4,
+    bbox_threshold: float = 0.2,
     fast: bool = False,
     device: str = "cpu",
 ):
