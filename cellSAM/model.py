@@ -11,6 +11,7 @@ import yaml
 import pkgutil
 from pkg_resources import resource_filename
 
+
 from skimage.morphology import (
     disk,
     binary_opening,
