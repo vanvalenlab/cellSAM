@@ -9,6 +9,8 @@ import requests
 import os
 import yaml
 import pkgutil
+from pkg_resources import resource_filename
+
 
 from skimage.morphology import (
     disk,
@@ -44,6 +46,19 @@ def download_file_with_progress(url, destination):
 
     if total_size_in_bytes != 0 and progress_bar.n != total_size_in_bytes:
         print("ERROR: Something went wrong")
+
+def get_local_model(model_path: str) -> nn.Module:
+    """
+    Returns a loaded CellSAM model from a local path.
+    """
+    config_path = resource_filename(__name__, 'modelconfig.yaml')
+    with open(config_path, 'r') as config_file:
+        config = yaml.safe_load(config_file)
+
+    model = CellSAM(config)
+    model.load_state_dict(torch.load(model_path), strict=False)
+    return model
+
 
 
 def get_model(model: nn.Module = None) -> nn.Module:

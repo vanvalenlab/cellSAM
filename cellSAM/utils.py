@@ -6,6 +6,123 @@ from skimage.segmentation import relabel_sequential
 from scipy.stats import hmean
 
 
+def enhance_low_contrast(img,
+                         lower_contrast_threshold=0.05,
+                         upper_contrast_threshold=0.1,
+                         max_green_channel_value=0,
+                         clip_limit_default=0.01,
+                         kernel_size_default=256,
+                         gamma_default=2,
+                         clip_limit_high_diff=0.02,
+                         kernel_size_high_diff=384,
+                         gamma_high_diff=1.2,
+                         bbox_threshold_high_diff=0.15,
+                         clip_limit_very_high_diff=0.05,
+                         bbox_threshold_very_high_diff=0.15,
+                         clip_limit_adjusted=0.01,
+                         std_range=(0.035, 0.04),
+                         mean_diff_threshold=0.065,
+                         mean_std_threshold=0.05):
+    """
+    Enhance low contrast images using CLAHE and gamma adjustment.
+
+    Parameters:
+        img (ndarray): Input image.
+        lower_contrast_threshold (float): Lower threshold for contrast classification.
+        upper_contrast_threshold (float): Upper threshold for contrast classification.
+        max_green_channel_value (int): Maximum allowed value in the green channel.
+        clip_limit_default (float): Default CLAHE clip limit.
+        kernel_size_default (int): Default CLAHE kernel size.
+        gamma_default (float): Default gamma adjustment value.
+        clip_limit_high_diff (float): CLAHE clip limit for high mean_diff.
+        kernel_size_high_diff (int): CLAHE kernel size for high mean_diff.
+        gamma_high_diff (float): Gamma adjustment value for high mean_diff.
+        bbox_threshold_high_diff (float): Bbox threshold for high mean_diff.
+        clip_limit_very_high_diff (float): CLAHE clip limit for very high mean_diff.
+        bbox_threshold_very_high_diff (float): Bbox threshold for very high mean_diff.
+        clip_limit_adjusted (float): Adjusted CLAHE clip limit for specific std range.
+        std_range (tuple): Range of mean_std for specific adjustments.
+        mean_diff_threshold (float): Threshold for very high mean_diff.
+        mean_std_threshold (float): Threshold for mean_std classification.
+
+    Returns:
+        ndarray: Enhanced image.
+    """
+    low_contrast, mean_diff, mean_std = is_low_contrast_clahe(
+        img,
+        lower_threshold=lower_contrast_threshold,
+        upper_threshold=upper_contrast_threshold
+    )
+
+    low_contrast = (low_contrast and img[..., 1].max() == max_green_channel_value) \
+        if mean_diff < mean_std_threshold else low_contrast
+
+    if low_contrast:
+        clip_limit = clip_limit_default
+        kernel_size = kernel_size_default
+        gamma = gamma_default
+
+        if mean_diff > lower_contrast_threshold and mean_std < mean_std_threshold:
+            clip_limit = clip_limit_high_diff
+            kernel_size = kernel_size_high_diff
+            gamma = gamma_high_diff
+            model.bbox_threshold = bbox_threshold_high_diff
+
+        if mean_diff > mean_diff_threshold and mean_std < mean_std_threshold:
+            clip_limit = clip_limit_very_high_diff
+            model.bbox_threshold = bbox_threshold_very_high_diff
+
+        if mean_diff > mean_diff_threshold and (std_range[0] < mean_std < std_range[1]):
+            clip_limit = clip_limit_adjusted
+
+        img = equalize_adapthist(img, kernel_size=kernel_size, clip_limit=clip_limit)
+        img = adjust_gamma(img, gamma=gamma)
+
+    return img
+
+
+def get_median_size(labels):
+    sizes = []
+    sizes_abs = []
+    for mask in np.unique(labels):
+        if mask == 0:
+            continue
+        area = (labels == mask).sum().item()
+        # normalizing by area
+        sizes.append(area / (labels.shape[0] * labels.shape[1]))
+        sizes_abs.append(area)
+    sizes = np.array(sizes)
+    sizes_abs = np.array(sizes_abs)
+    # median size
+    median_size = np.median(sizes)
+    return median_size, sizes, sizes_abs
+
+
+def is_low_contrast_clahe(image, lower_threshold=0.04, upper_threshold=0.05, kernel_size=256):
+    cp = equalize_adapthist(image, kernel_size=kernel_size)
+    diff = np.abs(image - cp)
+    diff = diff[diff > 0]
+    mean_diff = np.median(diff)
+    mean_std = np.std(diff)
+    print(f"Mean diff: {mean_diff}")
+    print(np.mean(cp))
+    islowcontrast = lower_threshold < mean_diff < upper_threshold
+    return [islowcontrast, mean_diff, mean_std]
+
+
+def add_white_borders(img, mask, color=None):
+    if color is None:
+        color = [1.0, 1.0, 1.0]
+    assert img.shape[:2] == mask.shape
+    assert img.shape[2] == 3
+    assert len(img.shape) == 3
+
+    boundary = _mask_outline(mask)
+    img = np.array(img)  # copy
+    r, c = np.where(np.isclose(1.0, boundary))
+    img[r, c] = color
+    return img
+
 def subtract_boundaries(mask):
     boundaries = _mask_outline(mask)
     return mask - mask * boundaries
