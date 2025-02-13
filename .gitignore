@@ -1,1 +1,7 @@
+# Python cruft
 __pycache__/
+build/
+*.egg-info/
+
+# Editor cruft
+*.swp
