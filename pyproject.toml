@@ -9,7 +9,7 @@ readme = 'README.md'
 requires-python = '>=3.10'
 dynamic = ['version']
 dependencies = [
-    'numpy < 2',
+    'numpy<2',
     'pyyaml',
     'scikit-image',
     'segment_anything@git+https://github.com/facebookresearch/segment-anything.git',

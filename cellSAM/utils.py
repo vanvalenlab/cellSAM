@@ -1,6 +1,6 @@
 import numpy as np
 from scipy.ndimage import binary_fill_holes, find_objects
-from skimage.exposure import equalize_adapthist, rescale_intensity
+from skimage.exposure import equalize_adapthist, rescale_intensity, adjust_gamma
 from skimage.measure import regionprops
 from skimage.segmentation import relabel_sequential
 from scipy.stats import hmean
