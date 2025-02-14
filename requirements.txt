@@ -12,3 +12,7 @@ torch
 numpy<2
 tqdm
 pytest
+# Docs
+sphinx
+pydata-sphinx-theme
+sphinx-gallery

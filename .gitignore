@@ -3,5 +3,8 @@ __pycache__/
 build/
 *.egg-info/
 
+# Documentation cruft
+docs/_build
+
 # Editor cruft
 *.swp
