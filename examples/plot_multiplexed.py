@@ -1,5 +1,6 @@
 """
-Multiplexed imaging: CODEX imaging of tissue.
+Multiplexed Imaging: CODEX
+==========================
 """
 import imageio.v3 as iio
 import napari

@@ -3,5 +3,10 @@ __pycache__/
 build/
 *.egg-info/
 
+# Documentation cruft
+docs/_build
+docs/auto_examples
+docs/sg_execution_times.rst
+
 # Editor cruft
 *.swp
