@@ -16,3 +16,5 @@ pytest
 sphinx
 pydata-sphinx-theme
 sphinx-gallery
+napari
+pyqt6
