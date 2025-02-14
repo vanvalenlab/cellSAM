@@ -1,5 +1,5 @@
 """
-YeastNet: Brightfield Microscopy
+Brightfield Microscopy: YeastNet
 ================================
 """
 import imageio.v3 as iio

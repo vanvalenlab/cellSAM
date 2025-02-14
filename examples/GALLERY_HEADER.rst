@@ -1,2 +1,2 @@
-CellSAM Example Gallery
-=======================
+Gallery
+=======
