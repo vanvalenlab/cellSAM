@@ -1,5 +1,6 @@
 """
-YeaZ
+Phase Microscopy - Yeast
+========================
 """
 import imageio.v3 as iio
 import napari

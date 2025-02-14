@@ -1,5 +1,6 @@
 """
-Phase microscopy
+Phase Microscopy of Mammalian Cells
+===================================
 """
 import imageio.v3 as iio
 import napari

@@ -1,5 +1,6 @@
 """
-Yeast Net
+YeastNet: Brightfield Microscopy
+================================
 """
 import imageio.v3 as iio
 import napari
