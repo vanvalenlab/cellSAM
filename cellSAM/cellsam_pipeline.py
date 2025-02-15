@@ -43,16 +43,6 @@ def use_cellsize_gaging(
     return labels
 
 
-def load_image(img, swap_channels=False):
-    img = iio.imread(img)
-    if img.ndim == 2:
-        img = np.stack([img] * 3, axis=-1)
-    if swap_channels:
-        # switch last 2 channels bc nuclear and whoelcell are switched, #TODO: autmatically detect or have input arg like cellpose
-        img = img[..., [0, 2, 1]]
-    
-    return img
-
 def normalize_image(img):
     # normalize to 0-1 min max - channelwise
     for i in range(3):
@@ -97,11 +87,7 @@ def cellsam_pipeline(
         model.eval()
         
 
-    if isinstance(img, str):
-        img = load_image(img, swap_channels=swap_channels)
-
     img = img.astype(np.float32)
-
     img = normalize_image(img) 
 
     if low_contrast_enhancement:
