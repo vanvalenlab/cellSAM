@@ -1,15 +1,15 @@
-torchvision==0.15.1
 requests
 dask[distributed]
 dask-image
 matplotlib
+torchvision
 pyyaml
 scipy
 git+https://github.com/facebookresearch/segment-anything.git
 scikit-image
 scikit-learn
 torch
-numpy<2
+numpy
 tqdm
 pytest
 # Docs
