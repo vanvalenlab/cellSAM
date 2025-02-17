@@ -10,18 +10,17 @@ import numpy as np
 import torch
 import yaml
 from cellpose.utils import fill_holes_and_remove_small_masks
-# Parallelize computing for sum_masks
 from joblib import Parallel, delayed
 from pkg_resources import resource_filename
 from scipy import ndimage
 from segment_anything.utils.amg import remove_small_regions
-from skimage.exposure import equalize_adapthist, adjust_gamma
+from skimage.exposure import adjust_gamma
 from tqdm import tqdm
 
-import wandb
-from bio_datasets.mix_dataset import MixDataset
-from metrics.CellPoseMetrics import CellPoseMetrics
-from wsi.sam_inference import CellSAM
+from CellPoseMetrics import CellPoseMetrics
+from mix_dataset import MixDataset
+# from wsi.sam_inference import CellSAM
+
 def extract_masks(y, return_masks=False):
     coords_per_heatmap = []
     labels_per_heatmap = []
