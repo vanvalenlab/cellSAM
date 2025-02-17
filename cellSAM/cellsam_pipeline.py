@@ -43,42 +43,6 @@ def use_cellsize_gaging(
     return labels
 
 
-def prepare_labels(labels,
-                border_size=5,
-                cells_min_size=500,
-                filter_below_min=False,
-                ):
-    # labels to individual masks
-    # filter out masks smaller than min size if filter_below_min is true
-    # this filter will only affect border cells and time taken scales with unique cells 
-    # so can be disabled if not needed
-    if filter_below_min:
-        uniq_labs = np.unique(labels)
-        masks = np.zeros((labels.shape[0], labels.shape[1]), dtype=np.int32)
-        for idx in tqdm(range(len(uniq_labs))):
-            mask = uniq_labs[idx]
-            m_array = (labels == mask).astype(np.int32)
-            if mask == 0:
-                continue
-            # is m_array at the edge?
-            if m_array.sum() < cells_min_size and m_array[border_size:-border_size,
-                                                    border_size:-border_size].sum() == 0:
-                continue
-            masks[(labels==mask)] = mask
-
-        if len(masks) == 0:
-            print("No cells found")
-            return
-        
-        labels = masks
-
-    # result = labels
-    # result = relabel_mask(relabel_sequential(labels)[0]) 
-    # relabel_mask already calls relabel_sequential, so above line seems redundant
-    result = relabel_mask(labels)
-
-    return result
-
 def load_image(img, swap_channels=False):
     img = iio.imread(img)
     if img.ndim == 2:
@@ -109,7 +73,6 @@ def cellsam_pipeline(
         swap_channels=False,
         use_wsi=True,
         gauge_cell_size=True,
-        visualize=False,
         block_size=400,
         overlap=56,
         iou_depth=56,
@@ -154,14 +117,6 @@ def cellsam_pipeline(
                                  device=device, bbox_threshold=bbox_threshold).compute()
     else:
         labels = segment_cellular_image(inp, model=model, normalize=False, device=device)[0]
-
-    if visualize:
-        labels = prepare_labels(labels, filter_below_min=filter_below_min)
-        print(labels.max())
-        plt.imshow(labels)
-        plt.show()
-        plt.imshow(img)
-        plt.show()
 
     return labels
 

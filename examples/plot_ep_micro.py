@@ -12,7 +12,6 @@ mask = cellsam_pipeline(
     img,
     low_contrast_enhancement=False,
     use_wsi=False,
-    visualize=False,
     gauge_cell_size=False,
 )
 
