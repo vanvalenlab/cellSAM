@@ -2,6 +2,7 @@
 __pycache__/
 build/
 *.egg-info/
+*.ipynb_checkpoints/
 
 # Documentation cruft
 docs/_build
@@ -10,3 +11,6 @@ docs/sg_execution_times.rst
 
 # Editor cruft
 *.swp
+
+# Apple cruft
+*.DS_Store
