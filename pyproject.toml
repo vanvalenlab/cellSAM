@@ -9,12 +9,12 @@ readme = 'README.md'
 requires-python = '>=3.10'
 dynamic = ['version']
 dependencies = [
-    'numpy<2',
+    'numpy',
     'pyyaml',
     'scikit-image',
     'segment_anything@git+https://github.com/facebookresearch/segment-anything.git',
     'torch',
-    'torchvision==0.15.1',
+    'torchvision',
     'tqdm',
     'pytest',
     'setuptools',
