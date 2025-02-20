@@ -7,7 +7,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F
 from torchvision.transforms.functional import resize, to_pil_image
-from torchvision import datapoints
+from torchvision import tv_tensors
 
 from .AnchorDETR.models import build_inference_model
 from segment_anything import (
@@ -115,7 +115,7 @@ class CellSAM(nn.Module):
         self.cellfinder = CellfinderAnchorDetr(config)
 
     def predict_transforms(self, imgs):
-        imgs = [datapoints.Image(img) for img in imgs]
+        imgs = [tv_tensors.Image(img) for img in imgs]
         imgs = torch.stack(imgs, dim=0)
 
         return imgs
