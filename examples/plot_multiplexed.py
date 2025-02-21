@@ -5,7 +5,7 @@ Multiplexed Imaging: CODEX
 import imageio.v3 as iio
 import napari
 
-from cellSAM.cellsam_pipeline import cellsam_pipeline
+from cellSAM import cellsam_pipeline
 img = iio.imread("../sample_imgs/tissuenet.png")
 
 # Image is 3-channel RGB where Channel 1 (G) represents a nuclear stain

@@ -5,7 +5,7 @@ Brightfield Microscopy: YeastNet
 import imageio.v3 as iio
 import napari
 
-from cellSAM.cellsam_pipeline import cellsam_pipeline
+from cellSAM import cellsam_pipeline
 img = iio.imread("../sample_imgs/YeastNet.png")
 
 mask = cellsam_pipeline(
