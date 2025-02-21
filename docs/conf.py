@@ -53,7 +53,10 @@ def reset_napari(gallery_conf, fname):
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    "sphinx_gallery.gen_gallery",
+    "numpydoc",  # Docstring format
+    "sphinx.ext.autosummary",  # Reference guide
+    "sphinx.ext.autodoc",  # Docstring summaries
+    "sphinx_gallery.gen_gallery",  # Example gallery
 ]
 
 sphinx_gallery_conf = {
@@ -71,6 +74,9 @@ suppress_warnings=[
     # See sphinx-doc/sphinx#12300
     "config.cache",
 ]
+
+# Generate autosummary pages
+autosummary_generate = True
 
 
 # -- Options for HTML output -------------------------------------------------
