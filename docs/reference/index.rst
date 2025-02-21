@@ -10,7 +10,7 @@ Reference
 Inference
 ---------
 
-.. currentmodule:: cellSAM
+.. currentmodule:: cellSAM.cellsam_pipeline
 
 .. autosummary::
    :toctree: generated/
