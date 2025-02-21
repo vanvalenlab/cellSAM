@@ -5,7 +5,7 @@ Phase Microscopy of Mammalian Cells
 import imageio.v3 as iio
 import napari
 
-from cellSAM.cellsam_pipeline import cellsam_pipeline
+from cellSAM import cellsam_pipeline
 img = iio.imread("../sample_imgs/ep_micro.png")
 
 mask = cellsam_pipeline(
