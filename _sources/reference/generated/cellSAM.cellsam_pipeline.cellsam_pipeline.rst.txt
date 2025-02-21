@@ -1,0 +1,6 @@
+﻿cellSAM.cellsam\_pipeline.cellsam\_pipeline
+===========================================
+
+.. currentmodule:: cellSAM.cellsam_pipeline
+
+.. autofunction:: cellsam_pipeline
