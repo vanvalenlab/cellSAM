@@ -60,7 +60,6 @@ def cellsam_pipeline(
         model_path=None,
         bbox_threshold=0.4,
         low_contrast_enhancement=True,
-        swap_channels=False,
         use_wsi=True,
         gauge_cell_size=True,
         block_size=400,
