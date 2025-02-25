@@ -77,7 +77,6 @@ def cellsam_pipeline(
         overlap=56,
         iou_depth=56,
         iou_threshold=0.5,
-        filter_below_min=True, 
 ):
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
