@@ -31,25 +31,15 @@ Phase Microscopy of Mammalian Cells
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    Warning, using standard model. For better performance, use a model trained on your data.
 
 
-
-
-
-
-|
 
 .. code-block:: Python
 
     import imageio.v3 as iio
     import napari
 
-    from cellSAM.cellsam_pipeline import cellsam_pipeline
+    from cellSAM import cellsam_pipeline
     img = iio.imread("../sample_imgs/ep_micro.png")
 
     mask = cellsam_pipeline(
@@ -68,7 +58,7 @@ Phase Microscopy of Mammalian Cells
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 2.892 seconds)
+   **Total running time of the script:** (0 minutes 22.805 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_ep_micro.py:
