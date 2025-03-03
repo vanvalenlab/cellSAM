@@ -188,7 +188,6 @@ def cellsam_pipeline(
         
         # To prevent creating model for each block
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        print("Warning, using standard model. For better performance, use a model trained on your data.")
         model = get_model(None)
         model = model.to(device)
         model.eval()
