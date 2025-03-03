@@ -79,6 +79,70 @@ def cellsam_pipeline(
         iou_threshold=0.5,
         filter_below_min=True, 
 ):
+    """Run the cellsam inference pipeline on `img`.
+
+    Cellsam is capable of segmenting a variety of cells (bacteria,
+    eukaryotic, etc.) spanning all forms of microscopy (brightfield,
+    phase, autofluorescence, electron microscopy) and
+    staining (H&E, PAS, etc.) / multiplexed (codex, mibi, etc.)
+    modalities.
+
+    Parameters
+    ----------
+    img : array_like with shape ``(W, H)`` or ``(W, H, C)``, where C is 1 or 3
+        The image to be segmented. For multiple-channel images, `img` should
+        have the following format:
+
+          - **Stained images (e.g H&E)**: ``(W, H, C)`` where ``C == 3``
+            representing color channels in RGB format.
+          - **Multiplexed images**: ``(W, H, C)`` where ``C == 3`` and the
+            channel ordering is: ``(blank, nuclear, membrane)``. The
+            ``membrane`` channel is optional, in which case a nuclear segmentation
+            is returned.
+    chunks : int
+        TODO: should this be an option?
+    model_path : str or pathlib.Path, optional
+        Path to the model weights. If `None` (the default), the latest released
+        cellsam generalist model is used.
+
+        .. note:: Downloading the model requires internet access
+
+    bbox_threshold : float in range [0, 1], default=0.4
+        TODO: Detail effects of this parameter
+    low_contrast_enhancement : bool, default=True
+        TODO: Detail effects of this parameter
+    swap_channels : bool, default=False
+        TODO: this should be removed with loading from file
+    use_wsi : bool, default=True
+        Whether to use tiling to support large images, default is True.
+        Generally, tiling is not required when there are fewer than ~3000
+        cells in an image.
+    gauge_cell_size : bool, default=True
+        TODO: Detail effects of this parameter
+    block_size : int
+        Size of the tiles when `use_wsi` is `True`. In practice, should
+        be in the range ``[256, 2048]``, with smaller tile sizes
+        preferred for dense (i.e. many cells/FOV) images.
+    overlap : int
+        Tile overlap region in which label merges are considered. Must
+        be smaller than `block_size`. For reliable tiling, value should
+        be large enough to encompass `iou_threshold` of the extent of
+        a typical object.
+    iou_depth : int
+        TODO: Detail effects of this parameter: is this/should this be
+        distinct from overlap?
+    filter_below_min : bool
+        TODO: Detail this parameter - is it necessary?
+
+    Returns
+    -------
+    segmentation_mask : 2D numpy.ndarray of dtype `numpy.uint32`
+        A `numpy.ndarray` representing the segmentation mask for `img`.
+        The array is 2D with the same dimensions as `img`, with integer
+        labels representing pixels corresponding to cell instances.
+        Background is denoted by ``0``.
+
+    """
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
     if model_path is not None:

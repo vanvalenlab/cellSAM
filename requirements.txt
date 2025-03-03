@@ -18,3 +18,4 @@ pydata-sphinx-theme
 sphinx-gallery
 napari
 pyqt6
+numpydoc
