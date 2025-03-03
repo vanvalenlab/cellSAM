@@ -19,3 +19,4 @@ sphinx-gallery
 napari
 pyqt6
 numpydoc
+intersphinx_registry
