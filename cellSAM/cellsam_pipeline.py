@@ -142,6 +142,39 @@ def cellsam_pipeline(
         labels representing pixels corresponding to cell instances.
         Background is denoted by ``0``.
 
+    Examples
+    --------
+    Using CellSAM to segment a slice from the `~skimage.data.cells3d` dataset.
+
+    >>> import numpy as np
+    >>> import skimage
+    >>> data = skimage.data.cells3d()
+    >>> data.shape
+    (60, 2, 256, 256)
+
+    From the `~skimage.data.cells3d` docstring, ``data`` is a 3D multiplexed
+    image with dimensions ``(Z, C, X, Y)`` where the ordering of the channel
+    dimension ``C`` is ``(membrane, nuclear)``.
+    Start by extracting a 2D slice from the 3D volume. The middle slice is
+    chosen arbitrarily:
+
+    >>> img = data[30, ...]
+
+    For multiplexed images, CellSAM expects the channel ordering to be
+    ``(blank, nuclear, membrane)``:
+
+    >>> seg = np.zeros((*img.shape[1:], 3), dtype=img.dtype)
+    >>> seg[..., 1] = img[1, ...]  # nuclear channel
+    >>> seg[..., 2] = img[0, ...]  # membrane channel
+
+    Segment the image with `cellsam_pipeline`. Since this is a small image,
+    we'll set ``use_wsi=False``. We'll also forgo any pre/post-processing
+    by deactivating `low_contrast_enhancement` and `gauge_cell_size`:
+
+    >>> mask = cellsam_pipeline(
+    ...     seg, low_contrast_enhancement=False, use_wsi=False, gauge_cell_size=False
+    ... )
+
     """
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
