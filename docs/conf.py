@@ -1,3 +1,4 @@
+from intersphinx_registry import get_intersphinx_mapping
 from sphinx_gallery import scrapers
 import napari
 
@@ -57,6 +58,7 @@ extensions = [
     "sphinx.ext.autosummary",  # Reference guide
     "sphinx.ext.autodoc",  # Docstring summaries
     "sphinx_gallery.gen_gallery",  # Example gallery
+    "sphinx.ext.intersphinx",  # Cross-project documentation linking
 ]
 
 sphinx_gallery_conf = {
@@ -77,6 +79,18 @@ suppress_warnings=[
 
 # Generate autosummary pages
 autosummary_generate = True
+
+# Default role
+default_role = "obj"
+
+# Intersphinx mapping
+intersphinx_mapping = get_intersphinx_mapping(
+    packages={
+        "python",
+        "numpy",
+        "skimage",
+    },
+)
 
 
 # -- Options for HTML output -------------------------------------------------
