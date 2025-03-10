@@ -77,7 +77,6 @@ def cellsam_pipeline(
         overlap=56,
         iou_depth=56,
         iou_threshold=0.5,
-        filter_below_min=True, 
 ):
     """Run the cellsam inference pipeline on `img`.
 
