@@ -77,7 +77,6 @@ def cellsam_pipeline(
         overlap=56,
         iou_depth=56,
         iou_threshold=0.5,
-        filter_below_min=True, 
 ):
     """Run the cellsam inference pipeline on `img`.
 
@@ -141,7 +140,7 @@ def cellsam_pipeline(
         The array is 2D with the same dimensions as `img`, with integer
         labels representing pixels corresponding to cell instances.
         Background is denoted by ``0``.
-
+        
     """
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
@@ -155,7 +154,6 @@ def cellsam_pipeline(
         
         # To prevent creating model for each block
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        print("Warning, using standard model. For better performance, use a model trained on your data.")
         model = get_model(None)
         model = model.to(device)
         model.eval()
