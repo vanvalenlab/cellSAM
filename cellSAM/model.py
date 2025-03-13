@@ -11,7 +11,6 @@ import yaml
 import pkgutil
 from pkg_resources import resource_filename
 
-
 from skimage.morphology import (
     disk,
     binary_opening,
@@ -21,6 +20,7 @@ from skimage.morphology import (
 )
 from scipy.ndimage import gaussian_filter
 from segment_anything.utils.amg import remove_small_regions
+from typing import List
 
 from .sam_inference import CellSAM
 from .utils import (
@@ -47,6 +47,7 @@ def download_file_with_progress(url, destination):
     if total_size_in_bytes != 0 and progress_bar.n != total_size_in_bytes:
         print("ERROR: Something went wrong")
 
+
 def get_local_model(model_path: str) -> nn.Module:
     """
     Returns a loaded CellSAM model from a local path.
@@ -60,7 +61,7 @@ def get_local_model(model_path: str) -> nn.Module:
     return model
 
 
-def get_model(model: nn.Module = None) -> nn.Module:
+def get_model(model: str = None) -> nn.Module:
     """
     Returns a loaded CellSAM model. If model is None, downloads weights and loads the model with a progress bar.
     """
@@ -77,7 +78,6 @@ def get_model(model: nn.Module = None) -> nn.Module:
         pkgutil.get_data(__name__, "modelconfig.yaml")
     )
 
-
     if model is None:
         if not os.path.exists(cellsam_assets_dir):
             os.makedirs(cellsam_assets_dir)
@@ -87,21 +87,23 @@ def get_model(model: nn.Module = None) -> nn.Module:
                 "https://storage.googleapis.com/cellsam-data/cellsam_base.pt",
                 model_path,
             )
-        model = CellSAM(config)
-        model.load_state_dict(torch.load(model_path, map_location="cpu"), strict=False)
+    else:
+        model_path = model
+    model = CellSAM(config)
+    model.load_state_dict(torch.load(model_path, map_location="cpu"), strict=False)
     return model
 
 
 def segment_cellular_image(
-    img: np.ndarray,
-    model: nn.Module = None,
-    normalize: bool = False,
-    postprocess: bool = False,
-    remove_boundaries: bool = False,
-    bounding_boxes: list[list[float]] = None,
-    bbox_threshold: float = 0.2,
-    fast: bool = False,
-    device: str = "cpu",
+        img: np.ndarray,
+        model: nn.Module = None,
+        normalize: bool = False,
+        postprocess: bool = False,
+        remove_boundaries: bool = False,
+        bounding_boxes: List[List[float]] = None,
+        bbox_threshold: float = 0.2,
+        fast: bool = False,
+        device: str = "cpu",
 ):
     """
     Args:
@@ -128,10 +130,10 @@ def segment_cellular_image(
     if bounding_boxes is not None:
         bounding_boxes = torch.tensor(bounding_boxes).unsqueeze(0)
         assert (
-            len(bounding_boxes.shape) == 3
+                len(bounding_boxes.shape) == 3
         ), "Bounding boxes should be of shape (number of boxes, 4)"
 
-    model = get_model(model).eval()
+    # model = get_model(model).eval()
     model.bbox_threshold = bbox_threshold
 
     img = format_image_shape(img)
@@ -140,7 +142,7 @@ def segment_cellular_image(
     img = img.transpose((2, 0, 1))  # channel first for pytorch.
     img = torch.from_numpy(img).float().unsqueeze(0)
 
-    if "cuda" in device:
+    if "cuda" in str(device):
         model, img = model.to(device), img.to(device)
 
     preds = model.predict(img, x=None, boxes_per_heatmap=bounding_boxes, device=device, fast=fast)

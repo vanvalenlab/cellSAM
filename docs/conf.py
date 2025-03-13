@@ -80,6 +80,7 @@ suppress_warnings=[
 # Generate autosummary pages
 autosummary_generate = True
 
+
 # Default role
 default_role = "obj"
 
@@ -91,7 +92,6 @@ intersphinx_mapping = get_intersphinx_mapping(
         "skimage",
     },
 )
-
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
