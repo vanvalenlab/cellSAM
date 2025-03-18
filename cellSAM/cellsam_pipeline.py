@@ -1,6 +1,5 @@
 import dask.array as da
 import imageio.v3 as iio
-import matplotlib.pyplot as plt
 import numpy as np
 import torch
 from tqdm import tqdm
