@@ -15,9 +15,13 @@ dependencies = [
     'segment_anything@git+https://github.com/facebookresearch/segment-anything.git',
     'torch',
     'torchvision',
+    # Model access
+    'requests',
     'tqdm',
-    'pytest',
-    'setuptools',
+    # Whole-slide imaging
+    'dask[distributed]',
+    'dask-image',
+    'scikit-learn',
 ]
 
 [project.optional-dependencies]
