@@ -106,9 +106,13 @@ def cellsam_pipeline(
         .. note:: Downloading the model requires internet access
 
     bbox_threshold : float in range [0, 1], default=0.4
-        TODO: Detail effects of this parameter
+        Threshold for the outputs of Cellfinder, only cells with a confidence higher
+        than the threshold will be included. This is the main parameter to 
+        control precision/recall for CellSAM. For very out of distribution images
+        use a value lower than 0.4 and vice versa.
     low_contrast_enhancement : bool, default=True
-        TODO: Detail effects of this parameter
+        Whether to enhance low contrast images, like Livecell images as a preprocessing
+        step to improve downstream segmentation.
     swap_channels : bool, default=False
         TODO: this should be removed with loading from file
     use_wsi : bool, default=True
@@ -116,7 +120,9 @@ def cellsam_pipeline(
         Generally, tiling is not required when there are fewer than ~3000
         cells in an image.
     gauge_cell_size : bool, default=True
-        TODO: Detail effects of this parameter
+        Wheter to perform one iteration of segmentation initially, and 
+        use the results to estimate the sizes of cells and then do another
+        round of segmentation using tiling parameters with these results.
     block_size : int
         Size of the tiles when `use_wsi` is `True`. In practice, should
         be in the range ``[256, 2048]``, with smaller tile sizes
