@@ -27,7 +27,8 @@ Basic Usage
 
 The primary interface is :func:`cellsam_pipeline`, which implements
 the inference pipeline for the CellSAM model.
-See the :doc:`Example gallery <gallery>` for examples.
+See the :ref:`example_gallery` for examples of CellSAM applied to different
+types of images.
 
 Citation
 --------
