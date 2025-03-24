@@ -20,10 +20,12 @@ Installation
 
    pip install git+https://github.com/vanvalenlab/cellSAM.git
 
+.. currentmodule:: cellSAM.cellsam_pipeline
+
 Basic Usage
 -----------
 
-The primary interface to the CellSAM model is `cellsam_pipeline`, which implements
+The primary interface is :func:`cellsam_pipeline`, which implements
 the inference pipeline for the CellSAM model.
 See the :doc:`Example gallery <gallery>` for examples.
 
