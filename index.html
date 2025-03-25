@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>CellSAM documentation &#8212; CellSAM</title>
+    <title>CellSAM Documentation &#8212; CellSAM</title>
   
   
   
@@ -279,9 +279,41 @@
                 <article class="bd-article">
                   
   <section id="cellsam-documentation">
-<h1>CellSAM documentation<a class="headerlink" href="#cellsam-documentation" title="Link to this heading">#</a></h1>
+<h1>CellSAM Documentation<a class="headerlink" href="#cellsam-documentation" title="Link to this heading">#</a></h1>
+<p>Welcome to the CellSAM documentation!</p>
+<p>CellSAM is a universal model for cell segmentation.
+CellSAM achieves state-of-the-art performance on segmentation across a variety
+of cellular targets (bacteria, tissue, yeast, cell culture, etc.) and imaging
+modalities (brightfield, fluorescence, phase, multiplexed, etc.).</p>
+<p>See the <a class="reference external" href="https://www.biorxiv.org/content/10.1101/2023.11.17.567630v3">preprint</a> for more information about the model and the general
+approach to image segmentation.</p>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Link to this heading">#</a></h2>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>git+https://github.com/vanvalenlab/cellSAM.git
+</pre></div>
+</div>
+</section>
+<section id="basic-usage">
+<h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">#</a></h2>
+<p>The primary interface is <a class="reference internal" href="reference/generated/cellSAM.cellsam_pipeline.cellsam_pipeline.html#cellSAM.cellsam_pipeline.cellsam_pipeline" title="cellSAM.cellsam_pipeline.cellsam_pipeline"><code class="xref py py-func docutils literal notranslate"><span class="pre">cellsam_pipeline()</span></code></a>, which implements
+the inference pipeline for the CellSAM model.
+See the <a class="reference internal" href="auto_examples/index.html#example-gallery"><span class="std std-ref">Gallery</span></a> for examples of CellSAM applied to different
+types of images.</p>
+</section>
+<section id="citation">
+<h2>Citation<a class="headerlink" href="#citation" title="Link to this heading">#</a></h2>
+<div class="highlight-latex notranslate"><div class="highlight"><pre><span></span>@article<span class="nb">{</span>israel2023foundation,
+  title=<span class="nb">{</span>A Foundation Model for Cell Segmentation<span class="nb">}</span>,
+  author=<span class="nb">{</span>Israel, Uriah and Marks, Markus and Dilip, Rohit and Li, Qilin and Schwartz, Morgan and Pradhan, Elora and Pao, Edward and Li, Shenyi and Pearson-Goulart, Alexander and Perona, Pietro and others<span class="nb">}</span>,
+  journal=<span class="nb">{</span>bioRxiv<span class="nb">}</span>,
+  publisher=<span class="nb">{</span>Cold Spring Harbor Laboratory Preprints<span class="nb">}</span>,
+  doi = <span class="nb">{</span>10.1101/2023.11.17.567630<span class="nb">}</span>,
+<span class="nb">}</span>
+</pre></div>
+</div>
 <div class="toctree-wrapper compound">
 </div>
+</section>
 </section>
 
 
@@ -313,6 +345,20 @@
                 <dialog id="pst-secondary-sidebar-modal"></dialog>
                 <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citation">Citation</a></li>
+</ul>
+  </nav></div>
 
   <div class="sidebar-secondary-item">
   <div role="note" aria-label="source link">
