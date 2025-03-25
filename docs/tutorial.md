@@ -33,15 +33,13 @@ qli2@caltech.edu
 ```
 
 ```{code-cell} ipython3
-from cellSAM import cellsam_pipeline, get_model
-```
-
-```{code-cell} ipython3
+import imageio.v3 as iio
 import numpy as np
-import torch
 from scipy.ndimage import binary_dilation
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
+
+from cellSAM import cellsam_pipeline, get_model
 ```
 
 ## Finding all cells using CellSAM
@@ -50,19 +48,23 @@ First, let's see how one can directly use {ref}`cellsam_pipeline` to predict all
 masks in a cell.
 We'll load a sample image and pass it through the inference pipeline.
 When bounding boxes aren't provided, the `CellFinder` module automatically finds
-bounding boxes for all the cells. Notice we specify a GPU device.
+bounding boxes for all the cells.
+The inference pipeline will make use of a GPU if one is found and fall back to
+CPU if not.
+
+```{note}
 Although CellSAM will still work on a CPU, it will be quite slow if there are a
 large number of cells. 
+```
 
 ```{code-cell} ipython3
-# Use GPU, if available
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-
 # Load sample data
-img = np.load("yeaz.npy") # H, W, C
+img = iio.imread("../sample_imgs/YeaZ.png")
 
 # Run inference pipeline
-mask = cellsam_pipeline(img, device=str(device), use_wsi=False)
+mask = cellsam_pipeline(
+    img, use_wsi=False, low_contrast_enhancement=False, gauge_cell_size=False
+)
 
 # Visualize results
 plt.imshow(mask)
@@ -85,18 +87,18 @@ rect = patches.Rectangle(
 )
 
 plt.figure(figsize=(5, 5))
-plt.imshow(img[:, :, -1], cmap='gray')
+plt.imshow(img, cmap='gray')
 plt.gca().add_patch(rect)
 ```
 
-```{code-cell} ipython3
+```python
 model = get_model()
 
 # We can pass the bounding boxes to the model prediction function
 x1, y1, w, h = box
 x2, y2 = x1 + w, y1 + h
 pred_mask = model.predict(
-    img[None].transpose((0, 3, 1, 2)),
+    img[np.newaxis, np.newaxis, ...],
     boxes_per_heatmap=[[[x1, x2, y1, y2]]]
 )[0]
 ```
@@ -104,7 +106,7 @@ pred_mask = model.predict(
 Now, let's visualize the predicted mask.
 We'll superimpose the mask as an edge onto our image to see it more clearly
 
-```{code-cell} ipython3
+```python
 dilated_mask = binary_dilation(pred_mask)
 edges = dilated_mask ^ pred_mask
 
