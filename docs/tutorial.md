@@ -11,7 +11,7 @@ kernelspec:
   name: python3
 ---
 
-# CellSAM introduction
+# Tutorial
 
 This notebook will guide a user through using CellSAM. More details on CellSAM
 can be obtained at the preprint: https://www.biorxiv.org/content/10.1101/2023.11.17.567630v3
