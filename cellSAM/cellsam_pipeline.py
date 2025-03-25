@@ -54,13 +54,14 @@ def normalize_image(img):
 
 
 def cellsam_pipeline(
-        img,  # str or np.array
+        img,
         chunks=256,
         model_path=None,
         bbox_threshold=0.4,
-        low_contrast_enhancement=True,
+        low_contrast_enhancement=False,
+        swap_channels=False,
         use_wsi=True,
-        gauge_cell_size=True,
+        gauge_cell_size=False,
         block_size=400,
         overlap=56,
         iou_depth=56,
@@ -99,7 +100,7 @@ def cellsam_pipeline(
         than the threshold will be included. This is the main parameter to 
         control precision/recall for CellSAM. For very out of distribution images
         use a value lower than 0.4 and vice versa.
-    low_contrast_enhancement : bool, default=True
+    low_contrast_enhancement : bool, default=False
         Whether to enhance low contrast images, like Livecell images as a preprocessing
         step to improve downstream segmentation.
     swap_channels : bool, default=False
@@ -108,7 +109,7 @@ def cellsam_pipeline(
         Whether to use tiling to support large images, default is True.
         Generally, tiling is not required when there are fewer than ~3000
         cells in an image.
-    gauge_cell_size : bool, default=True
+    gauge_cell_size : bool, default=False
         Wheter to perform one iteration of segmentation initially, and 
         use the results to estimate the sizes of cells and then do another
         round of segmentation using tiling parameters with these results.
@@ -161,13 +162,9 @@ def cellsam_pipeline(
     >>> seg[..., 2] = img[0, ...]  # membrane channel
 
     Segment the image with `cellsam_pipeline`. Since this is a small image,
-    we'll set ``use_wsi=False``. We'll also forgo any pre/post-processing
-    by deactivating `low_contrast_enhancement` and `gauge_cell_size`:
+    we'll set ``use_wsi=False``. We'll also forgo any pre/post-processing:
 
-    >>> mask = cellsam_pipeline(
-    ...     seg, low_contrast_enhancement=False, use_wsi=False, gauge_cell_size=False
-    ... )
-
+    >>> mask = cellsam_pipeline(seg, use_wsi=False)
     """
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
