@@ -12,12 +12,7 @@ img = iio.imread("../sample_imgs/tissuenet.png")
 # and Channel 2 (B) a membrane stain. Channel 0 (R) is blank.
 print(img.sum(axis=(0, 1)))
 
-mask = cellsam_pipeline(
-    img,
-    low_contrast_enhancement=False,
-    use_wsi=False,
-    gauge_cell_size=False,
-)
+mask = cellsam_pipeline(img, use_wsi=False)
 
 nim = napari.view_image(img, name="CODEX image");
 nim.add_labels(mask, name="Cellsam segmentation");
