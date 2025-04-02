@@ -160,12 +160,12 @@ def segment_cellular_image(
     return mask, x.cpu().numpy(), bounding_boxes
 
 
-def postprocess_predictions(mask: np.ndarray):
-    mask_values = np.unique(mask)
+def postprocess_predictions(masks: np.ndarray):
+    mask_values = np.unique(masks)
     new_masks = []
     selem = disk(2)
     for mask_value in mask_values[1:]:
-        mask = mask == mask_value
+        mask = masks == mask_value
         mask, _ = remove_small_regions(mask, 20, mode="holes")
         mask, _ = remove_small_regions(mask, 20, mode="islands")
         opened_mask = binary_opening(mask, selem)
