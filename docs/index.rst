@@ -47,6 +47,7 @@ Citation
    :maxdepth: 1
    :hidden:
 
+   tutorial
    reference/index
    auto_examples/index
 
