@@ -26,7 +26,8 @@ dependencies = [
 
 [project.optional-dependencies]
 napari = [
-    'napari[all]',
+    'napari',
+    'pyqt6',
     'magicgui',
     'qtpy'
 ]
