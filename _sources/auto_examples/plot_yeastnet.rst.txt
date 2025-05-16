@@ -21,7 +21,7 @@
 Brightfield Microscopy: YeastNet
 ================================
 
-.. GENERATED FROM PYTHON SOURCE LINES 5-23
+.. GENERATED FROM PYTHON SOURCE LINES 5-18
 
 
 
@@ -42,12 +42,7 @@ Brightfield Microscopy: YeastNet
     from cellSAM import cellsam_pipeline
     img = iio.imread("../sample_imgs/YeastNet.png")
 
-    mask = cellsam_pipeline(
-        img,
-        low_contrast_enhancement=False,
-        use_wsi=False,
-        gauge_cell_size=False,
-    )
+    mask = cellsam_pipeline(img, use_wsi=False)
 
     nim = napari.view_image(img, name="Yeast Net");
     nim.add_labels(mask, name="Cellsam segmentation");
@@ -58,7 +53,7 @@ Brightfield Microscopy: YeastNet
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 29.948 seconds)
+   **Total running time of the script:** (0 minutes 31.279 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_yeastnet.py:

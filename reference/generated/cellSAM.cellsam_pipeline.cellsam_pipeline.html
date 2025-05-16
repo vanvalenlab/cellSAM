@@ -31,6 +31,7 @@
 <link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="../../_static/sg_gallery-dataframe.css?v=2082cf3c" />
@@ -128,6 +129,13 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorial.html">
+    Tutorial
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../index.html">
     Reference
@@ -138,6 +146,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../auto_examples/index.html">
     Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../napari.html">
+    Napari Plugin
   </a>
 </li>
 
@@ -214,6 +229,13 @@
 <nav>
   <ul class="bd-navbar-elements navbar-nav">
     
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../tutorial.html">
+    Tutorial
+  </a>
+</li>
+
+
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../index.html">
     Reference
@@ -224,6 +246,13 @@
 <li class="nav-item ">
   <a class="nav-link nav-internal" href="../../auto_examples/index.html">
     Gallery
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../napari.html">
+    Napari Plugin
   </a>
 </li>
 
@@ -320,7 +349,7 @@
 <h1>cellSAM.cellsam_pipeline.cellsam_pipeline<a class="headerlink" href="#cellsam-cellsam-pipeline-cellsam-pipeline" title="Link to this heading">#</a></h1>
 <dl class="py function">
 <dt class="sig sig-object py" id="cellSAM.cellsam_pipeline.cellsam_pipeline">
-<span class="sig-prename descclassname"><span class="pre">cellSAM.cellsam_pipeline.</span></span><span class="sig-name descname"><span class="pre">cellsam_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low_contrast_enhancement</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">swap_channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_wsi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gauge_cell_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">56</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iou_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">56</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iou_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cellSAM.cellsam_pipeline.cellsam_pipeline" title="Link to this definition">#</a></dt>
+<span class="sig-prename descclassname"><span class="pre">cellSAM.cellsam_pipeline.</span></span><span class="sig-name descname"><span class="pre">cellsam_pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">img</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">chunks</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">256</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bbox_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.4</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">low_contrast_enhancement</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">swap_channels</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_wsi</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gauge_cell_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">block_size</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">400</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">overlap</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">56</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iou_depth</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">56</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">iou_threshold</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">0.5</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cellSAM.cellsam_pipeline.cellsam_pipeline" title="Link to this definition">#</a></dt>
 <dd><p>Run the cellsam inference pipeline on <code class="xref py py-obj docutils literal notranslate"><span class="pre">img</span></code>.</p>
 <p>Cellsam is capable of segmenting a variety of cells (bacteria,
 eukaryotic, etc.) spanning all forms of microscopy (brightfield,
@@ -357,7 +386,7 @@ than the threshold will be included. This is the main parameter to
 control precision/recall for CellSAM. For very out of distribution images
 use a value lower than 0.4 and vice versa.</p>
 </dd>
-<dt><strong>low_contrast_enhancement</strong><span class="classifier">bool, default=True</span></dt><dd><p>Whether to enhance low contrast images, like Livecell images as a preprocessing
+<dt><strong>low_contrast_enhancement</strong><span class="classifier">bool, default=False</span></dt><dd><p>Whether to enhance low contrast images, like Livecell images as a preprocessing
 step to improve downstream segmentation.</p>
 </dd>
 <dt><strong>swap_channels</strong><span class="classifier">bool, default=False</span></dt><dd><p>TODO: this should be removed with loading from file</p>
@@ -366,7 +395,7 @@ step to improve downstream segmentation.</p>
 Generally, tiling is not required when there are fewer than ~3000
 cells in an image.</p>
 </dd>
-<dt><strong>gauge_cell_size</strong><span class="classifier">bool, default=True</span></dt><dd><p>Wheter to perform one iteration of segmentation initially, and 
+<dt><strong>gauge_cell_size</strong><span class="classifier">bool, default=False</span></dt><dd><p>Wheter to perform one iteration of segmentation initially, and 
 use the results to estimate the sizes of cells and then do another
 round of segmentation using tiling parameters with these results.</p>
 </dd>
@@ -421,11 +450,8 @@ chosen arbitrarily:</p>
 </pre></div>
 </div>
 <p>Segment the image with <a class="reference internal" href="#cellSAM.cellsam_pipeline.cellsam_pipeline" title="cellSAM.cellsam_pipeline.cellsam_pipeline"><code class="xref py py-obj docutils literal notranslate"><span class="pre">cellsam_pipeline</span></code></a>. Since this is a small image,
-we’ll set <code class="docutils literal notranslate"><span class="pre">use_wsi=False</span></code>. We’ll also forgo any pre/post-processing
-by deactivating <code class="xref py py-obj docutils literal notranslate"><span class="pre">low_contrast_enhancement</span></code> and <code class="xref py py-obj docutils literal notranslate"><span class="pre">gauge_cell_size</span></code>:</p>
-<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span> <span class="o">=</span> <span class="n">cellsam_pipeline</span><span class="p">(</span>
-<span class="gp">... </span>    <span class="n">seg</span><span class="p">,</span> <span class="n">low_contrast_enhancement</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">use_wsi</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">gauge_cell_size</span><span class="o">=</span><span class="kc">False</span>
-<span class="gp">... </span><span class="p">)</span>
+we’ll set <code class="docutils literal notranslate"><span class="pre">use_wsi=False</span></code>. We’ll also forgo any pre/post-processing:</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">mask</span> <span class="o">=</span> <span class="n">cellsam_pipeline</span><span class="p">(</span><span class="n">seg</span><span class="p">,</span> <span class="n">use_wsi</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 </pre></div>
 </div>
 </dd></dl>
