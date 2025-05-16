@@ -62,7 +62,7 @@ mask = cellsam_pipeline(
 )
 
 # Visualize results
-plt.imshow(mask)
+plt.imshow(mask);
 ```
 
 # Prompting CellSAM
@@ -83,7 +83,7 @@ rect = patches.Rectangle(
 
 plt.figure(figsize=(5, 5))
 plt.imshow(img, cmap='gray')
-plt.gca().add_patch(rect)
+plt.gca().add_patch(rect);
 ```
 
 ```{code-cell}
@@ -114,7 +114,7 @@ edges = (dilated_mask > pred_mask).astype(np.uint8)
 plt.imshow(img, cmap="gray")
 
 # And the outlines from the mask
-plt.imshow(255 * edges, cmap="Reds", alpha=edges)
+plt.imshow(255 * edges, cmap="Reds", alpha=edges);
 ```
 
 And that's it!
