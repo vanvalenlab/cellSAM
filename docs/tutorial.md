@@ -67,6 +67,11 @@ plt.imshow(mask);
 
 # Prompting CellSAM
 
+```{note}
+Check out the {doc}`napari plugin <napari>` for a more convenient interface to
+interactive segmentation!
+```
+
 What if we want to label specific cells?
 This is a natural outcome if we use CellSAM as a data engine to accelerate
 labeling for new morphologies or cell types.
