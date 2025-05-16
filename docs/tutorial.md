@@ -23,14 +23,9 @@ normalization, contrast enhancement), but can often be used out of the box.
 For machine learning practitioners or users with more esoteric use-cases, we
 provide direct access to the model and weights through `get_model`.
 
-For more information or additional assistance, feel free to get in touch.
-Please email the following addresses:
-```
-ulisrael@caltech.edu
-mmarks@caltech.edu
-rdilip@caltech.edu
-qli2@caltech.edu
-```
+For more information or additional assistance, feel free to [get in touch][gh-issue].
+
+[gh-issue]: https://github.com/vanvalenlab/cellSAM/issues
 
 ```{code-cell} ipython3
 import imageio.v3 as iio
