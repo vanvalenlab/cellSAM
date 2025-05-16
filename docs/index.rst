@@ -50,4 +50,5 @@ Citation
    tutorial
    reference/index
    auto_examples/index
+   napari
 

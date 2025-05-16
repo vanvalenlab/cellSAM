@@ -63,12 +63,14 @@ open the loading prompt.
 From here, you can select the image you'd like to load --- for example,
 the `tissuenet.png` from the ``sample_imgs/`` directory in the source repo:
 
-![napari-open][napari-open]
+![napari-open](_static/napari_img_load_menu.png)
 
 ```{note}
 The plugin currently supports common image formats like `.png`. Need support for
-an additional format? [Make a feature request][gh-issues]
+an additional format? [Make a feature request!][gh-issues]
 ```
+
+[gh-issues]: https://github.com/vanvalenlab/cellSAM/issues
 
 ### Interactive segmentation
 
@@ -77,8 +79,8 @@ model to segment the cell inside the bounding box.
 
 ```{note}
 The plugin assumes that there is one cell per bounding box. To perform
-segmentation over many cells in an image region, consider the ``cellsam_pipeline``
-library interface.
+segmentation over many cells in an image region, consider the 
+{func}`~cellSAM.cellsam_pipeline.cellsam_pipeline` library interface.
 ```
 
 Bounding boxes are drawn by:
@@ -86,16 +88,16 @@ Bounding boxes are drawn by:
 1. Select the "Bounding Boxes" layer on the left panel.
 2. Select the "Add Rectangle" option from the tool panel in the upper left corner:
 
-   ![napari-rect-select][napari-rect-select]:
+   ![napari-rect-select](_static/napari_rect_select.png)
 
 3. Now, select a region corresponding to a cell you'd like to segment:
 
-   ![napari-select-cell][]
+   ![napari-select-cell](_static/napari_select_cell.png)
 
 4. Finally, press the "Confirm Annot." button on the right panel. This will
    prompt the model to predict the segmentation mask for the highlighted cell.
 
-   ![napari-single-cell-segmented][]
+   ![napari-single-cell-segmented](_static/napari_single_cell_segmented.png)
 
 This process can be repeated to segment multiple cells.
 The segmented cells will be visible on the main canvas and are captured in the
@@ -121,6 +123,6 @@ The napari plugin is primarily designed for interactive segmentation.
 The `Segment All` button is not recommended if:
  - The image is greater than 2k x 2k pixels.
  - You do not have a GPU locally available.
-The `cellsam_pipeline` library interface is recommended for segmenting entire
-images.
+The {func}`~cellSAM.cellsam_pipeline.cellsam_pipeline` library interface is
+recommended for segmenting entire images.
 ```
