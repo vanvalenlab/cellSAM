@@ -23,14 +23,9 @@ normalization, contrast enhancement), but can often be used out of the box.
 For machine learning practitioners or users with more esoteric use-cases, we
 provide direct access to the model and weights through `get_model`.
 
-For more information or additional assistance, feel free to get in touch.
-Please email the following addresses:
-```
-ulisrael@caltech.edu
-mmarks@caltech.edu
-rdilip@caltech.edu
-qli2@caltech.edu
-```
+For more information or additional assistance, feel free to [get in touch][gh-issue].
+
+[gh-issue]: https://github.com/vanvalenlab/cellSAM/issues
 
 ```{code-cell} ipython3
 import imageio.v3 as iio
@@ -67,10 +62,15 @@ mask = cellsam_pipeline(
 )
 
 # Visualize results
-plt.imshow(mask)
+plt.imshow(mask);
 ```
 
 # Prompting CellSAM
+
+```{note}
+Check out the {doc}`napari plugin <napari>` for a more convenient interface to
+interactive segmentation!
+```
 
 What if we want to label specific cells?
 This is a natural outcome if we use CellSAM as a data engine to accelerate
@@ -88,7 +88,7 @@ rect = patches.Rectangle(
 
 plt.figure(figsize=(5, 5))
 plt.imshow(img, cmap='gray')
-plt.gca().add_patch(rect)
+plt.gca().add_patch(rect);
 ```
 
 ```{code-cell}
@@ -119,7 +119,7 @@ edges = (dilated_mask > pred_mask).astype(np.uint8)
 plt.imshow(img, cmap="gray")
 
 # And the outlines from the mask
-plt.imshow(255 * edges, cmap="Reds", alpha=edges)
+plt.imshow(255 * edges, cmap="Reds", alpha=edges);
 ```
 
 And that's it!
