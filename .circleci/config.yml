@@ -36,10 +36,10 @@ jobs:
             QT_QPA_PLATFORM=offscreen make -C docs/ SPHINXOPTS="-WT --keep-going" html
 
       - store_artifacts:
-          path: site/_build/html
+          path: docs/_build/html
 
       - persist_to_workspace:
-          root: site/_build
+          root: docs/_build
           paths: html
 
   deploy-docs:
@@ -51,7 +51,7 @@ jobs:
       - checkout
 
       - attach_workspace:
-          at: site/_build
+          at: docs/_build
 
       - run:
           name: Install deploy dependencies
@@ -71,7 +71,7 @@ jobs:
       - run:
           name: Deploy via gh-pages
           command: |
-            ghp-import -n -f -p -m "[skip ci] docs built of $CIRCLE_SHA1" site/_build/html
+            ghp-import -n -f -p -m "[skip ci] docs built of $CIRCLE_SHA1" docs/_build/html
 
 workflows:
   version: 2.1
