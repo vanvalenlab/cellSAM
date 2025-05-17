@@ -83,4 +83,4 @@ workflows:
             - build-docs
           filters:
             branches:
-              only: main
+              only: master
