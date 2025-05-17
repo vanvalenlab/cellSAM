@@ -103,6 +103,9 @@ intersphinx_mapping = get_intersphinx_mapping(
     },
 )
 
+# MyST-nb configuration
+nb_execution_timeout = 300  # seconds
+
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
