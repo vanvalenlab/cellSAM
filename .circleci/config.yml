@@ -20,6 +20,8 @@ jobs:
 
       - run:
           name: Build site
+          # Gallery + Tutorial w/out GPU can take a while
+          no_output_timeout: 30m
           command: |
             source venv/bin/activate
             # n = nitpicky (broken links), W = warnings as errors,
