@@ -66,7 +66,7 @@ jobs:
 
       - add_ssh_keys:
           fingerprints:
-            - TODO
+            - 22:80:5f:f1:23:a8:98:11:85:a3:80:53:33:76:26:8f
 
       - run:
           name: Deploy via gh-pages
