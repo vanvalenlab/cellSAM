@@ -10,7 +10,13 @@ jobs:
       - checkout
 
       - run:
-          name: Install dependencies
+          name: Install dependencies for headless rendering
+          command: |
+            sudo apt update
+            sudo apt install -y qt6-base-dev xvfb libegl1 libdbus-1-3 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xinput0 libxcb-xfixes0 libxcb-cursor0 x11-utils
+
+      - run:
+          name: Install Python dependencies
           command: |
             python3 -m venv venv
             source venv/bin/activate
@@ -27,13 +33,13 @@ jobs:
             source venv/bin/activate
             # n = nitpicky (broken links), W = warnings as errors,
             # T = full tracebacks, keep-going = run to completion even with errors
-            make -C docs/ SPHINXOPTS="-nWT --keep-going" html
+            xvfb-run --auto-servernum make -C docs/ SPHINXOPTS="-WT --keep-going" html
 
       - store_artifacts:
-          path: site/_build/html
+          path: docs/_build/html
 
       - persist_to_workspace:
-          root: site/_build
+          root: docs/_build
           paths: html
 
   deploy-docs:
@@ -45,7 +51,7 @@ jobs:
       - checkout
 
       - attach_workspace:
-          at: site/_build
+          at: docs/_build
 
       - run:
           name: Install deploy dependencies
@@ -65,7 +71,7 @@ jobs:
       - run:
           name: Deploy via gh-pages
           command: |
-            ghp-import -n -f -p -m "[skip ci] docs built of $CIRCLE_SHA1" site/_build/html
+            ghp-import -n -f -p -m "[skip ci] docs built of $CIRCLE_SHA1" docs/_build/html
 
 workflows:
   version: 2.1
