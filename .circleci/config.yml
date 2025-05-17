@@ -10,7 +10,11 @@ jobs:
       - checkout
 
       - run:
-          name: Install dependencies
+          name: Install Qt dependencies
+          command: apt install -y qt6-base-dev
+
+      - run:
+          name: Install Python dependencies
           command: |
             python3 -m venv venv
             source venv/bin/activate
