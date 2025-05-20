@@ -28,6 +28,16 @@ CellSAM includes a basic napari package for annotation functionality. To install
 
 To launch the napari app, run `cellsam napari`. 
 
+If you encounter issues with this installation, please follow the setup from source below:
+
+```
+conda create --name cellsam_napari -c conda-forge napari
+conda activate cellsam_napari
+conda install -c conda-forge pyqt
+pip install .[napari]
+```
+
+
 ## Citation
 
 Please cite us if you use CellSAM.
