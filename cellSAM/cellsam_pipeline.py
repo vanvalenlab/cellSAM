@@ -15,6 +15,7 @@ def use_cellsize_gaging(
         inp,
         model,
         device,
+        block_size=400,
         overlap=200,
         iou_depth=200,
         iou_threshold=0.5,
@@ -22,7 +23,7 @@ def use_cellsize_gaging(
         medium_cell_threshold=0.002,
         tile_size=256,
 ):
-    labels = segment_wsi(inp, overlap, iou_depth, iou_threshold, normalize=False, model=model,
+    labels = segment_wsi(inp, block_size, overlap, iou_depth, iou_threshold, normalize=False, model=model,
                          device=device, bbox_threshold=bbox_threshold).compute()
 
     median_size, sizes, sizes_abs = get_median_size(labels)
@@ -34,7 +35,7 @@ def use_cellsize_gaging(
         doing_wsi = True
         # cells are medium or small -> do WSI
         # inp = da.from_array(inp, chunks=tile_size)
-        labels = segment_wsi(inp, overlap, iou_depth, iou_threshold, normalize=False, model=model,
+        labels = segment_wsi(inp, block_size, overlap, iou_depth, iou_threshold, normalize=False, model=model,
                              device=device, bbox_threshold=bbox_threshold).compute()
     else:
         labels = segment_cellular_image(inp, model=model, normalize=False, device=device)[0]
@@ -113,6 +114,7 @@ def cellsam_pipeline(
         Wheter to perform one iteration of segmentation initially, and 
         use the results to estimate the sizes of cells and then do another
         round of segmentation using tiling parameters with these results.
+        This is an additional parameter if `use_wsi` is `True`.
     block_size : int
         Size of the tiles when `use_wsi` is `True`. In practice, should
         be in the range ``[256, 2048]``, with smaller tile sizes
@@ -193,7 +195,9 @@ def cellsam_pipeline(
 
     if use_wsi:
         if gauge_cell_size:
-            labels = use_cellsize_gaging(inp, model, device)
+            labels = use_cellsize_gaging(inp, model, device, block_size=block_size, overlap=overlap,
+                                         iou_depth=iou_depth, iou_threshold=iou_threshold, bbox_threshold=bbox_threshold)
+
         else:
             labels = segment_wsi(inp, block_size, overlap, iou_depth, iou_threshold, normalize=False, model=model,
                                  device=device, bbox_threshold=bbox_threshold).compute()
