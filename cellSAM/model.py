@@ -97,6 +97,7 @@ def segment_cellular_image(
         mask (np.array): Integer array with shape (H, W)
         x (np.array | None): Image embedding
         bounding_boxes (np.array | None): list of bounding boxes
+        scores (np.array): Confidence scores associated with each segmented cell
     """
     if "cuda" in device:
         assert (
@@ -125,16 +126,18 @@ def segment_cellular_image(
         warn("No cells detected in the image.")
         return np.zeros(img.shape[1:], dtype=np.int32), None, None
 
-    segmentation_predictions, _, x, bounding_boxes = preds
+    segmentation_predictions, _, x, bounding_boxes, scores = preds
 
     if postprocess:
         segmentation_predictions = postprocess_predictions(segmentation_predictions)
 
-    mask = fill_holes_and_remove_small_masks(segmentation_predictions, min_size=25)
+    mask, removed_indices = fill_holes_and_remove_small_masks(segmentation_predictions, min_size=25)
+    scores = np.delete(scores, removed_indices) # Remove corresponding scores
+
     if remove_boundaries:
         mask = subtract_boundaries(mask)
 
-    return mask, x.cpu().numpy(), bounding_boxes
+    return mask, x.cpu().numpy(), bounding_boxes, scores
 
 
 def postprocess_predictions(mask: np.ndarray):

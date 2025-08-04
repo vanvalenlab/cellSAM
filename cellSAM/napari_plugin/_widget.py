@@ -213,7 +213,7 @@ class CellSAMWidget(Container):
 
         inp = torch.from_numpy(inp).unsqueeze(0)
 
-        preds, _, x, _ = self._cellsam_model.predict(
+        preds, _, x, _, _ = self._cellsam_model.predict(
             inp.to(self._device),
             x=self._embedding,
             boxes_per_heatmap=None,
@@ -224,7 +224,7 @@ class CellSAMWidget(Container):
             warn("No cells detected!")
             return
 
-        mask = fill_holes_and_remove_small_masks(preds, min_size=25)
+        mask, _ = fill_holes_and_remove_small_masks(preds, min_size=25)
 
         # Update the segmentation layer
         self._segmentation_layer.data = mask
@@ -338,7 +338,7 @@ class CellSAMWidget(Container):
 
         inp = torch.from_numpy(inp).unsqueeze(0)
 
-        preds, _, x, _ = self._cellsam_model.predict(
+        preds, _, x, _, _ = self._cellsam_model.predict(
             inp.to(self._device),
             x=self._embedding,
             boxes_per_heatmap=torch.tensor(formatted_boxes)
@@ -349,7 +349,7 @@ class CellSAMWidget(Container):
         if preds is None:
             warn("No cells detected!")
         else:
-            preds = fill_holes_and_remove_small_masks(preds, min_size=25)
+            preds, _ = fill_holes_and_remove_small_masks(preds, min_size=25)
             self._mask_layer.data = preds
             self._confirm_mask_btn.enabled = True
             self._cancel_annot_btn.enabled = True
