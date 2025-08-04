@@ -22,6 +22,22 @@ Installation
 
 .. currentmodule:: cellSAM.cellsam_pipeline
 
+Model Weights
+-------------
+
+.. note::
+   Pre-trained model weights are available via the deepcell portal at
+   https://users.deepcell.org subject to the `license terms`_.
+
+.. _license terms: https://github.com/vanvalenlab/cellSAM/blob/master/LICENSE.md
+
+Pre-trained model weights are required to run the inference pipeline. These will
+be automatically downloaded to ``$HOME/.deepcell/models`` the first time you
+run :func:`cellsam_pipeline`.
+
+Alternatively, you can call ``get_model`` without any arguments to download the
+latest pre-trained model weights.
+
 Basic Usage
 -----------
 
