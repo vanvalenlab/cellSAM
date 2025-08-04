@@ -29,7 +29,7 @@ from .utils import (
     fill_holes_and_remove_small_masks,
     subtract_boundaries,
 )
-from ._auth import fetch_data, extract_archive
+from ._auth import fetch_data
 
 
 __all__ = ["segment_cellular_image"]
@@ -62,10 +62,7 @@ def get_model(model: nn.Module = None) -> nn.Module:
         if not cellsam_assets_dir.exists():
             cellsam_assets_dir.mkdir(parents=True, exist_ok=True)
         if not model_path.exists():
-            fetch_data("models/cellsam_base.tar.gz", cache_subdir="models")
-            extract_archive(
-                cellsam_assets_dir / "cellsam_base.tar.gz", cellsam_assets_dir
-            )
+            fetch_data("models/cellsam_base_v1.1.pt", cache_subdir="models")
             assert model_path.exists()
         model = CellSAM(config)
         model.load_state_dict(torch.load(model_path, map_location="cpu"), strict=False)
