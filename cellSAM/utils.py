@@ -293,6 +293,9 @@ def fill_holes_and_remove_small_masks(masks, min_size=15):
         masks with holes filled and masks smaller than min_size removed,
         0=NO masks; 1,2,...=mask labels,
         size [Ly x Lx] or [Lz x Ly x Lx]
+    removed_indices : list of int
+        List of original mask indices that were removed because they 
+        were smaller than `min_size`.
 
     """
 
@@ -301,6 +304,7 @@ def fill_holes_and_remove_small_masks(masks, min_size=15):
             "masks_to_outlines takes 2D or 3D array, not %dD array" % masks.ndim
         )
 
+    removed_indices = []
     slices = find_objects(masks)
     j = 0
     for i, slc in enumerate(slices):
@@ -309,6 +313,7 @@ def fill_holes_and_remove_small_masks(masks, min_size=15):
             npix = msk.sum()
             if min_size > 0 and npix < min_size:
                 masks[slc][msk] = 0
+                removed_indices.append(i)
             elif npix > 0:
                 if msk.ndim == 3:
                     for k in range(msk.shape[0]):
@@ -317,4 +322,4 @@ def fill_holes_and_remove_small_masks(masks, min_size=15):
                     msk = binary_fill_holes(msk)
                 masks[slc][msk] = j + 1
                 j += 1
-    return masks
+    return masks, removed_indices

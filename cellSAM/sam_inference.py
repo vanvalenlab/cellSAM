@@ -330,4 +330,4 @@ class CellSAM(nn.Module):
         # sum all masks, #TODO: double check if max is the right move here
         thresholded_masks_summed = np.max(thresholded_masks_summed, axis=0)
 
-        return thresholded_masks_summed, thresholded_masks, x, boxes_per_heatmap
+        return thresholded_masks_summed, thresholded_masks, x, boxes_per_heatmap, scores
