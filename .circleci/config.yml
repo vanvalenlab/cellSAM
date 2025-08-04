@@ -16,6 +16,11 @@ jobs:
             sudo apt install -y qt6-base-dev xvfb libegl1 libdbus-1-3 libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xinput0 libxcb-xfixes0 libxcb-cursor0 x11-utils
 
       - run:
+          name: Check env
+          command: |
+            echo ${DEEPCELL_ACCESS_TOKEN}
+
+      - run:
           name: Install Python dependencies
           command: |
             python3 -m venv venv
@@ -24,12 +29,6 @@ jobs:
             pip install -r requirements.txt
             pip install .
             pip list
-
-      - run:
-          name: Check env
-          command: |
-            printenv
-            echo $DEEPCELL_ACCESS_TOKEN
 
       - run:
           name: Build site
