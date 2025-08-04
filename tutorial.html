@@ -31,7 +31,7 @@
 <link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
@@ -349,14 +349,7 @@ which accepts an image, automatically downloads weights, and returns a mask.
 normalization, contrast enhancement), but can often be used out of the box.
 For machine learning practitioners or users with more esoteric use-cases, we
 provide direct access to the model and weights through <code class="docutils literal notranslate"><span class="pre">get_model</span></code>.</p>
-<p>For more information or additional assistance, feel free to get in touch.
-Please email the following addresses:</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">ulisrael</span><span class="nd">@caltech</span><span class="o">.</span><span class="n">edu</span>
-<span class="n">mmarks</span><span class="nd">@caltech</span><span class="o">.</span><span class="n">edu</span>
-<span class="n">rdilip</span><span class="nd">@caltech</span><span class="o">.</span><span class="n">edu</span>
-<span class="n">qli2</span><span class="nd">@caltech</span><span class="o">.</span><span class="n">edu</span>
-</pre></div>
-</div>
+<p>For more information or additional assistance, feel free to <a class="reference external" href="https://github.com/vanvalenlab/cellSAM/issues">get in touch</a>.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">imageio.v3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">iio</span>
@@ -366,6 +359,12 @@ Please email the following addresses:</p>
 <span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.patches</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">patches</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">cellSAM</span><span class="w"> </span><span class="kn">import</span> <span class="n">cellsam_pipeline</span><span class="p">,</span> <span class="n">get_model</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/home/administrator/repos/cellSAM/cs13dev/lib/python3.13/site-packages/cellSAM/model.py:12: UserWarning: pkg_resources is deprecated as an API. See https://setuptools.pypa.io/en/latest/pkg_resources.html. The pkg_resources package is slated for removal as early as 2025-11-30. Refrain from using this package or pin to Setuptools&lt;81.
+  from pkg_resources import resource_filename
 </pre></div>
 </div>
 </div>
@@ -395,21 +394,23 @@ large number of cells.</p>
 <span class="p">)</span>
 
 <span class="c1"># Visualize results</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">mask</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0xffff10264ad0&gt;
-</pre></div>
-</div>
-<img alt="_images/536b1919ab393c163cbba9563b0265c82bd95e36d6dfa385cff79edc18a69c66.png" src="_images/536b1919ab393c163cbba9563b0265c82bd95e36d6dfa385cff79edc18a69c66.png" />
+<img alt="_images/163fb18daaae59c9a067c9a387b88a097f02efe1e213b25cf5f63fb1c1c287a4.png" src="_images/163fb18daaae59c9a067c9a387b88a097f02efe1e213b25cf5f63fb1c1c287a4.png" />
 </div>
 </div>
 </section>
 </section>
 <section id="prompting-cellsam">
 <h1>Prompting CellSAM<a class="headerlink" href="#prompting-cellsam" title="Link to this heading">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Check out the <a class="reference internal" href="napari.html"><span class="doc">napari plugin</span></a> for a more convenient interface to
+interactive segmentation!</p>
+</div>
 <p>What if we want to label specific cells?
 This is a natural outcome if we use CellSAM as a data engine to accelerate
 labeling for new morphologies or cell types.
@@ -426,15 +427,12 @@ We’ll use the model directly.</p>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span><span class="o">.</span><span class="n">add_patch</span><span class="p">(</span><span class="n">rect</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.patches.Rectangle at 0xffff1995f4d0&gt;
-</pre></div>
-</div>
-<img alt="_images/61efa680863f328fe11f7b25163939e43633af7f6fb795074eed6c96538101e2.png" src="_images/61efa680863f328fe11f7b25163939e43633af7f6fb795074eed6c96538101e2.png" />
+<img alt="_images/4e6d314645f73ff83690983be3a288731c0e7bdf78e337e263dd5509920bbd5b.png" src="_images/4e6d314645f73ff83690983be3a288731c0e7bdf78e337e263dd5509920bbd5b.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -468,15 +466,12 @@ We’ll superimpose the mask as an edge onto our image to see it more clearly</p
 <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">)</span>
 
 <span class="c1"># And the outlines from the mask</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="mi">255</span> <span class="o">*</span> <span class="n">edges</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Reds&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">edges</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="mi">255</span> <span class="o">*</span> <span class="n">edges</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s2">&quot;Reds&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="n">edges</span><span class="p">);</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.image.AxesImage at 0xffff19035310&gt;
-</pre></div>
-</div>
-<img alt="_images/32a091b6fd593d6e913b90a9772755f67cc7353102ac6c0c5702b45e24cfb025.png" src="_images/32a091b6fd593d6e913b90a9772755f67cc7353102ac6c0c5702b45e24cfb025.png" />
+<img alt="_images/0575f1dabe797a5b905f2d24bda058fbae4cd727bdaf461e0f499a7a1290d8b5.png" src="_images/0575f1dabe797a5b905f2d24bda058fbae4cd727bdaf461e0f499a7a1290d8b5.png" />
 </div>
 </div>
 <p>And that’s it!

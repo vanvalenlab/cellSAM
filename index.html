@@ -31,7 +31,7 @@
 <link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
@@ -322,6 +322,19 @@ approach to image segmentation.</p>
 </pre></div>
 </div>
 </section>
+<section id="model-weights">
+<h2>Model Weights<a class="headerlink" href="#model-weights" title="Link to this heading">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Pre-trained model weights are available via the deepcell portal at
+<a class="reference external" href="https://users.deepcell.org">https://users.deepcell.org</a> subject to the <a class="reference external" href="https://github.com/vanvalenlab/cellSAM/blob/master/LICENSE.md">license terms</a>.</p>
+</div>
+<p>Pre-trained model weights are required to run the inference pipeline. These will
+be automatically downloaded to <code class="docutils literal notranslate"><span class="pre">$HOME/.deepcell/models</span></code> the first time you
+run <a class="reference internal" href="reference/generated/cellSAM.cellsam_pipeline.cellsam_pipeline.html#cellSAM.cellsam_pipeline.cellsam_pipeline" title="cellSAM.cellsam_pipeline.cellsam_pipeline"><code class="xref py py-func docutils literal notranslate"><span class="pre">cellsam_pipeline()</span></code></a>.</p>
+<p>Alternatively, you can call <code class="docutils literal notranslate"><span class="pre">get_model</span></code> without any arguments to download the
+latest pre-trained model weights.</p>
+</section>
 <section id="basic-usage">
 <h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">#</a></h2>
 <p>The primary interface is <a class="reference internal" href="reference/generated/cellSAM.cellsam_pipeline.cellsam_pipeline.html#cellSAM.cellsam_pipeline.cellsam_pipeline" title="cellSAM.cellsam_pipeline.cellsam_pipeline"><code class="xref py py-func docutils literal notranslate"><span class="pre">cellsam_pipeline()</span></code></a>, which implements
@@ -384,6 +397,7 @@ types of images.</p>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-weights">Model Weights</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citation">Citation</a></li>
 </ul>

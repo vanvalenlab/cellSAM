@@ -123,6 +123,9 @@ The napari plugin is primarily designed for interactive segmentation.
 The `Segment All` button is not recommended if:
  - The image is greater than 2k x 2k pixels.
  - You do not have a GPU locally available.
+
 The {func}`~cellSAM.cellsam_pipeline.cellsam_pipeline` library interface is
 recommended for segmenting entire images.
+See the {ref}`example_gallery` for examples of how to combine the inference
+pipeline with napari visualization.
 ```

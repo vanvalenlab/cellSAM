@@ -31,7 +31,7 @@
 <link href="_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=8f2a1f02" />
-    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-binder.css?v=f4aeca0c" />
     <link rel="stylesheet" type="text/css" href="_static/sg_gallery-dataframe.css?v=2082cf3c" />
@@ -435,10 +435,12 @@ can be used to automatically segment all cells in the image.</p>
 The <code class="docutils literal notranslate"><span class="pre">Segment</span> <span class="pre">All</span></code> button is not recommended if:</p>
 <ul class="simple">
 <li><p>The image is greater than 2k x 2k pixels.</p></li>
-<li><p>You do not have a GPU locally available.
-The <a class="reference internal" href="reference/generated/cellSAM.cellsam_pipeline.cellsam_pipeline.html#cellSAM.cellsam_pipeline.cellsam_pipeline" title="cellSAM.cellsam_pipeline.cellsam_pipeline"><code class="xref py py-func docutils literal notranslate"><span class="pre">cellsam_pipeline()</span></code></a> library interface is
-recommended for segmenting entire images.</p></li>
+<li><p>You do not have a GPU locally available.</p></li>
 </ul>
+<p>The <a class="reference internal" href="reference/generated/cellSAM.cellsam_pipeline.cellsam_pipeline.html#cellSAM.cellsam_pipeline.cellsam_pipeline" title="cellSAM.cellsam_pipeline.cellsam_pipeline"><code class="xref py py-func docutils literal notranslate"><span class="pre">cellsam_pipeline()</span></code></a> library interface is
+recommended for segmenting entire images.
+See the <a class="reference internal" href="auto_examples/index.html#example-gallery"><span class="std std-ref">Gallery</span></a> for examples of how to combine the inference
+pipeline with napari visualization.</p>
 </div>
 </section>
 </section>
