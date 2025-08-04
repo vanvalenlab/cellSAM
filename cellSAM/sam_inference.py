@@ -120,9 +120,9 @@ class CellSAM(nn.Module):
 
         return imgs
 
-    def sam_preprocess(self, x: torch.Tensor, return_paddings=False):
+    def sam_preprocess(self, x: torch.Tensor, return_paddings=False, device=None):
         """Normalize pixel values and pad to a square input."""
-        x = (x - self.model.pixel_mean) / self.model.pixel_std
+        x = (x - self.model.pixel_mean.to(device)) / self.model.pixel_std.to(device)
 
         h, w = x.shape[-2:]
         padh = self.model.image_encoder.img_size - h
@@ -140,7 +140,7 @@ class CellSAM(nn.Module):
         x = [
             torch.from_numpy(img).permute(2, 0, 1).contiguous().to(device) for img in x
         ]
-        x = [self.sam_preprocess(img, return_paddings=True) for img in x]
+        x = [self.sam_preprocess(img, return_paddings=True, device=device) for img in x]
         x, paddings = zip(*x)
         preprocessed_img = torch.stack(x, dim=0)
         return preprocessed_img, paddings
