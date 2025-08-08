@@ -36,9 +36,6 @@ Multiplexed Imaging: CODEX
  .. code-block:: none
 
     [       0 18481553 27300386]
-    /home/administrator/repos/cellSAM/examples/plot_multiplexed.py:17: FutureWarning: `napari.view_image` is deprecated and will be removed in napari 0.7.0.
-    Use `viewer = napari.Viewer(); viewer.add_image(...)` instead.
-      nim = napari.view_image(img, name="CODEX image");
 
 
 
@@ -70,7 +67,7 @@ Multiplexed Imaging: CODEX
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 36.778 seconds)
+   **Total running time of the script:** (0 minutes 8.690 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_multiplexed.py:

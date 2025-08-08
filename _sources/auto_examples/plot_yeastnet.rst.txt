@@ -31,20 +31,8 @@ Brightfield Microscopy: YeastNet
    :class: sphx-glr-single-img
 
 
-.. rst-class:: sphx-glr-script-out
-
- .. code-block:: none
-
-    /home/administrator/repos/cellSAM/examples/plot_yeastnet.py:13: FutureWarning: `napari.view_image` is deprecated and will be removed in napari 0.7.0.
-    Use `viewer = napari.Viewer(); viewer.add_image(...)` instead.
-      nim = napari.view_image(img, name="Yeast Net");
 
 
-
-
-
-
-|
 
 .. code-block:: Python
 
@@ -65,7 +53,7 @@ Brightfield Microscopy: YeastNet
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 32.676 seconds)
+   **Total running time of the script:** (0 minutes 5.147 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_yeastnet.py:

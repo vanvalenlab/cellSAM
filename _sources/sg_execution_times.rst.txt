@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**02:50.065** total execution time for 4 files **from all galleries**:
+**00:25.504** total execution time for 4 files **from all galleries**:
 
 .. container::
 
@@ -32,15 +32,15 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
-   * - :ref:`sphx_glr_auto_examples_plot_yeaz.py` (``../examples/plot_yeaz.py``)
-     - 01:08.273
-     - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_multiplexed.py` (``../examples/plot_multiplexed.py``)
-     - 00:36.778
+     - 00:08.690
+     - 0.0
+   * - :ref:`sphx_glr_auto_examples_plot_yeaz.py` (``../examples/plot_yeaz.py``)
+     - 00:07.208
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_yeastnet.py` (``../examples/plot_yeastnet.py``)
-     - 00:32.676
+     - 00:05.147
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_ep_micro.py` (``../examples/plot_ep_micro.py``)
-     - 00:32.338
+     - 00:04.459
      - 0.0

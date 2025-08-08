@@ -136,6 +136,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="API-key.html">
+    Model and Datasets
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="reference/index.html">
     Reference
   </a>
@@ -238,6 +245,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="API-key.html">
+    Model and Datasets
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="reference/index.html">
     Reference
   </a>
@@ -322,19 +336,6 @@ approach to image segmentation.</p>
 </pre></div>
 </div>
 </section>
-<section id="model-weights">
-<h2>Model Weights<a class="headerlink" href="#model-weights" title="Link to this heading">#</a></h2>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>Pre-trained model weights are available via the deepcell portal at
-<a class="reference external" href="https://users.deepcell.org">https://users.deepcell.org</a> subject to the <a class="reference external" href="https://github.com/vanvalenlab/cellSAM/blob/master/LICENSE.md">license terms</a>.</p>
-</div>
-<p>Pre-trained model weights are required to run the inference pipeline. These will
-be automatically downloaded to <code class="docutils literal notranslate"><span class="pre">$HOME/.deepcell/models</span></code> the first time you
-run <a class="reference internal" href="reference/generated/cellSAM.cellsam_pipeline.cellsam_pipeline.html#cellSAM.cellsam_pipeline.cellsam_pipeline" title="cellSAM.cellsam_pipeline.cellsam_pipeline"><code class="xref py py-func docutils literal notranslate"><span class="pre">cellsam_pipeline()</span></code></a>.</p>
-<p>Alternatively, you can call <code class="docutils literal notranslate"><span class="pre">get_model</span></code> without any arguments to download the
-latest pre-trained model weights.</p>
-</section>
 <section id="basic-usage">
 <h2>Basic Usage<a class="headerlink" href="#basic-usage" title="Link to this heading">#</a></h2>
 <p>The primary interface is <a class="reference internal" href="reference/generated/cellSAM.cellsam_pipeline.cellsam_pipeline.html#cellSAM.cellsam_pipeline.cellsam_pipeline" title="cellSAM.cellsam_pipeline.cellsam_pipeline"><code class="xref py py-func docutils literal notranslate"><span class="pre">cellsam_pipeline()</span></code></a>, which implements
@@ -397,7 +398,6 @@ types of images.</p>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#model-weights">Model Weights</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-usage">Basic Usage</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#citation">Citation</a></li>
 </ul>
