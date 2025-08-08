@@ -27,7 +27,7 @@ Model Weights
 
 Pre-trained model weights are required to run the inference pipeline. These will
 be automatically downloaded to ``$HOME/.deepcell/models`` the first time you
-run :func:`cellsam_pipeline`.
+run {func}`~cellSAM.cellsam_pipeline.cellsam_pipeline`.
 
 Alternatively, you can call ``get_model`` without any arguments to download the
 latest pre-trained model weights.
@@ -47,3 +47,5 @@ Similarly, training data can be downloaded for local use with:
 
 >>> download_training_data()
 ```
+
+The compressed dataset will be stored at ``$HOME/.deepcell/data/cellsam/``.
