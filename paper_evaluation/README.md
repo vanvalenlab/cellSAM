@@ -35,3 +35,9 @@ If installed, `pigz` can be used to significantly reduce decompression times.
 
 The final result is the cellsam evaluation dataset found at the path
 `$HOME/.deepcell/data/dataset`.
+
+TODO: Evaluation models
+ - Need the named models to be found at `$HOME/.deepcell/models`
+ - Proposal: package the 3 models up into an archive called `cellsam-evaluation`
+   that can be accessed from users.deepcell.org and lives at
+   `$HOME/.deepcell/models/cellsam-evaluation` locally.
