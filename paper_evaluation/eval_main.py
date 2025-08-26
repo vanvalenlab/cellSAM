@@ -8,7 +8,7 @@ from mix_dataset import MixDataset
 from cpm import CellPoseMetrics
 import os
 
-from paper_evaluation.models import CellPoseModel
+from models import CellPoseModel
 from cellSAM.sam_inference import CellSAM
 
 DATAMAP = {
