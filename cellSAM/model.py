@@ -8,9 +8,7 @@ import requests
 import os
 from pathlib import Path
 import yaml
-import pkgutil
-from pkg_resources import resource_filename
-
+import importlib
 
 from skimage.morphology import (
     disk,
@@ -39,7 +37,7 @@ def get_local_model(model_path: str) -> nn.Module:
     """
     Returns a loaded CellSAM model from a local path.
     """
-    config_path = resource_filename(__name__, 'modelconfig.yaml')
+    config_path = importlib.resources.files("cellSAM") / 'modelconfig.yaml'
     with open(config_path, 'r') as config_file:
         config = yaml.safe_load(config_file)
 
@@ -54,7 +52,7 @@ def get_model(model: nn.Module = None) -> nn.Module:
     """
     cellsam_assets_dir = Path.home() / ".deepcell/models"
     model_path = cellsam_assets_dir / "cellsam_base_v1.1.pt"
-    config_path = resource_filename(__name__, 'modelconfig.yaml')
+    config_path = importlib.resources.files("cellSAM") / 'modelconfig.yaml'
     with open(config_path, 'r') as config_file:
         config = yaml.safe_load(config_file)
 
