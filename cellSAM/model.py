@@ -21,6 +21,7 @@ from skimage.morphology import (
 )
 from scipy.ndimage import gaussian_filter
 from segment_anything.utils.amg import remove_small_regions
+from typing import List
 
 from .sam_inference import CellSAM
 from .utils import (
@@ -72,11 +73,11 @@ def get_model(model: nn.Module = None) -> nn.Module:
 def segment_cellular_image(
     img: np.ndarray,
     model: nn.Module = None,
-    normalize: bool = False,
+    normalize: bool = True,
     postprocess: bool = False,
     remove_boundaries: bool = False,
-    bounding_boxes: list[list[float]] = None,
-    bbox_threshold: float = 0.2,
+    bounding_boxes: List[List[float]] = None,
+    bbox_threshold: float = 0.4,
     fast: bool = False,
     device: str = "cpu",
 ):
