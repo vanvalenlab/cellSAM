@@ -1,2 +1,9 @@
 fastremap
-cellpose
+cellpose<4
+matplotlib
+monai
+# monai requires specific torch/torchvision which is not handled
+# by implicit dependencies
+torch<2.7
+torchvision<0.22
+kornia
