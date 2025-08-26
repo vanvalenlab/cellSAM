@@ -117,7 +117,7 @@ if __name__ == "__main__":
         split='test',
         dataset=ds,
         crop_size=0,
-        root_dir=args.dataloader_root,
+        root_dir=None,
         data_type='npy',
         normalize=False,
         CLAHE=False,

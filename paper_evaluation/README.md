@@ -14,3 +14,24 @@ step.
 ```
 pip install -r requirements.txt
 ```
+
+Make sure you have the evaluation dataset. This can be downloaded with:
+
+```python
+>>> from cellSAM import download_training_data
+>>> download_training_data()
+```
+
+This will initiate the download of the tarred-gzipped datasets for evaluation.
+Once the download is complete, unpack/inflate the dataset:
+
+```
+cd .deepcell/data
+tar -xzf cellsam-dataset_v1.0.tar.gz
+```
+
+NOTE: This inflates the data from ~14GB to ~84GB and may take several minutes.
+If installed, `pigz` can be used to significantly reduce decompression times.
+
+The final result is the cellsam evaluation dataset found at the path
+`$HOME/.deepcell/data/dataset`.

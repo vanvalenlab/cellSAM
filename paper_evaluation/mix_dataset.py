@@ -24,7 +24,7 @@ class MixDataset(Dataset):
         else:
             raise ValueError(f'crop_size = {crop_size} must be >= 0!')
 
-        root_dir = Path(root_dir) if root_dir else Path("./data/dataset/")
+        root_dir = Path(root_dir) if root_dir else Path.home() / ".deepcell/data/dataset/"
         img_ext = "X.npy" if data_type == "npy" else "_img.tiff"
         mask_ext = "y.npy" if data_type == "npy" else "_masks.tiff"
 
