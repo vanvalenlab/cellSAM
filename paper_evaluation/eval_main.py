@@ -47,22 +47,17 @@ def parse_args():
     parser.add_argument("--save_name", type=str, default="")
     parser.add_argument("--save_folder", type=str, default="results/evals")
     parser.add_argument("--dataset_name", type=str, default="")
-    parser.add_argument("--run_name", type=str, default="")
     parser.add_argument("--bbox_threshold", type=float, default=0.4)
-    parser.add_argument("--iou_threshold", type=float, default=0.5)
-    parser.add_argument("--mask_threshold", type=float, default=0.45)
-    parser.add_argument("--extra_normalize", type=int, default=0)
+    parser.add_argument("--iou_threshold", type=float, default=0.4)
+    parser.add_argument("--mask_threshold", type=float, default=0.5)
     parser.add_argument("--is_debug", type=int, default=0)
     parser.add_argument("--sam_locator", type=str, default="anchor")
     parser.add_argument("--sam_prompts", nargs="+", default=["box"])
     parser.add_argument("--model_name", type=str, default="")
-    parser.add_argument("--config", type=str, default="")
-    parser.add_argument("--use_vanilla_sam_seg", type=int, default=0)
     parser.add_argument("--num_query_position", type=int, default=3500)
     parser.add_argument("--num_query_pattern", type=int, default=1)
-    parser.add_argument("--image_size", type=str, default="crop_512")
-    parser.add_argument("--dataloader_root", type=str, default="data/dataset/")
     parser.add_argument("--ckpt", type=str, default="")
+    parser.add_argument("--dataloader_root", type=str, default="data/dataset/")
 
     return parser.parse_args()
 
@@ -117,7 +112,7 @@ if __name__ == "__main__":
         split='test',
         dataset=ds,
         crop_size=0,
-        root_dir=None,
+        root_dir=args.dataloader_root,
         data_type='npy',
         normalize=False,
         CLAHE=False,
@@ -138,7 +133,7 @@ if __name__ == "__main__":
 
     elif args.model_name == "SAM":
         app = CellSAM(cfg)
-        app.target_image_size = cfg["data"]["img_size"]
+        app.target_image_size = "crop_512"
         app.load_state_dict(torch.load(args.ckpt, map_location=torch.device('cpu')), strict=False)
         app = app.eval().cuda()
     else:
@@ -191,11 +186,47 @@ if __name__ == "__main__":
     f1s = []
     for i in range(len(imgs)):
         evaluator = CellPoseMetrics()
-        evaluator.evaluate([preds[i]], [masks[i]], ['f1'])
+        evaluator.evaluate([preds[i]], [masks[i]], ['f1', 'recall'])
         f1 = evaluator.dataset_metric_dict['f1']
+        recall = evaluator.dataset_metric_dict['recall']
         f1s.append(0 if np.isnan(f1) else f1)
+        recalls.append(0 if np.isnan(recall) else recall)
 
     cellpose_batch_f1_mean = np.mean(f1s)
     print(f'cellpose_batch_f1_mean: {cellpose_batch_f1_mean}')
 
-    #TODO: export to csv
+    cellpose_batch_recall = np.mean(recalls)
+    print(f'cellpose_batch_recall: {cellpose_batch_recall}')
+
+    # Save F1 mean to CSV file
+    if args.save_name:
+        import csv
+        os.makedirs(args.save_folder, exist_ok=True)
+        csv_path = os.path.join(args.save_folder, f"{args.save_name}.csv")
+        
+        # Check if file exists and has header
+        file_exists = os.path.exists(csv_path)
+        has_header = False
+        header = ['dataset', 'model', 'f1_mean']
+        
+        if file_exists:
+            # Check if file has the header
+            with open(csv_path, 'r') as csvfile:
+                reader = csv.reader(csvfile)
+                try:
+                    first_row = next(reader)
+                    has_header = (first_row == header)
+                except StopIteration:
+                    # File is empty
+                    has_header = False
+
+        # Write to CSV file
+        with open(csv_path, 'a', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            # Only write header if file doesn't exist or doesn't have header
+            if not file_exists or not has_header:
+                writer.writerow(header)
+            writer.writerow([args.dataset_name, args.model_name, cellpose_batch_f1_mean])
+            csvfile.flush()
+
+        print(f'Results saved to: {csv_path}')
