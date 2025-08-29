@@ -78,9 +78,24 @@ class CellfinderAnchorDetr(nn.Module):
         super().__init__()
 
         self.args = args
-        args.num_classes = 2
-        args.in_channels = 768
+        
+        # Set all parameters from modelconfig.yaml
+        args.enc_layers = 6
+        args.dec_layers = 6
+        args.dim_feedforward = 1024
+        args.hidden_dim = 256
+        args.dropout = 0.0
+        args.nheads = 8
+        args.num_query_position = 3500
+        args.num_query_pattern = 1
+        args.spatial_prior = "learned"
+        args.attention_type = "RCDA"
+        args.num_feature_levels = 1
         args.device = "cuda"
+        args.num_classes = 2
+        
+        # Additional required parameters
+        args.in_channels = 768
         args.backbone = "SAM"
         args.only_neck = False
         args.freeze_backbone = False
@@ -165,6 +180,8 @@ class CellSAM(nn.Module):
         imgs = [self.normalize(img) for img in imgs]
         imgs = [anchorT.Standardize()(img) for img in imgs]
 
+        if self.adv_mode:
+            imgs = [anchorT.ToRGB()(img) for img in imgs]
         imgs = torch.stack(imgs, dim=0)
         device = next(self.parameters()).device
         imgs = imgs.to(device)
@@ -217,7 +234,7 @@ class CellSAM(nn.Module):
         """
         Generates bounding boxes for the given images with dynamic thresholding.
         """
-        transformed_imgs_anchor = self.sam_bbox_preprocessing(images)
+        transformed_imgs_anchor = self.sam_bbox_preprocessing(images, percentile=not self.adv_mode)
         results = self.cellfinder.forward_inference(transformed_imgs_anchor)
 
         boxes_per_heatmap = [x["boxes"] for x in results]
