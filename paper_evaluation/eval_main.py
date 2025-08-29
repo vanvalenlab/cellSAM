@@ -58,7 +58,7 @@ def parse_args():
     parser.add_argument("--num_query_pattern", type=int, default=1)
     parser.add_argument("--ckpt", type=str, default="")
     parser.add_argument("--dataloader_root", type=str, default="")
-    parser.add_argument("--cellpose_model_type", type=str, default="cyto3")
+    parser.add_argument("--cellpose_model_type", type=str, default="", help="cellpose built-in model type, e.g. cyto, cyto2, cyto3, etc.")
 
     return parser.parse_args()
 
@@ -125,11 +125,9 @@ if __name__ == "__main__":
     imgs, masks = zip(*data)
     if args.model_name == "cellpose":
         # update cfg model_type for cellpose built-in models
-        if args.cellpose_model_type == "":
-            cellpose_model_type = cfg["cellpose"]["model_type"]
-        else:
-            cellpose_model_type = args.cellpose_model_type
-            cfg["cellpose"]["model_type"] = cellpose_model_type
+        if not args.cellpose_model_type == "":
+
+            cfg["cellpose"]["model_type"] = args.cellpose_model_type
         
         # use custom checkpoint if provided
         if args.ckpt:
