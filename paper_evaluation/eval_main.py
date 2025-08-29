@@ -57,7 +57,8 @@ def parse_args():
     parser.add_argument("--num_query_position", type=int, default=3500)
     parser.add_argument("--num_query_pattern", type=int, default=1)
     parser.add_argument("--ckpt", type=str, default="")
-    parser.add_argument("--dataloader_root", type=str, default="data/dataset/")
+    parser.add_argument("--dataloader_root", type=str, default="")
+    parser.add_argument("--cellpose_model_type", type=str, default="cyto3")
 
     return parser.parse_args()
 
@@ -79,6 +80,7 @@ if __name__ == "__main__":
         'num_query_pattern': args.num_query_pattern,
         'spatial_prior': 'learned',
         'data': {'img_size': 'orig'},
+        'dataloader_root': None,
         'cellpose': {
             'model_type': 'cyto3',
             'chan': 3,
@@ -99,7 +101,7 @@ if __name__ == "__main__":
         'device': 'cuda',
         'seed': 42,
         'num_classes': 2,
-        'model': {'pretrain': 1}
+        'model': {'pretrain': 0}
     }
 
     cfg.update({k: v for k, v in vars(args).items() if v not in ["", -1]})
@@ -112,7 +114,7 @@ if __name__ == "__main__":
         split='test',
         dataset=ds,
         crop_size=0,
-        root_dir=None,
+        root_dir=cfg["dataloader_root"],
         data_type='npy',
         normalize=False,
         CLAHE=False,
@@ -122,18 +124,23 @@ if __name__ == "__main__":
     data = [(d[0], d[1]) for d in dataset]
     imgs, masks = zip(*data)
     if args.model_name == "cellpose":
+        # update cfg model_type for cellpose built-in models
+        if args.cellpose_model_type == "":
+            cellpose_model_type = cfg["cellpose"]["model_type"]
+        else:
+            cellpose_model_type = args.cellpose_model_type
+            cfg["cellpose"]["model_type"] = cellpose_model_type
+        
+        # use custom checkpoint if provided
         if args.ckpt:
             cfg['cellpose']['pretrained_model'] = args.ckpt
-            cfg["data"]["name"] = args.dataset_name
-            cfg["data"]["input_channel_type"] = ""
-            cfg["data"]["output_channel_type"] = ""
             cfg['model']['pretrain'] = 1
             cfg["cellpose"]["with_size"] = 1
         app = CellPoseModel(cfg)
 
     elif args.model_name == "SAM":
         app = CellSAM(cfg)
-        app.target_image_size = "crop_512"
+        app.target_image_size = "crop_512" # TODO: seems to be unused
         app.load_state_dict(torch.load(args.ckpt, map_location=torch.device('cpu')), strict=False)
         app = app.eval().cuda()
     else:
