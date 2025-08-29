@@ -26,7 +26,7 @@ DATAMAP = {
                                 'A549_ep_microscopy',
                                 'CHO_ep_microscopy',
                                 'HeLa-S3_ep_microscopy'],
-    'H_and_E': ['cpm15', 'cpm17', 'monusac', 'monuseg', 'nuinsseg', 'tnbc'],
+    'H_and_E': ['cpm15', 'cpm17', 'monusac', 'monuseg', 'nuinsseg', 'tnbc', 'kumar'],
     'cellpose': ['cellpose']
 }
 

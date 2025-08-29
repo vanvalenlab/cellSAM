@@ -41,7 +41,7 @@ class Cellpose_size(Cellpose):
 
 class CellPoseModel:
     BUILTIN_MAP = {
-        "nuclei": ([2, 0], 0.0),
+        "nuclei": ([3, 0], 0.0),
         "cyto": ([3, 2], 0.0),
         "cyto2": ([3, 2], 0.0),
         "cyto3": ([3, 2], 0.0),
@@ -77,18 +77,12 @@ class CellPoseModel:
             return chans, model.diam_labels, model
 
         # built-in
-        mtype = self.cfg["cellpose"]["model_type"]
-        if mtype == "general":
-            if self.dataset in ["Gendarme_BriFi", "nuc_seg_dsb", "tissuenet_nuclear"]:
-                return [2, 0], 0.0, models.Cellpose(model_type="nuclei")
-            if self.dataset == "tissuenet_wholecell":
-                return [3, 2], 30.0, models.CellposeModel(model_type="tissuenet")
-            return [3, 2], 0.0, models.Cellpose(model_type="cyto")
-
         if mtype not in self.BUILTIN_MAP:
             raise ValueError(f"Unsupported model_type {mtype}")
 
         chans, diam = self.BUILTIN_MAP[mtype]
+        if mtype == "nuclei" and self.dataset in ["tissuenet_wholecell", "tissuenet_nuclear"]: # for tissuenet datasets nuclei detection, only use channel 2
+            chans = [2, 0]
         ModelCls = models.CellposeModel if diam > 0 else models.Cellpose
         return chans, diam, ModelCls(model_type=mtype, gpu=not self.cfg["is_debug"])
 
