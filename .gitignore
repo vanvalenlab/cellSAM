@@ -9,5 +9,8 @@ docs/auto_examples
 docs/sg_execution_times.rst
 docs/reference/generated/
 
+# Evaluation products
+paper_evaluation/summary.csv
+
 # Editor cruft
 *.swp
