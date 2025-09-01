@@ -175,7 +175,7 @@ def cellsam_pipeline(
     else:
         # To prevent creating model for each block
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
-        model = get_model(None)
+        model = get_model()
         model = model.to(device)
         model.eval()
         

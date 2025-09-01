@@ -15,6 +15,7 @@ dependencies = [
     'segment_anything@git+https://github.com/facebookresearch/segment-anything.git',
     'torch',
     'torchvision',
+    'kornia',
     # Model access
     'requests',
     'tqdm',
