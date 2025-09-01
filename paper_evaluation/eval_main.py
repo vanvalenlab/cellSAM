@@ -80,7 +80,7 @@ if __name__ == "__main__":
         'num_query_pattern': args.num_query_pattern,
         'spatial_prior': 'learned',
         'data': {'img_size': 'orig'},
-        'dataloader_root': None,
+        'dataloader_root': args.dataloader_root,
         'cellpose': {
             'model_type': 'cyto3',
             'chan': 3,

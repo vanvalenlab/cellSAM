@@ -14,6 +14,28 @@ _api_endpoint = "https://users.deepcell.org/api/getData/"
 _asset_location = Path.home() / ".deepcell"
 
 
+_data_versions = {
+    "1.0": {
+        "asset_key": "data/cellsam/cellsam-dataset_v1.0.tar.gz",
+        "asset_hash": "848e9da232a82893f07c95f60b54de02",
+    },
+    # NOTE: 1.1 skipped due to versioning failure on the model v1.1 (think of
+    # it as a pypi "yank" of v1.1)
+    "1.2": {
+        "asset_key": "data/cellsam/cellsam-data_v1.2.tar.gz",
+        "asset_hash": "6549060734c16d08454e45d91c875fc8",
+    },
+}
+
+
+_model_versions = {
+    "1.2": {
+        "asset_key": "models/cellsam-models_v1.2.tar.gz",
+        "asset_hash": "f41e6899c49fc8ce12f77a8d25594604",
+    },
+}
+
+
 def fetch_data(asset_key: str, cache_subdir=None, file_hash=None):
     """Fetch assets through users.deepcell.org authentication system.
 

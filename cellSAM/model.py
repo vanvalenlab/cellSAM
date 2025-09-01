@@ -30,7 +30,7 @@ from .utils import (
     fill_holes_and_remove_small_masks,
     subtract_boundaries,
 )
-from ._auth import fetch_data
+from . import _auth
 
 
 __all__ = ["segment_cellular_image"]
@@ -49,30 +49,73 @@ def get_local_model(model_path: str) -> nn.Module:
     return model
 
 
-def get_model(model: nn.Module = None) -> nn.Module:
+def get_model(model="cellsam_general", version=None) -> nn.Module:
     """
-    Returns a loaded CellSAM model. If model is None, downloads weights and loads the model with a progress bar.
+    Returns a loaded CellSAM model.
+
+    If pretrained model weights specified by ``version`` are not found locally,
+    they will be downloaded from users.deepcell.org.
+
+    Parameters
+    ----------
+    model : str, default="cellsam_general"
+       Which model to load. Options include:
+
+        - ``"cellsam_general"``
+        - ``"cellsam_extra"``
+
+       ``"cellsam_general"`` is trained only on datasets that are referenced in
+       the original publication and is made available for reproducibility.
+       Use this model to reproduce the model evaluation results cited in the
+       publication and achieve strong performance in the domains covered in the
+       paper.
+
+       ``"cellsam_extra"`` incorporates additional datasets and, therefore, is
+       recommended for domains that extend beyond those covered in the paper.
+
+    version : str, optional. Default=latest
+       Which version of the model to use. When ``version=None`` (the default),
+       the latest released version will be used.
+       
     """
-    cellsam_assets_dir = Path.home() / ".deepcell/models"
-    model_path = cellsam_assets_dir / "cellsam_base_v1.1.pt"
+    version = "1.2" if version is None else version
+    if version not in _auth._model_versions:
+        raise ValueError(
+            f"Model version {version} not recognized, must be one of:\n"
+            f"{list(_auth._model_versions)}"
+        )
+    record = _auth._model_versions[version]
+    archive_name = record["asset_key"].split("/")[-1]
+
+    cellsam_assets_dir = Path.home() / f".deepcell/models"
+    model_version_dir = cellsam_assets_dir / f"cellsam_v{version}"
+    model_path = model_version_dir / f"{model}.pt"
+
     config_path = resource_filename(__name__, 'modelconfig.yaml')
     with open(config_path, 'r') as config_file:
         config = yaml.safe_load(config_file)
 
-    if model is None:
-        if not cellsam_assets_dir.exists():
-            cellsam_assets_dir.mkdir(parents=True, exist_ok=True)
-        if not model_path.exists():
-            fetch_data("models/cellsam_base_v1.1.pt", cache_subdir="models")
-            assert model_path.exists()
-        model = CellSAM(config)
-        model.load_state_dict(torch.load(model_path, map_location="cpu"), strict=False)
+    if not cellsam_assets_dir.exists():
+        cellsam_assets_dir.mkdir(parents=True)
+
+    # If the version-specific directory does not exist, that means the model
+    # weights for the requested version have not been downloaded
+    if not model_version_dir.exists():
+        _auth.fetch_data(
+            record["asset_key"], cache_subdir="models", file_hash=record["asset_hash"]
+        )
+        _auth.extract_archive(
+            cellsam_assets_dir / archive_name, path=cellsam_assets_dir
+        )
+
+    model = CellSAM(config)
+    model.load_state_dict(torch.load(model_path, map_location="cpu"), strict=False)
     return model
 
 
 def segment_cellular_image(
     img: np.ndarray,
-    model: nn.Module = None,
+    model: nn.Module,
     normalize: bool = True,
     postprocess: bool = False,
     remove_boundaries: bool = False,
@@ -84,7 +127,7 @@ def segment_cellular_image(
     """
     Args:
         img  (np.array): Image to be segmented with shape (H, W) or (H, W, C)
-        model (nn.Module): Loaded CellSAM model. If None, will download weights.
+        model (nn.Module): Loaded CellSAM model.
         normalize (bool): If True, normalizes the image using percentile thresholding and CLAHE.
         postprocess (bool): If True, performs custom postprocessing on the segmentation mask. Recommended for noisy images.
         remove_boundaries (bool): If True, removes a one pixel boundary around the segmented cells.
@@ -109,7 +152,7 @@ def segment_cellular_image(
             len(bounding_boxes.shape) == 3
         ), "Bounding boxes should be of shape (number of boxes, 4)"
 
-    model = get_model(model).eval()
+    model = model.eval()
     model.bbox_threshold = bbox_threshold
 
     img = format_image_shape(img)
