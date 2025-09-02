@@ -157,12 +157,10 @@ if __name__ == "__main__":
         preds = []
 
         for img in tqdm(imgs):
-            result = app.predict(
+            result, _, _, _ = app.predict(
                 [img],
                 coords_per_heatmap=None,
                 boxes_per_heatmap=None,
-                prompts=args.sam_prompts,
-                return_lower_level_comps=False
             )
 
             if result is None:
