@@ -14,12 +14,10 @@ import math
 import random
 
 import PIL
-import matplotlib.pyplot as plt
 import torch
 import torchvision.transforms as T
 import torchvision.transforms.functional as F
 from PIL import ImageDraw
-from monai.transforms import RandHistogramShift
 from skimage.exposure import equalize_adapthist, rescale_intensity
 
 from cellSAM.AnchorDETR.util.box_ops import box_xyxy_to_cxcywh, box_cxcywh_to_xyxy
@@ -469,11 +467,11 @@ class RandomColorAugmentation(object):
         return img, target
 
 
-from kornia.enhance import equalize_clahe, normalize_min_max
-
-
 class RandomClahe(object):
     def __init__(self, clip_limit=4.0, tile_grid_size=(128, 128)):
+        from kornia.enhance import equalize_clahe
+
+
         self.clip_limit = clip_limit
         self.tile_grid_size = tile_grid_size
 
@@ -485,6 +483,9 @@ class RandomClahe(object):
 
 class Clahe(object):
     def __init__(self, clip_limit=4.0, tile_grid_size=(256, 256)):
+        from kornia.enhance import equalize_clahe
+
+
         self.clip_limit = clip_limit
         self.tile_grid_size = tile_grid_size
 
@@ -500,6 +501,9 @@ class Clahe(object):
 
 
 class Standardize(object):
+    def __init__(self):
+        from kornia.enhance import normalize_min_max
+
     def __call__(self, image, target=None):
         image = image.unsqueeze(0)
         image = normalize_min_max(image)
@@ -515,7 +519,6 @@ class mediar(object):
         return image, target
 
 
-import kornia
 from skimage import exposure
 import numpy as np
 from PIL import Image
@@ -590,11 +593,11 @@ class GaussianNoise(object):
         return img, tgt
 
 
-from kornia.enhance import adjust_gamma
-
-
 class RandomGamma(object):
     def __init__(self, gamma=(0.5, 1.5), p=0.5):
+        from kornia.enhance import adjust_gamma
+
+
         self.gamma = gamma
         self.p = p
 
@@ -654,6 +657,9 @@ class SwapChannels(object):
 
 class RandomHistogram(object):
     def __init__(self, num_control_points=3, p=0.5):
+        from monai.transforms import RandHistogramShift
+
+
         self.num_control_points = num_control_points
         self.p = p
         self.aug = RandHistogramShift(num_control_points=num_control_points, prob=1.0)
