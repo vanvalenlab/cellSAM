@@ -177,10 +177,10 @@ class CellSAM(nn.Module):
         if percentile:
             imgs = [anchorT.PercentileThreshold()(img.cpu()) for img in imgs]
         imgs = [torch.Tensor(img) for img in imgs]
-        imgs = [self.normalize(img) for img in imgs]
-        imgs = [anchorT.Standardize()(img) for img in imgs]
 
         if self.adv_mode:
+            imgs = [self.normalize(img) for img in imgs]
+            imgs = [anchorT.Standardize()(img) for img in imgs]
             imgs = [anchorT.ToRGB()(img) for img in imgs]
         imgs = torch.stack(imgs, dim=0)
         device = next(self.parameters()).device
@@ -223,8 +223,9 @@ class CellSAM(nn.Module):
         if percentile:
             imgs = [anchorT.PercentileThreshold()(img.cpu()) for img in imgs]
         imgs = [torch.Tensor(img) for img in imgs]
-        imgs = [self.normalize(img) for img in imgs]
-        imgs = [anchorT.Standardize()(img) for img in imgs]
+        if self.adv_mode:
+            imgs = [self.normalize(img) for img in imgs]
+            imgs = [anchorT.Standardize()(img) for img in imgs]
         imgs = torch.stack(imgs, dim=0)
 
         return imgs, paddings
@@ -234,7 +235,7 @@ class CellSAM(nn.Module):
         """
         Generates bounding boxes for the given images with dynamic thresholding.
         """
-        transformed_imgs_anchor = self.sam_bbox_preprocessing(images, percentile=not self.adv_mode)
+        transformed_imgs_anchor = self.sam_bbox_preprocessing(images, percentile=False)
         results = self.cellfinder.forward_inference(transformed_imgs_anchor)
 
         boxes_per_heatmap = [x["boxes"] for x in results]
@@ -265,7 +266,7 @@ class CellSAM(nn.Module):
 
     @torch.no_grad()
     def generate_embeddings(
-            self, images, existing_embeddings=None, transform=True, device=None
+            self, images, existing_embeddings=None, device=None
     ):
         """
         Generates embeddings for the given images or uses existing embeddings if provided.
