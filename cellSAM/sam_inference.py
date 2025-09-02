@@ -221,7 +221,7 @@ class CellSAM(nn.Module):
         imgs, paddings = zip(*imgs)
 
         if percentile:
-            imgs = [anchorT.PercentileThreshold()(img) for img in imgs]
+            imgs = [anchorT.PercentileThreshold()(img.cpu()) for img in imgs]
         imgs = [torch.Tensor(img) for img in imgs]
         imgs = [self.normalize(img) for img in imgs]
         imgs = [anchorT.Standardize()(img) for img in imgs]
@@ -282,8 +282,7 @@ class CellSAM(nn.Module):
                 paddings.append((1024 - h, 1024 - w))
             return existing_embeddings, paddings
 
-    def predict(self, images, coords_per_heatmap=None, boxes_per_heatmap=None,
-                return_lower_level_comps=False, prompts=None):
+    def predict(self, images, coords_per_heatmap=None, boxes_per_heatmap=None):
         device = next(self.parameters()).device
 
         assert self.mask_threshold > 0
@@ -296,7 +295,6 @@ class CellSAM(nn.Module):
         if coords_per_heatmap is None and boxes_per_heatmap is None:
             boxes_per_heatmap = self.generate_bounding_boxes(images, device=device)
 
-        all_results = []
         for idx in range(len(x)):
             boxes = boxes_per_heatmap[idx] if idx < len(boxes_per_heatmap) else boxes_per_heatmap[0]
             rng = len(boxes)
@@ -312,7 +310,7 @@ class CellSAM(nn.Module):
 
                 sparse_embeddings, dense_embeddings = mdl.prompt_encoder(
                     points=None,
-                    boxes=input_box.to(device) if "box" in prompts else None,
+                    boxes=input_box.to(device),
                     masks=None,
                 )
 
@@ -361,9 +359,7 @@ class CellSAM(nn.Module):
                 final_boxes.append(_bbox)
 
             if low_masks:
-                low_masks = np.stack(low_masks)
                 thresholded_masks = np.stack(low_masks_thresholded)
-                scores = np.stack(scores)
                 final_boxes = np.stack(final_boxes)
 
                 # Create instance segmentation mask
@@ -372,26 +368,9 @@ class CellSAM(nn.Module):
                 )
                 thresholded_masks_summed = np.max(thresholded_masks_summed, axis=0)
 
-                if return_lower_level_comps:
-                    all_results.append((thresholded_masks_summed, thresholded_masks, low_masks, scores, final_boxes))
-                else:
-                    all_results.append(thresholded_masks_summed)
+                return thresholded_masks_summed, thresholded_masks, x, final_boxes
             else:
-                # No masks found
-                if return_lower_level_comps:
-                    zeros = np.zeros_like(images[0][0].detach().cpu().numpy())
-                    all_results.append((zeros.astype(np.uint8),
-                                        np.expand_dims(zeros, 0).astype(np.uint8),
-                                        np.expand_dims(zeros, 0).astype(np.uint8),
-                                        np.expand_dims(zeros, 0).astype(np.uint8),
-                                        np.array([])))
-                else:
-                    all_results.append(np.zeros_like(images[0].detach().cpu().numpy()))
-
-        # Return first result if single image
-        if len(all_results) == 1:
-            return all_results[0]
-        return all_results
+                return None, None, None, None
 
     def load_state_dict(self, state_dict, strict=True):
 
