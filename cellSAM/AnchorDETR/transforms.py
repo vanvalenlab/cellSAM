@@ -471,12 +471,14 @@ class RandomClahe(object):
     def __init__(self, clip_limit=4.0, tile_grid_size=(128, 128)):
         from kornia.enhance import equalize_clahe
 
+        self.clahe  = equalize_clahe
+
 
         self.clip_limit = clip_limit
         self.tile_grid_size = tile_grid_size
 
     def __call__(self, img, target):
-        img = equalize_clahe(img.unsqueeze(0), clip_limit=random.uniform(1.5, self.clip_limit),
+        img = self.clahe(img.unsqueeze(0), clip_limit=random.uniform(1.5, self.clip_limit),
                              grid_size=self.tile_grid_size)
         return img, target
 
@@ -485,17 +487,19 @@ class Clahe(object):
     def __init__(self, clip_limit=4.0, tile_grid_size=(256, 256)):
         from kornia.enhance import equalize_clahe
 
+        self.clahe = equalize_clahe
+
 
         self.clip_limit = clip_limit
         self.tile_grid_size = tile_grid_size
 
     def __call__(self, img, backend="kornia"):
         if backend == "kornia":
-            img = equalize_clahe(img.unsqueeze(0), clip_limit=self.clip_limit, grid_size=self.tile_grid_size)
+            img = self.clahe(img.unsqueeze(0), clip_limit=self.clip_limit, grid_size=self.tile_grid_size)
         else:
             img = rescale_intensity(img.cpu().numpy(), out_range=(0.0, 1.0))
             img = equalize_adapthist(img, kernel_size=128)
-        img = equalize_clahe(img.unsqueeze(0), clip_limit=1.0,
+        img = self.clahe(img.unsqueeze(0), clip_limit=1.0,
                              grid_size=self.tile_grid_size)
         return img
 
@@ -503,10 +507,11 @@ class Clahe(object):
 class Standardize(object):
     def __init__(self):
         from kornia.enhance import normalize_min_max
+        self.minmax = normalize_min_max
 
     def __call__(self, image, target=None):
         image = image.unsqueeze(0)
-        image = normalize_min_max(image)
+        image = self.minmax(image)
         image = image.squeeze(0)
         if target is None:
             return image
@@ -596,6 +601,7 @@ class GaussianNoise(object):
 class RandomGamma(object):
     def __init__(self, gamma=(0.5, 1.5), p=0.5):
         from kornia.enhance import adjust_gamma
+        self.adjgamma = adjust_gamma
 
 
         self.gamma = gamma
@@ -603,7 +609,7 @@ class RandomGamma(object):
 
     def __call__(self, img, tgt):
         if random.random() < self.p:
-            img = adjust_gamma(img, gamma=random.uniform(*self.gamma))
+            img = self.adjgamma(img, gamma=random.uniform(*self.gamma))
         return img, tgt
 
 
