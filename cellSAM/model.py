@@ -121,7 +121,7 @@ def segment_cellular_image(
     if "cuda" in device:
         model, img = model.to(device), img.to(device)
 
-    preds = model.predict(img, x=None, boxes_per_heatmap=bounding_boxes, device=device, fast=fast)
+    preds = model.predict(img, boxes_per_heatmap=bounding_boxes)
     if preds is None:
         warn("No cells detected in the image.")
         return np.zeros(img.shape[1:], dtype=np.int32), None, None
