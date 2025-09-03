@@ -26,5 +26,5 @@ def download_training_data(version=None):
     record = _auth._data_versions[version]
 
     _auth.fetch_data(
-        record["asset_key"], cache_subdir="data", file_hash=record["asset_hash"]
+        record["asset_key"], cache_subdir="datasets", file_hash=record["asset_hash"]
     )

@@ -22,7 +22,7 @@ _data_versions = {
     # NOTE: 1.1 skipped due to versioning failure on the model v1.1 (think of
     # it as a pypi "yank" of v1.1)
     "1.2": {
-        "asset_key": "data/cellsam/cellsam-evaluation-data_v1.2.tar.gz",
+        "asset_key": "data/cellsam/cellsam-data_v1.2.tar.gz",
         "asset_hash": "6549060734c16d08454e45d91c875fc8",
     },
 }
