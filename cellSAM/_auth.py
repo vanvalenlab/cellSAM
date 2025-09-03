@@ -30,8 +30,8 @@ _data_versions = {
 
 _model_versions = {
     "1.2": {
-        "asset_key": "models/cellsam-evaluation_v1.2.tar.gz",
-        "asset_hash": "dd48f2cd8f7b4c1c3a6be8786e9f5087",
+        "asset_key": "models/cellsam-models_v1.2.tar.gz",
+        "asset_hash": "2862219c30b7a462609ac5673d706541",
     },
 }
 
