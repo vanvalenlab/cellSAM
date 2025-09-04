@@ -215,9 +215,7 @@ class CellSAMWidget(Container):
 
         preds, _, x, _ = self._cellsam_model.predict(
             inp.to(self._device),
-            x=self._embedding,
             boxes_per_heatmap=None,
-            device="cpu",
         )
 
         if preds is None:
@@ -232,7 +230,6 @@ class CellSAMWidget(Container):
         self._segmentation_layer.visible = True
         self._clear_seg_btn.enabled = True
 
-        self._embedding = x
 
     def _process_new_image(self, im_layer: Image):
         image = im_layer.data
@@ -311,7 +308,6 @@ class CellSAMWidget(Container):
         )
         formatted_boxes = np.flip(formatted_boxes, axis=-1).reshape(-1, 4)
 
-        inp = self._norm_image
         # mean pool if no channels are selected. This should do nothing to grayscale images
         # if one of the channels is provided, then use that channel
 
@@ -340,11 +336,9 @@ class CellSAMWidget(Container):
 
         preds, _, x, _ = self._cellsam_model.predict(
             inp.to(self._device),
-            x=self._embedding,
             boxes_per_heatmap=torch.tensor(formatted_boxes)
             .unsqueeze(0)
             .to(self._device),
-            device="cpu",
         )
         if preds is None:
             warn("No cells detected!")
@@ -355,7 +349,6 @@ class CellSAMWidget(Container):
             self._cancel_annot_btn.enabled = True
             self._clear_seg_btn.enabled = True
 
-            self._embedding = x
 
     def _on_shape_drag(self, _: Shapes, event) -> Generator:
         if self._boxes_layer.mode != Mode.ADD_RECTANGLE:
