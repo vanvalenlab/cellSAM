@@ -21,6 +21,7 @@ from skimage.morphology import (
 )
 from scipy.ndimage import gaussian_filter
 from segment_anything.utils.amg import remove_small_regions
+from typing import List
 
 from .sam_inference import CellSAM
 from .utils import (
@@ -72,11 +73,11 @@ def get_model(model: nn.Module = None) -> nn.Module:
 def segment_cellular_image(
     img: np.ndarray,
     model: nn.Module = None,
-    normalize: bool = False,
+    normalize: bool = True,
     postprocess: bool = False,
     remove_boundaries: bool = False,
-    bounding_boxes: list[list[float]] = None,
-    bbox_threshold: float = 0.2,
+    bounding_boxes: List[List[float]] = None,
+    bbox_threshold: float = 0.4,
     fast: bool = False,
     device: str = "cpu",
 ):
@@ -120,7 +121,7 @@ def segment_cellular_image(
     if "cuda" in device:
         model, img = model.to(device), img.to(device)
 
-    preds = model.predict(img, x=None, boxes_per_heatmap=bounding_boxes, device=device, fast=fast)
+    preds = model.predict(img, boxes_per_heatmap=bounding_boxes)
     if preds is None:
         warn("No cells detected in the image.")
         return np.zeros(img.shape[1:], dtype=np.int32), None, None
@@ -137,12 +138,12 @@ def segment_cellular_image(
     return mask, x.cpu().numpy(), bounding_boxes
 
 
-def postprocess_predictions(mask: np.ndarray):
-    mask_values = np.unique(mask)
+def postprocess_predictions(all_masks: np.ndarray):
+    mask_values = np.unique(all_masks)
     new_masks = []
     selem = disk(2)
     for mask_value in mask_values[1:]:
-        mask = mask == mask_value
+        mask = all_masks == mask_value
         mask, _ = remove_small_regions(mask, 20, mode="holes")
         mask, _ = remove_small_regions(mask, 20, mode="islands")
         opened_mask = binary_opening(mask, selem)

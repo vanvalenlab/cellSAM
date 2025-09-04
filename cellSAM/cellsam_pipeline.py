@@ -1,13 +1,10 @@
 import dask.array as da
-import imageio.v3 as iio
 import numpy as np
 import torch
-from tqdm import tqdm
 from cellSAM.model import get_model
-from skimage.segmentation import relabel_sequential
 
 from cellSAM.model import get_local_model, segment_cellular_image
-from cellSAM.utils import relabel_mask, get_median_size, enhance_low_contrast
+from cellSAM.utils import get_median_size, enhance_low_contrast
 from cellSAM.wsi import segment_wsi
 
 
@@ -176,8 +173,6 @@ def cellsam_pipeline(
         model.bbox_threshold = bbox_threshold
         model = model.to(device)
     else:
-        model = None
-        
         # To prevent creating model for each block
         device = 'cuda' if torch.cuda.is_available() else 'cpu'
         model = get_model(None)
@@ -199,10 +194,10 @@ def cellsam_pipeline(
                                          iou_depth=iou_depth, iou_threshold=iou_threshold, bbox_threshold=bbox_threshold)
 
         else:
-            labels = segment_wsi(inp, block_size, overlap, iou_depth, iou_threshold, normalize=False, model=model,
+            labels = segment_wsi(inp, block_size, overlap, iou_depth, iou_threshold, normalize=True, model=model,
                                  device=device, bbox_threshold=bbox_threshold).compute()
     else:
-        labels = segment_cellular_image(inp, model=model, normalize=False, device=device)[0]
+        labels = segment_cellular_image(inp, model=model, normalize=True, device=device)[0]
 
     return labels
 
