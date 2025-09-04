@@ -293,8 +293,29 @@ class CellSAM(nn.Module):
 
         x, paddings = self.generate_embeddings(images, device=device)
 
-        if coords_per_heatmap is None and boxes_per_heatmap is None:
+        if boxes_per_heatmap is None:
             boxes_per_heatmap = self.generate_bounding_boxes(images, device=device)
+        else:
+            # scale the boxes to 1024x1024, with paddings from above
+            scaled_boxes_per_heatmap = []
+            for idx in range(len(images)):
+                boxes = boxes_per_heatmap[idx] if idx < len(boxes_per_heatmap) else boxes_per_heatmap[0]
+                _boxes = []
+                for box in boxes:
+                    _box = [b.cpu().numpy() if hasattr(b, 'cpu') else b for b in box]
+                    im_w = images[0].shape[2]
+                    im_h = images[0].shape[1]
+                    scale_x = 1024 / im_w
+                    scale_y = 1024 / im_h
+                    _box = [
+                        _box[0] * scale_x,
+                        _box[1] * scale_y,
+                        _box[2] * scale_x,
+                        _box[3] * scale_y,
+                    ]
+                    _boxes.append(_box)
+                scaled_boxes_per_heatmap.append(torch.tensor(_boxes).to(device))
+            boxes_per_heatmap = scaled_boxes_per_heatmap
 
         for idx in range(len(x)):
             boxes = boxes_per_heatmap[idx] if idx < len(boxes_per_heatmap) else boxes_per_heatmap[0]
