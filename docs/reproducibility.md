@@ -2,13 +2,14 @@
 
 In addition to the `cellSAM` library, the source repo contains additional
 code to aid in reproducing the results in the publication.
-Additional code for reproducibility can be found in [`paper_evaluation`][gh-eval]
+This additional code for reproducibility can be found in the
+[`paper_evaluation`][gh-eval] directory.
 
 [gh-eval]: https://github.com/vanvalenlab/cellSAM/tree/master/paper_evaluation
 
 Additional resources including pre-trained model weights and the evaluation dataset
 are required for reproducibility.
-All necessary components are available for download - see {ref}`download_models` for
+All necessary components are available for download - see {doc}`API-key` for
 details.
 
 ## Setup
@@ -25,15 +26,18 @@ For those unsure, Python's [built-in environment management module][python-venv]
 a simple, ubiquitous option. For example, to create and enter a new environment:
 
 ```bash
-python3.XX -m venv cs-eval-env
-source cs-eval-env/bin/activate
+$ python3.XX -m venv cs-eval-env
+$ source cs-eval-env/bin/activate
 ```
 
 Where `XX` is the Python version you wish to use (e.g. `python3.13`).
 You can then verify the newly created environment is empty (though `pip` should be available):
 
 ```bash
-pip list
+$ pip list
+Package Version
+------- -------
+pip     24.3.1
 ```
 ````
 
@@ -42,7 +46,7 @@ pip list
 For example, from the `paper_evaluation` directory:
 
 ```bash
-pip install ..
+$ pip install ..
 ```
 
 ### Evaluation dependencies
@@ -50,7 +54,7 @@ pip install ..
 Once in a "clean" environment, install the requirements for the evaluation suite:
 
 ```bash
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 ```
 
 ```{note}
@@ -94,39 +98,39 @@ This will initiate the download of a compressed data archive.
 The compressed data will be downloaded to
 `$HOME/.deepcell/datasets/cellsam-data_v{X.Y}.tar.gz` where `X.Y` is the requested
 dataset version.
-See {ref}`download_models` for details.
+See {doc}`API-key` for details.
 Once the download is complete, unpack/inflate the dataset to a desired location.
 
 ````{admonition} Dataset Size
 :class: caution dropdown
 
 The compressed data archive is 14GB in size, and inflates to 84GB when uncompressed.
-Therefore you may want to unpack the data to different location.
+Therefore you may want to unpack the data to a different location.
 Similarly, the decompression is comuptationally intensive, and may benefit from parallel
 decompression algorithms.
 Here's an example incantation which will store the unpacked dataset to `/data` using 8
 threads for decompression:
 
 ```bash
-tar --use-compress-program="unpigz -p 8" $HOME/.deepcell/datasets/cellsam-data_v1.2.tar.gz -C /data
+$ tar --use-compress-program="unpigz -p 8" $HOME/.deepcell/datasets/cellsam-data_v1.2.tar.gz -C /data
 ```
 
 The unpacked data will then be available at `/data/cellsam_v1.2`.
 ````
 
-### Running the evaluation
+## Running the evaluation
 
 Once all of the above steps are complete, the evaluation can be run via the `all_runsh.sh`
 shell script:
 
 ```bash
-./all_runs.sh
+$ ./all_runs.sh
 ```
 
 The results of each run will be saved locally in a `summary.csv` that records the datset,
 model used, and `f1_mean` for that run.
 
-#### Individual evaluations
+### Individual evaluations
 
 It is not necessary to run the entire evaluation suite - evaluation can be limited to
 specific datasets.
