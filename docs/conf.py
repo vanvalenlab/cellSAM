@@ -112,5 +112,8 @@ nb_execution_timeout = 300  # seconds
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'pydata_sphinx_theme'
+html_theme_options = {
+    "header_links_before_dropdown": 8,
+}
 html_title = "CellSAM"
 html_static_path = ['_static']
