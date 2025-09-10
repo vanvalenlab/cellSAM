@@ -15,7 +15,9 @@ details.
 
 In a new (empty) virtual environment, install cellSAM from the parent directory.
 
-````{tip} Example: creating an environment
+````{admonition} Example: creating an environment
+:class: tip dropdown
+
 Users are encouraged to use whichever environment management system with which they
 are most comfortable (`uv`, `pixi`, `conda/mamba`, etc.)
 
@@ -68,7 +70,9 @@ function:
 
 This will automatically download and unpack the latest version of the pretrained model weights.
 
-```{note} Model versions
+```{admonition} Model versions
+:class: note dropdown
+
 You may use the `version=` keyword argument for `get_model` to specify a specific
 model version for evaluation.
 
@@ -93,7 +97,9 @@ dataset version.
 See {ref}`download_models` for details.
 Once the download is complete, unpack/inflate the dataset to a desired location.
 
-````{caution} Dataset Size
+````{admonition} Dataset Size
+:class: caution dropdown
+
 The compressed data archive is 14GB in size, and inflates to 84GB when uncompressed.
 Therefore you may want to unpack the data to different location.
 Similarly, the decompression is comuptationally intensive, and may benefit from parallel
