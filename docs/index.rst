@@ -52,4 +52,4 @@ Citation
    reference/index
    auto_examples/index
    napari
-
+   reproducibility
