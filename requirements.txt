@@ -14,9 +14,10 @@ tqdm
 pytest
 # Docs
 sphinx
-myst-nb
+myst-nb  # Text-based jupyter notebooks & MyST
 pydata-sphinx-theme
-sphinx-gallery
+sphinx-gallery  # For example gallery
+sphinx-togglebutton  # For collapsible admonitions
 napari
 pyqt6
 numpydoc

@@ -59,6 +59,7 @@ extensions = [
     "sphinx.ext.autodoc",  # Docstring summaries
     "sphinx_gallery.gen_gallery",  # Example gallery
     "sphinx.ext.intersphinx",  # Cross-project documentation linking
+    "sphinx_togglebutton",  # Collapsible admonitions
     "myst_nb",  # Text-based jupyter notebooks
 ]
 
