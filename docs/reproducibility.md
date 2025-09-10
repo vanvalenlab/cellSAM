@@ -112,7 +112,7 @@ Here's an example incantation which will store the unpacked dataset to `/data` u
 threads for decompression:
 
 ```bash
-$ tar --use-compress-program="unpigz -p 8" $HOME/.deepcell/datasets/cellsam-data_v1.2.tar.gz -C /data
+$ tar --use-compress-program="unpigz -p 8" -xf $HOME/.deepcell/datasets/cellsam-data_v1.2.tar.gz -C /data
 ```
 
 The unpacked data will then be available at `/data/cellsam_v1.2`.
@@ -120,8 +120,12 @@ The unpacked data will then be available at `/data/cellsam_v1.2`.
 
 ## Running the evaluation
 
-Once all of the above steps are complete, the evaluation can be run via the `all_runsh.sh`
-shell script:
+Once all of the above steps are complete, the evaluation can be run via the `all_run.sh`
+shell script.
+Before running, ensure that the variables at the top of the file reflect the locations of
+the models/dataset on your system.
+If you used the defaults in all the steps above (and unpacked the dataset in its
+download location) this will already be the case.
 
 ```bash
 $ ./all_runs.sh
