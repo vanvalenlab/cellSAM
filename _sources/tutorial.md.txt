@@ -35,6 +35,7 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 
 from cellSAM import cellsam_pipeline, get_model
+from cellSAM.utils import format_image_shape, normalize_image
 ```
 
 ## Finding all cells using CellSAM
@@ -101,10 +102,12 @@ x1, y1, w, h = box
 # the lower-left corner of the box and (x2, y2) is the upper right
 x2, y2 = x1 + w, y1 + h
 
-# The image must have shape (1, 3, W, H) for the interactive predictor
-im = np.zeros((1, 3, *img.shape), dtype=img.dtype)
-im[0, 1, ...] = img
-pred_mask, *_ = predictor.predict(im, boxes_per_heatmap=[[[x1, x2, y1, y2]]])
+# Preprocess the image
+im = format_image_shape(img)
+im = normalize_image(im)
+im = np.transpose(im, (2, 0, 1))
+im = np.expand_dims(im, axis=0)
+pred_mask, *_ = predictor.predict(im, boxes_per_heatmap=[[[x1, y1, x2, y2]]])
 ```
 
 Now, let's visualize the predicted mask.

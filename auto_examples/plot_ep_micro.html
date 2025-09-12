@@ -31,6 +31,7 @@
 <link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery.css?v=d2d258e8" />
     <link rel="stylesheet" type="text/css" href="../_static/sg_gallery-binder.css?v=f4aeca0c" />
@@ -46,6 +47,12 @@
     <script src="../_static/documentation_options.js?v=03180e26"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'auto_examples/plot_ep_micro';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
@@ -163,6 +170,13 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reproducibility.html">
+    Reproducibility
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -270,6 +284,13 @@
   </a>
 </li>
 
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../reproducibility.html">
+    Reproducibility
+  </a>
+</li>
+
   </ul>
 </nav></div>
           
@@ -369,7 +390,17 @@ to download the full example code.</p>
 </div>
 <section class="sphx-glr-example-title" id="phase-microscopy-of-mammalian-cells">
 <span id="sphx-glr-auto-examples-plot-ep-micro-py"></span><h1>Phase Microscopy of Mammalian Cells<a class="headerlink" href="#phase-microscopy-of-mammalian-cells" title="Link to this heading">#</a></h1>
-<img src="../_images/sphx_glr_plot_ep_micro_001.png" srcset="../_images/sphx_glr_plot_ep_micro_001.png" alt="plot ep micro" class = "sphx-glr-single-img"/><div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">imageio.v3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">iio</span>
+<img src="../_images/sphx_glr_plot_ep_micro_001.png" srcset="../_images/sphx_glr_plot_ep_micro_001.png" alt="plot ep micro" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/administrator/envs/cs-11-dev/lib/python3.10/site-packages/cellSAM/sam_inference.py:351: UserWarning: Low IOU threshold, ignoring mask.
+  warnings.warn(&quot;Low IOU threshold, ignoring mask.&quot;)
+/home/administrator/repos/cellSAM/examples/plot_ep_micro.py:13: FutureWarning: `napari.view_image` is deprecated and will be removed in napari 0.7.0.
+Use `viewer = napari.Viewer(); viewer.add_image(...)` instead.
+  nim = napari.view_image(img, name=&quot;Phase microscopy image&quot;);
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">imageio.v3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">iio</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">napari</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">cellSAM</span><span class="w"> </span><span class="kn">import</span> <span class="n">cellsam_pipeline</span>
@@ -384,7 +415,7 @@ to download the full example code.</p>
     <span class="n">napari</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 4.459 seconds)</p>
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 4.067 seconds)</p>
 <div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-ep-micro-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
 <p><a class="reference download internal" download="" href="../_downloads/c0d8ceb5926e42505157ef07cd6bbeb1/plot_ep_micro.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_ep_micro.ipynb</span></code></a></p>
@@ -481,7 +512,7 @@ to download the full example code.</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.1.3.
     <br/>
   </p>
 </div>
