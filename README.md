@@ -1,10 +1,11 @@
 # CellSAM: A Foundation Model for Cell Segmentation
 
-[  <img src="https://github.com/rdilip/cellsam_inference/assets/9993319/1f40b5a5-60f1-4980-997d-6059e20d6133" alt="Try the demo!" style="width: 100%;">
-](https://cellsam.deepcell.org/)
+**NOTE** Be sure to update to the [latest version of the model][pinned-issue]
+
+[pinned-issue]: https://github.com/vanvalenlab/cellSAM/issues/90
 
 ## Description
-This repository provides inference code for CellSAM. CellSAM is described in more detail in the [preprint](https://www.biorxiv.org/content/10.1101/2023.11.17.567630v3), and is publicly deployed at [cellsam.deepcell.org](https://cellsam.deepcell.org/). CellSAM achieves state-of-the-art performance on segmentation across a variety of cellular targets (bacteria, tissue, yeast, cell culture, etc.) and imaging modalities (brightfield, fluorescence, phase, etc.). Feel free to [reach out](mailto:ulisrael@caltech.edu) for support/questions! The full dataset used to train CellSAM is available [here](https://storage.googleapis.com/cellsam-data/dataset.tar.gz). This dataset contains cellpose data which is subject to the cellpose license [here](https://github.com/mouseland/cellpose?tab=BSD-3-Clause-1-ov-file). The cellpose data can also be downloaded from [here](https://www.cellpose.org/dataset).
+This repository provides inference code for CellSAM. CellSAM is described in more detail in the [preprint](https://www.biorxiv.org/content/10.1101/2023.11.17.567630v3), and is publicly deployed at [cellsam.deepcell.org](https://cellsam.deepcell.org/). CellSAM achieves state-of-the-art performance on segmentation across a variety of cellular targets (bacteria, tissue, yeast, cell culture, etc.) and imaging modalities (brightfield, fluorescence, phase, etc.). Feel free to [reach out](mailto:ulisrael@caltech.edu) for support/questions! The full dataset used to evaluate CellSAM is available via <https://users.deepcell.org>. This dataset contains cellpose data which is subject to the cellpose license [here](https://github.com/mouseland/cellpose?tab=BSD-3-Clause-1-ov-file). The cellpose data can also be downloaded from [here](https://www.cellpose.org/dataset).
 
 ## Getting started
 The easiest way to get started with CellSAM is with pip
@@ -19,24 +20,17 @@ img = np.load("sample_imgs/yeaz.npy")
 mask, _, _ = segment_cellular_image(img, device='cuda')
 ```
 
-For more details, see `cellsam_introduction.ipynb`.
+For more details, see [the tutorial](https://vanvalenlab.github.io/cellSAM/tutorial)
 
 ### Napari package
 CellSAM includes a basic napari package for annotation functionality. To install the additional napari dependencies, use pip.
 
-`pip install git+https://github.com/vanvalenlab/cellSAM.git#egg=cellsam[napari]`
-
-To launch the napari app, run `cellsam napari`. 
-
-If you encounter issues with this installation, please follow the setup from source below:
-
-```
-conda create --name cellsam_napari -c conda-forge napari
-conda activate cellsam_napari
-conda install -c conda-forge pyqt
-pip install .[napari]
+```bash
+pip install "cellSAM[napari] @ git+https://github.com/vanvalenlab/cellSAM@master"
 ```
 
+To launch the napari app, run `cellsam napari`.
+For further details, check out the [napari plugin docs](https://vanvalenlab.github.io/cellSAM/napari.html)
 
 ## Citation
 
