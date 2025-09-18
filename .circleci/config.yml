@@ -25,6 +25,13 @@ jobs:
             pip install .
             pip list
 
+      - restore_cache:
+          # NOTE: The v#.# refers to the cellsam published model version.
+          # The _### postfix is intended for manual cache invalidation as necessary
+          keys:
+            - model-cache-v1.2_000
+
+
       - run:
           name: Build site
           # Gallery + Tutorial w/out GPU can take a while
@@ -34,6 +41,11 @@ jobs:
             # n = nitpicky (broken links), W = warnings as errors,
             # T = full tracebacks, keep-going = run to completion even with errors
             xvfb-run --auto-servernum make -C docs/ SPHINXOPTS="-WT --keep-going" html
+
+      - save_cache:
+          key: model-cache-v1.2_000
+          paths:
+            - ~/.deepcell
 
       - store_artifacts:
           path: docs/_build/html
