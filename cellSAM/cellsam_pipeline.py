@@ -82,8 +82,10 @@ def cellsam_pipeline(
           - **Stained images (e.g H&E)**: ``(W, H, C)`` where ``C == 3``
             representing color channels in RGB format.
           - **Multiplexed images**: ``(W, H, C)`` where ``C == 3`` and the
-            channel ordering is: ``(blank, nuclear, membrane)``. The
-            ``membrane`` channel is optional, in which case a nuclear segmentation
+            channel ordering is: ``(blank, nuclear, whole-cell)`` where "whole-cell"
+            comprises a spatial marker that delineates the cell boundary, e.g.
+            a membrane or cytoplasm marker.
+            The ``whole-cell`` channel is optional, in which case a nuclear segmentation
             is returned.
     chunks : int
         TODO: should this be an option?
