@@ -53,41 +53,8 @@ jobs:
           root: docs/_build
           paths: html
 
-  deploy-docs:
-    working_directory: ~/repo
-    docker:
-      - image: cimg/python:3.12
-
-    steps:
-      - checkout
-
-      - attach_workspace:
-          at: docs/_build
-
-      - run:
-          name: Install deploy dependencies
-          command: python3 -m pip install --user ghp-import
-
-      - run:
-          name: Configure git
-          command: |
-            git config --global user.name "ci-doc-deploy-bot"
-            git config --global user.email "ci-doc-deploy-bot@nomail"
-            git config --global push.default simple
-
-      - run:
-          name: Deploy via gh-pages
-          command: |
-            ghp-import -n -f -p -m "[skip ci] docs built of $CIRCLE_SHA1" docs/_build/html
-
 workflows:
   version: 2.1
   build:
     jobs:
       - build-docs
-      - deploy-docs:
-          requires:
-            - build-docs
-          filters:
-            branches:
-              only: master
