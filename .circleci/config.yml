@@ -58,3 +58,14 @@ workflows:
   build:
     jobs:
       - build-docs
+  scheduled:
+    triggers:
+      - schedule:
+          # Every Thursday at 10AM UTC
+          cron: "0 10 * * 4"
+          filters:
+            branches:
+              only:
+                - master
+    jobs:
+      - build-docs
