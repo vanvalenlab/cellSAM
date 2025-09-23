@@ -31,7 +31,6 @@ jobs:
           keys:
             - model-cache-v1.2_000
 
-
       - run:
           name: Build site
           # Gallery + Tutorial w/out GPU can take a while
@@ -75,10 +74,6 @@ jobs:
             git config --global user.name "ci-doc-deploy-bot"
             git config --global user.email "ci-doc-deploy-bot@nomail"
             git config --global push.default simple
-
-      - add_ssh_keys:
-          fingerprints:
-            - "SHA256:1GU6hJLbJ89L43sNSntbbOwKvC3J7lCx0ucwMs4UlIQ"
 
       - run:
           name: Deploy via gh-pages
