@@ -22,3 +22,6 @@ napari
 pyqt6
 numpydoc
 intersphinx_registry
+# Remote data access
+zarr>2
+s3fs
