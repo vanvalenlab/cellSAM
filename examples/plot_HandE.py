@@ -25,7 +25,10 @@ store = zarr.storage.FsspecStore.from_url(
 )
 z = zarr.open_group(store=store, mode="r")
 # Load H&E image into local memory
-img = z["HBM248_QRTB_362"][:]
+# Limit to upper-left quadrant to reduce CI computation load
+tilesize = 512
+img = z["HBM248_QRTB_362"][:tilesize, :tilesize, :]
+print(img.shape)
 
 # NOTE: H&E images are often RGB - CellSAM expects RGB images to
 # be condensed to a single channel, as with `skimage.color.rgb2gray`,
