@@ -38,6 +38,9 @@ def napari_scraper(block, block_vars, gallery_conf):
 
 # NOTE: borrowed from https://github.com/napari/docs/blob/b9831f55e4c3aa012bc425a669a2ebee7abd87b7/docs/conf.py#L273
 def reset_napari(gallery_conf, fname):
+    # NOTE: dummy import to handle circular import
+    # see napari/napari#8329
+    from napari.utils import theme
     from napari.settings import get_settings
     from qtpy.QtWidgets import QApplication
 
