@@ -9,7 +9,8 @@ import os
 from pathlib import Path
 import yaml
 import pkgutil
-from pkg_resources import resource_filename
+import importlib.resources as resources
+
 
 
 from skimage.morphology import (
@@ -40,7 +41,7 @@ def get_local_model(model_path: str) -> nn.Module:
     """
     Returns a loaded CellSAM model from a local path.
     """
-    config_path = resource_filename(__name__, 'modelconfig.yaml')
+    config_path = resources.files(__package__) / 'modelconfig.yaml'
     with open(config_path, 'r') as config_file:
         config = yaml.safe_load(config_file)
 
@@ -91,7 +92,7 @@ def get_model(model="cellsam_general", version=None) -> nn.Module:
     model_version_dir = cellsam_assets_dir / f"cellsam_v{version}"
     model_path = model_version_dir / f"{model}.pt"
 
-    config_path = resource_filename(__name__, 'modelconfig.yaml')
+    config_path = resources.files(__package__) / 'modelconfig.yaml'
     with open(config_path, 'r') as config_file:
         config = yaml.safe_load(config_file)
 
