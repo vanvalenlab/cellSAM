@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Phase Microscopy: Yeast &#8212; CellSAM</title>
+    <title>Electron Microscopy &#8212; CellSAM</title>
   
   
   
@@ -52,11 +52,11 @@
     <script>let toggleOpenOnPrint = 'true';</script>
     <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'auto_examples/plot_yeaz';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'auto_examples/plot_electron_microscopy';</script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Brightfield Microscopy: YeastNet" href="plot_yeastnet.html" />
-    <link rel="prev" title="Gallery" href="index.html" />
+    <link rel="next" title="Histology - H&amp;E Staining" href="plot_HandE.html" />
+    <link rel="prev" title="Multiplexed Imaging: CODEX" href="plot_multiplexed.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -318,11 +318,11 @@
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Phase Microscopy: Yeast</a></li>
+<li class="toctree-l1"><a class="reference internal" href="plot_yeaz.html">Phase Microscopy: Yeast</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_yeastnet.html">Brightfield Microscopy: YeastNet</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_ep_micro.html">Phase Microscopy of Mammalian Cells</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_multiplexed.html">Multiplexed Imaging: CODEX</a></li>
-<li class="toctree-l1"><a class="reference internal" href="plot_electron_microscopy.html">Electron Microscopy</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Electron Microscopy</a></li>
 <li class="toctree-l1"><a class="reference internal" href="plot_HandE.html">Histology - H&amp;E Staining</a></li>
 </ul>
 </div>
@@ -367,7 +367,7 @@
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Gallery</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Phase Microscopy: Yeast</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Electron Microscopy</span></li>
   </ul>
 </nav>
 </div>
@@ -386,44 +386,70 @@
                   
   <div class="sphx-glr-download-link-note admonition note">
 <p class="admonition-title">Note</p>
-<p><a class="reference internal" href="#sphx-glr-download-auto-examples-plot-yeaz-py"><span class="std std-ref">Go to the end</span></a>
+<p><a class="reference internal" href="#sphx-glr-download-auto-examples-plot-electron-microscopy-py"><span class="std std-ref">Go to the end</span></a>
 to download the full example code.</p>
 </div>
-<section class="sphx-glr-example-title" id="phase-microscopy-yeast">
-<span id="sphx-glr-auto-examples-plot-yeaz-py"></span><h1>Phase Microscopy: Yeast<a class="headerlink" href="#phase-microscopy-yeast" title="Link to this heading">#</a></h1>
-<img src="../_images/sphx_glr_plot_yeaz_001.png" srcset="../_images/sphx_glr_plot_yeaz_001.png" alt="plot yeaz" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>/home/administrator/repos/cellSAM/examples/plot_yeaz.py:13: FutureWarning: `napari.view_image` is deprecated and will be removed in napari 0.7.0.
+<section class="sphx-glr-example-title" id="electron-microscopy">
+<span id="sphx-glr-auto-examples-plot-electron-microscopy-py"></span><h1>Electron Microscopy<a class="headerlink" href="#electron-microscopy" title="Link to this heading">#</a></h1>
+<p>Applying the cellsam_pipeline to segment electron microscopy
+images of bacteria.</p>
+<p>This dataset comprises an electron microscope image of a bacterial
+biofilm.
+This FOV is downsampled from data provided by the
+<a class="reference external" href="https://dknweb.caltech.edu/">Newman Lab at Caltech</a>; image credit Mark Ladinsky &#64; the Caltech
+CryoEM facility.</p>
+<img src="../_images/sphx_glr_plot_electron_microscopy_001.png" srcset="../_images/sphx_glr_plot_electron_microscopy_001.png" alt="plot electron microscopy" class = "sphx-glr-single-img"/><div class="sphx-glr-script-out highlight-none notranslate"><div class="highlight"><pre><span></span>(512, 512)
+/home/administrator/envs/cs-13-dev/lib/python3.13/site-packages/cellSAM/sam_inference.py:351: UserWarning: Low IOU threshold, ignoring mask.
+  warnings.warn(&quot;Low IOU threshold, ignoring mask.&quot;)
+/home/administrator/repos/cellSAM/examples/plot_electron_microscopy.py:40: FutureWarning: `napari.view_image` is deprecated and will be removed in napari 0.7.0.
 Use `viewer = napari.Viewer(); viewer.add_image(...)` instead.
-  nim = napari.view_image(img, name=&quot;YeaZ&quot;);
+  nim = napari.view_image(img, name=&quot;EMimage&quot;);
 </pre></div>
 </div>
 <div class="line-block">
 <div class="line"><br /></div>
 </div>
-<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">imageio.v3</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">iio</span>
+<div class="highlight-Python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">zarr</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">skimage</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">napari</span>
-
 <span class="kn">from</span><span class="w"> </span><span class="nn">cellSAM</span><span class="w"> </span><span class="kn">import</span> <span class="n">cellsam_pipeline</span>
-<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img</span></a> <span class="o">=</span> <span class="n">iio</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="s2">&quot;../sample_imgs/YeaZ.png&quot;</span><span class="p">)</span>
+<span class="c1"># NOTE: data is stored with zarr_format 3</span>
+<span class="k">assert</span> <span class="nb">int</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#str" title="builtins.str" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">zarr</span><span class="o">.</span><span class="n">__version__</span></a><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">&gt;</span> <span class="mi">2</span>
 
+<span class="c1"># Access EM image</span>
+<span class="n">store</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">storage</span><span class="o">.</span><span class="n">FsspecStore</span><span class="o">.</span><span class="n">from_url</span><span class="p">(</span>
+    <span class="s2">&quot;s3://cellsam-gallery-sample-data/sample-data.zarr&quot;</span><span class="p">,</span>
+    <span class="n">storage_options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;anon&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">},</span>
+    <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">z</span> <span class="o">=</span> <span class="n">zarr</span><span class="o">.</span><span class="n">open_group</span><span class="p">(</span><span class="n">store</span><span class="o">=</span><span class="n">store</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;r&quot;</span><span class="p">)</span>
+<span class="c1"># Load EM image into local memory</span>
+<span class="c1"># Limit to lower-right quadrant to reduce CI computation load</span>
+<a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tilesize</span></a> <span class="o">=</span> <span class="mi">512</span>
+<a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img</span></a> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="s2">&quot;biofilm_electron_microscopy&quot;</span><span class="p">][</span><a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tilesize</span></a><span class="p">:,</span> <a href="https://docs.python.org/3/library/functions.html#int" title="builtins.int" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">tilesize</span></a><span class="p">:]</span>
+<span class="nb">print</span><span class="p">(</span><a href="https://docs.python.org/3/library/stdtypes.html#tuple" title="builtins.tuple" class="sphx-glr-backref-module-builtins sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img</span><span class="o">.</span><span class="n">shape</span></a><span class="p">)</span>
+
+<span class="c1"># Segment</span>
 <a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mask</span></a> <span class="o">=</span> <span class="n">cellsam_pipeline</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img</span></a><span class="p">,</span> <span class="n">use_wsi</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
-<span class="n">nim</span> <span class="o">=</span> <span class="n">napari</span><span class="o">.</span><span class="n">view_image</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img</span></a><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;YeaZ&quot;</span><span class="p">);</span>
+<span class="c1"># Visualize</span>
+<span class="n">nim</span> <span class="o">=</span> <span class="n">napari</span><span class="o">.</span><span class="n">view_image</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">img</span></a><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;EMimage&quot;</span><span class="p">);</span>
 <span class="n">nim</span><span class="o">.</span><span class="n">add_labels</span><span class="p">(</span><a href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="numpy.ndarray" class="sphx-glr-backref-module-numpy sphx-glr-backref-type-py-class sphx-glr-backref-instance"><span class="n">mask</span></a><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Cellsam segmentation&quot;</span><span class="p">);</span>
 
 <span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
     <span class="n">napari</span><span class="o">.</span><span class="n">run</span><span class="p">()</span>
 </pre></div>
 </div>
-<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 5.726 seconds)</p>
-<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-yeaz-py">
+<p class="sphx-glr-timing"><strong>Total running time of the script:</strong> (0 minutes 7.595 seconds)</p>
+<div class="sphx-glr-footer sphx-glr-footer-example docutils container" id="sphx-glr-download-auto-examples-plot-electron-microscopy-py">
 <div class="sphx-glr-download sphx-glr-download-jupyter docutils container">
-<p><a class="reference download internal" download="" href="../_downloads/d65265cb414994074e6aa21044ba9394/plot_yeaz.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_yeaz.ipynb</span></code></a></p>
+<p><a class="reference download internal" download="" href="../_downloads/8cc31c72f1608449ea86eafd868b99b1/plot_electron_microscopy.ipynb"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Jupyter</span> <span class="pre">notebook:</span> <span class="pre">plot_electron_microscopy.ipynb</span></code></a></p>
 </div>
 <div class="sphx-glr-download sphx-glr-download-python docutils container">
-<p><a class="reference download internal" download="" href="../_downloads/72cf37681bb0a1092c491a06981f7aa8/plot_yeaz.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_yeaz.py</span></code></a></p>
+<p><a class="reference download internal" download="" href="../_downloads/5a87c20861bac956d19f4aa5976b1e79/plot_electron_microscopy.py"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">Python</span> <span class="pre">source</span> <span class="pre">code:</span> <span class="pre">plot_electron_microscopy.py</span></code></a></p>
 </div>
 <div class="sphx-glr-download sphx-glr-download-zip docutils container">
-<p><a class="reference download internal" download="" href="../_downloads/d8753a6556d3e08f966ca7e9c478711e/plot_yeaz.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_yeaz.zip</span></code></a></p>
+<p><a class="reference download internal" download="" href="../_downloads/b5d8255e933c33906faeac9d3ed5e19b/plot_electron_microscopy.zip"><code class="xref download docutils literal notranslate"><span class="pre">Download</span> <span class="pre">zipped:</span> <span class="pre">plot_electron_microscopy.zip</span></code></a></p>
 </div>
 </div>
 <p class="sphx-glr-signature"><a class="reference external" href="https://sphinx-gallery.github.io">Gallery generated by Sphinx-Gallery</a></p>
@@ -440,20 +466,20 @@ Use `viewer = napari.Viewer(); viewer.add_image(...)` instead.
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="index.html"
+       href="plot_multiplexed.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Gallery</p>
+        <p class="prev-next-title">Multiplexed Imaging: CODEX</p>
       </div>
     </a>
     <a class="right-next"
-       href="plot_yeastnet.html"
+       href="plot_HandE.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Brightfield Microscopy: YeastNet</p>
+        <p class="prev-next-title">Histology - H&amp;E Staining</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -472,7 +498,7 @@ Use `viewer = napari.Viewer(); viewer.add_image(...)` instead.
   <div role="note" aria-label="source link">
     <h3>This Page</h3>
     <ul class="this-page-menu">
-      <li><a href="../_sources/auto_examples/plot_yeaz.rst.txt"
+      <li><a href="../_sources/auto_examples/plot_electron_microscopy.rst.txt"
             rel="nofollow">Show Source</a></li>
     </ul>
    </div></div>

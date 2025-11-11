@@ -83,6 +83,23 @@ Gallery
 
 .. raw:: html
 
+    <div class="sphx-glr-thumbcontainer" tooltip="Applying the cellsam_pipeline to segment electron microscopy images of bacteria.">
+
+.. only:: html
+
+  .. image:: /auto_examples/images/thumb/sphx_glr_plot_electron_microscopy_thumb.png
+    :alt:
+
+  :ref:`sphx_glr_auto_examples_plot_electron_microscopy.py`
+
+.. raw:: html
+
+      <div class="sphx-glr-thumbnail-title">Electron Microscopy</div>
+    </div>
+
+
+.. raw:: html
+
     <div class="sphx-glr-thumbcontainer" tooltip="Applying the cellsam_pipeline to segment H&amp;E stained images.">
 
 .. only:: html
@@ -112,6 +129,7 @@ Gallery
    /auto_examples/plot_yeastnet
    /auto_examples/plot_ep_micro
    /auto_examples/plot_multiplexed
+   /auto_examples/plot_electron_microscopy
    /auto_examples/plot_HandE
 
 

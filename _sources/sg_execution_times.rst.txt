@@ -6,7 +6,7 @@
 
 Computation times
 =================
-**00:28.212** total execution time for 5 files **from all galleries**:
+**00:34.581** total execution time for 6 files **from all galleries**:
 
 .. container::
 
@@ -32,18 +32,21 @@ Computation times
    * - Example
      - Time
      - Mem (MB)
+   * - :ref:`sphx_glr_auto_examples_plot_electron_microscopy.py` (``../examples/plot_electron_microscopy.py``)
+     - 00:07.595
+     - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_multiplexed.py` (``../examples/plot_multiplexed.py``)
-     - 00:07.108
+     - 00:07.233
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_yeaz.py` (``../examples/plot_yeaz.py``)
-     - 00:05.982
-     - 0.0
-   * - :ref:`sphx_glr_auto_examples_plot_HandE.py` (``../examples/plot_HandE.py``)
      - 00:05.726
      - 0.0
+   * - :ref:`sphx_glr_auto_examples_plot_HandE.py` (``../examples/plot_HandE.py``)
+     - 00:05.049
+     - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_yeastnet.py` (``../examples/plot_yeastnet.py``)
-     - 00:04.986
+     - 00:04.673
      - 0.0
    * - :ref:`sphx_glr_auto_examples_plot_ep_micro.py` (``../examples/plot_ep_micro.py``)
-     - 00:04.410
+     - 00:04.305
      - 0.0
