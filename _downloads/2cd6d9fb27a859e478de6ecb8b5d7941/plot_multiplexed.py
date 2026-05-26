@@ -14,7 +14,8 @@ print(img.sum(axis=(0, 1)))
 
 mask = cellsam_pipeline(img, use_wsi=False)
 
-nim = napari.view_image(img, name="CODEX image");
+nim = napari.Viewer()
+nim.add_image(img, name="CODEX image");
 nim.add_labels(mask, name="Cellsam segmentation");
 
 if __name__ == "__main__":

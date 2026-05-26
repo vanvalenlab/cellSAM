@@ -14,9 +14,9 @@ CryoEM facility.
 .. _Newman Lab at Caltech: https://dknweb.caltech.edu/
 """
 import zarr
-import skimage
 import napari
 from cellSAM import cellsam_pipeline
+
 # NOTE: data is stored with zarr_format 3
 assert int(zarr.__version__[0]) > 2
 
@@ -27,6 +27,7 @@ store = zarr.storage.FsspecStore.from_url(
     read_only=True,
 )
 z = zarr.open_group(store=store, mode="r")
+
 # Load EM image into local memory
 # Limit to lower-right quadrant to reduce CI computation load
 tilesize = 512
@@ -37,7 +38,8 @@ print(img.shape)
 mask = cellsam_pipeline(img, use_wsi=False)
 
 # Visualize
-nim = napari.view_image(img, name="EMimage");
+nim = napari.Viewer()
+nim.add_image(img, name="EMimage");
 nim.add_labels(mask, name="Cellsam segmentation");
 
 if __name__ == "__main__":

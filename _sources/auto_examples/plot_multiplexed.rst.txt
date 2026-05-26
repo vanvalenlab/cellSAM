@@ -21,7 +21,7 @@
 Multiplexed Imaging: CODEX
 ==========================
 
-.. GENERATED FROM PYTHON SOURCE LINES 5-22
+.. GENERATED FROM PYTHON SOURCE LINES 5-23
 
 
 
@@ -36,11 +36,6 @@ Multiplexed Imaging: CODEX
  .. code-block:: none
 
     [       0 18481553 27300386]
-    /home/administrator/envs/cs-13-dev/lib/python3.13/site-packages/cellSAM/sam_inference.py:351: UserWarning: Low IOU threshold, ignoring mask.
-      warnings.warn("Low IOU threshold, ignoring mask.")
-    /home/administrator/repos/cellSAM/examples/plot_multiplexed.py:17: FutureWarning: `napari.view_image` is deprecated and will be removed in napari 0.7.0.
-    Use `viewer = napari.Viewer(); viewer.add_image(...)` instead.
-      nim = napari.view_image(img, name="CODEX image");
 
 
 
@@ -63,7 +58,8 @@ Multiplexed Imaging: CODEX
 
     mask = cellsam_pipeline(img, use_wsi=False)
 
-    nim = napari.view_image(img, name="CODEX image");
+    nim = napari.Viewer()
+    nim.add_image(img, name="CODEX image");
     nim.add_labels(mask, name="Cellsam segmentation");
 
     if __name__ == "__main__":
@@ -72,7 +68,7 @@ Multiplexed Imaging: CODEX
 
 .. rst-class:: sphx-glr-timing
 
-   **Total running time of the script:** (0 minutes 7.233 seconds)
+   **Total running time of the script:** (0 minutes 6.470 seconds)
 
 
 .. _sphx_glr_download_auto_examples_plot_multiplexed.py:
