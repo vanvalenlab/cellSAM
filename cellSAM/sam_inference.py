@@ -2,7 +2,6 @@ from typing import Tuple
 import copy
 
 import numpy as np
-import warnings
 import torchvision
 import torch
 from torch import nn
@@ -348,7 +347,6 @@ class CellSAM(nn.Module):
 
                 # threshold based on iou predictions
                 if iou_predictions[0][0] < self.iou_threshold:
-                    warnings.warn("Low IOU threshold, ignoring mask.")
                     continue
 
                 low_res_masks = self.model.postprocess_masks(
