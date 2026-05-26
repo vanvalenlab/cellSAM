@@ -10,7 +10,8 @@ img = iio.imread("../sample_imgs/ep_micro.png")
 
 mask = cellsam_pipeline(img, use_wsi=False)
 
-nim = napari.view_image(img, name="Phase microscopy image");
+nim = napari.Viewer()
+nim.add_image(img, name="Phase microscopy image");
 nim.add_labels(mask, name="Cellsam segmentation");
 
 if __name__ == "__main__":

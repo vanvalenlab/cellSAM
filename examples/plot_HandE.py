@@ -14,6 +14,7 @@ import zarr
 import skimage
 import napari
 from cellSAM import cellsam_pipeline
+
 # NOTE: data is stored with zarr_format 3
 assert int(zarr.__version__[0]) > 2
 
@@ -24,6 +25,7 @@ store = zarr.storage.FsspecStore.from_url(
     read_only=True,
 )
 z = zarr.open_group(store=store, mode="r")
+
 # Load H&E image into local memory
 # Limit to upper-left quadrant to reduce CI computation load
 tilesize = 512
@@ -35,7 +37,8 @@ print(img.shape)
 # for example
 mask = cellsam_pipeline(skimage.color.rgb2gray(img), use_wsi=False)
 
-nim = napari.view_image(img, name="H&E image");
+nim = napari.Viewer()
+nim.add_image(img, name="H&E image");
 nim.add_labels(mask, name="Cellsam segmentation");
 
 if __name__ == "__main__":
