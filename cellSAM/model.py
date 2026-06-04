@@ -8,6 +8,10 @@ import requests
 import os
 from pathlib import Path
 import yaml
+import pkgutil
+import importlib.resources as resources
+
+
 import importlib
 
 from skimage.morphology import (
@@ -163,7 +167,7 @@ def segment_cellular_image(
         model, img = model.to(device), img.to(device)
 
     preds = model.predict(img, boxes_per_heatmap=bounding_boxes)
-    if preds is None:
+    if preds is None or preds[0] is None:
         warn("No cells detected in the image.")
         return np.zeros(img.shape[1:], dtype=np.int32), None, None
 
