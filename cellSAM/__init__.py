@@ -20,10 +20,12 @@ def download_training_data(version=None):
         - 1.2 (latest)
         - 1.0
     """
-    from . import _auth
+    from deepcell_auth import _auth
+
+    manifest = _auth.load_manifest()
 
     version = "1.2" if version is None else version
-    record = _auth._data_versions[version]
+    record = manifest["datasets"]["cellsam"][version]
 
     _auth.fetch_data(
         record["asset_key"], cache_subdir="datasets", file_hash=record["asset_hash"]

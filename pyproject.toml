@@ -17,8 +17,7 @@ dependencies = [
     'torchvision',
     'kornia',
     # Model access
-    'requests',
-    'tqdm',
+    'deepcell_auth@git+https://github.com/vanvalenlab/deepcell-auth.git',
     # Whole-slide imaging
     'dask[distributed]',
     'dask-image',

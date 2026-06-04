@@ -28,7 +28,7 @@ from .utils import (
     fill_holes_and_remove_small_masks,
     subtract_boundaries,
 )
-from . import _auth
+from deepcell_auth import _auth
 
 
 __all__ = ["segment_cellular_image"]
@@ -76,13 +76,15 @@ def get_model(model="cellsam_general", version=None) -> nn.Module:
        the latest released version will be used.
        
     """
+    model_version_dict = _auth.load_manifest()["models"]["cellsam"]
+
     version = "1.2" if version is None else version
-    if version not in _auth._model_versions:
+    if version not in model_version_dict:
         raise ValueError(
             f"Model version {version} not recognized, must be one of:\n"
-            f"{list(_auth._model_versions)}"
+            f"{list(model_version_dict)}"
         )
-    record = _auth._model_versions[version]
+    record = model_version_dict[version]
     archive_name = record["asset_key"].split("/")[-1]
 
     cellsam_assets_dir = Path.home() / f".deepcell/models"
